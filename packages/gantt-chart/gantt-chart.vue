@@ -1,7 +1,7 @@
 <template>
     <div class="container" ref="container">
         <div class="left-container">
-            <left-pattern :data-list="eventList" ref="leftRef" />
+            <left-pattern :data-list="eventList" ref="leftRef" :title="leftTitle" />
         </div>
         <div class="right-container" ref="rightContainer">
             <right-pattern
@@ -33,16 +33,19 @@ export default {
             type: Number,
             default: 10,
         },
+        leftTitle: {
+            type: String
+        }
     },
     data() {
         return {
             datelist: [],
             eventList: [],
-            dateInstance: null
+            dateInstance: null,
         }
     },
     mounted() {
-        const dateInstance = this.dateInstance = new FormatDate(this.days)
+        const dateInstance = (this.dateInstance = new FormatDate(this.days))
         this.datelist = dateInstance.list
 
         this.eventList = this.formatDataList(dateInstance, this.dataList)
@@ -76,20 +79,25 @@ export default {
             const fromItem = eventItems[from]
             const toItem = eventItems[to]
 
-             // 重塑 dataitem
+            // 时间间隔通过计算原有 data 里的时间获得
+            const intervalDays =
+                fromItem.data.startAt && fromItem.data.endAt
+                    ? FormatDate.getIntervalDays(fromItem.data.startAt, fromItem.data.endAt)
+                    : fromItem.days - 1
+            // 重塑 dataitem
             const newFromDataItem = Object.assign({}, fromItem.data, {
                 startAt: toItem.startDay.date_string,
-                endAt: FormatDate.addDays(toItem.startDay.date_string, fromItem.days - 1)
+                endAt: FormatDate.addDays(toItem.startDay.date_string, intervalDays),
             })
 
-            const dataIndex = dataItems.findIndex(item => item.id === newFromDataItem.id)
+            const dataIndex = dataItems.findIndex((item) => item.id === newFromDataItem.id)
             dataItems.splice(dataIndex, 1, newFromDataItem)
             // startAt 排序
             const sortedDataItems = dataItems.sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
-            
+
             // 更新 eventItems
             const newEventList = this.dateInstance.getDataItemList(sortedDataItems, this.dateInstance.list)
-            this.$set(this.eventList[index], 'eventList', newEventList)
+            this.$set(this.eventList[index], "eventList", newEventList)
             this.$refs.right.$forceUpdate()
 
             this.$emit("item-drop", newFromDataItem)

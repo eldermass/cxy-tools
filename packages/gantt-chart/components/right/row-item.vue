@@ -52,7 +52,7 @@ export default {
             this.$emit("item-click", this.rowData.data)
         },
         handleDragstart(e) {
-            console.log("dragstart ", e)
+            // console.log("dragstart ", e)
             e.dataTransfer.setData("index", this.eventIndex + "-" + this.itemIndex)
         },
         handleDrop(e) {

@@ -2,7 +2,8 @@ export default class FormatDate {
     constructor(days = 10) {
         this.list = this.getDateList(days)
     }
-    
+
+    // 增加时间
     static addDays(date_string, days = 1) {
         const time_stamp = new Date(date_string).getTime()
         const new_date = new Date(time_stamp + days * 86400000)
@@ -10,6 +11,11 @@ export default class FormatDate {
         const month = new_date.getMonth() + 1
         const date = new_date.getDate()
         return `${year}-${month < 10 ? "0" + month : month}-${date < 10 ? "0" + date : date}`
+    }
+
+    // 获取时间间隔
+    static getIntervalDays(startAt, endAt) {
+        return (new Date(endAt) - new Date(startAt)) / 86400000
     }
 
     /**
@@ -86,7 +92,7 @@ export default class FormatDate {
                     days: 1,
                     data: isInRange ? dataItem : {},
                     startDay: day,
-                    endDay: day
+                    endDay: day,
                 })
             } else if (isInRange) {
                 const lastItem = result[result.length - 1]

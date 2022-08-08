@@ -2,7 +2,7 @@
     <div class="left-container-p">
         <slash-cell />
         <div class="pattern-container">
-            <div class="title">注塑车间（WTF001）</div>
+            <div class="title">{{ title }}</div>
             <div class="item-containner" ref="container">
                 <div class="items" ref="items">
                     <title-item v-for="(data, index) in dataList" :key="index" :title="data.name" />
@@ -23,6 +23,10 @@ export default {
             type: Array,
             default: () => [],
         },
+        title: {
+            type: String,
+            default: "2 号楼 1 楼SMT车间"
+        }
     },
     methods: {
         scrollTo(y, maxHeight) {
