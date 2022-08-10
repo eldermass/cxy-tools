@@ -119,7 +119,8 @@ export default {
     }
 
     @each $type, $bordercolor, $backcolor in (default, #cb717b, #fbc3c4), ("green", #6bb42e, #d7eec0),
-        ("purple", #7d78c8, #c5c5f9), ("blue", #afbfe4, #dfebf7)
+        ("purple", #7d78c8, #c5c5f9), ("blue", #afbfe4, #dfebf7), ("red", #eb3626, #f7635c),
+        ("cyan", #3498ff, #a6d7ff), ("yellow", #ffb300, #ffe9c2), ("orange", #db8000, #fa9b2f)
     {
         .#{$type} {
             border: 1px solid $bordercolor;
