@@ -1,13 +1,20 @@
 {
   "name": "cxy-tools",
   "version": "0.0.2",
-  "main": "src/index.js",
+  "main": "dist/tools.common.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:lib": "vue-cli-service build --target lib --name tools src/index.js",
     "dev": "npm run serve",
     "lint": "vue-cli-service lint"
   },
+  "files": [
+    "lib",
+    "src",
+    "packages",
+    "types"
+  ],
   "dependencies": {
     "core-js": "^3.8.3",
     "element-ui": "^2.15.9",
