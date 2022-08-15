@@ -6,7 +6,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
 import Tools from "./index"
-// console.log(ganttChart)
+// import Tools from "../dist/tools.common"
+// import "../dist/tools.css"
 Vue.use(Tools)
 
 
