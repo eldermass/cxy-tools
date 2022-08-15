@@ -62,9 +62,13 @@ export default {
             const monthsRef = this.$refs.months
 
             const width = monthList.reduce((a, b) => {
-                return a.offsetWidth + b.offsetWidth
+                if (typeof a === "number") {
+                    return a + b.offsetWidth
+                } else {
+                    return a.offsetWidth + b.offsetWidth
+                }
             })
-
+            console.log("calc widht: ", width)
             monthsRef.style.width = `${width}px`
         },
         scrollTo(x, maxWidth) {
