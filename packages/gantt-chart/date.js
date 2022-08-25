@@ -1,6 +1,6 @@
 export default class FormatDate {
-    constructor(days = 10) {
-        this.list = this.getDateList(days)
+    constructor(days = 10, time_stamp = Date.now()) {
+        this.list = this.getDateList(days, time_stamp)
     }
 
     // 增加时间

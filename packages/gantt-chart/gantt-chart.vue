@@ -35,6 +35,9 @@ export default {
         },
         leftTitle: {
             type: String
+        },
+        start_timestamp: {
+            type: Number
         }
     },
     data() {
@@ -45,7 +48,7 @@ export default {
         }
     },
     mounted() {
-        const dateInstance = (this.dateInstance = new FormatDate(this.days))
+        const dateInstance = (this.dateInstance = new FormatDate(this.days, this.start_timestamp))
         this.datelist = dateInstance.list
 
         this.eventList = this.formatDataList(dateInstance, this.dataList)

@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <gantt-chart :data-list="outData" :days="50" @item-click="handleClick" @item-drop="handleDrop" />
+        <gantt-chart :data-list="outData" :days="50" :start_timestamp="new Date('2022-08-01').getTime()" @item-click="handleClick" @item-drop="handleDrop" />
     </div>
 </template>
 
@@ -40,6 +40,8 @@ export default {
     margin: 100px 0 0 100px;
     height: 600px;
     width: 1300px;
+    /* height: 100vh;
+    width: 100vw; */
 }
 body {
     margin: 0;
