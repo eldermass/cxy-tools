@@ -1,6 +1,6 @@
 <template>
-    <div class="title-item" :title="title">
-        {{ title }}
+    <div class="title" :title="title">
+        {{  title  }}
     </div>
 </template>
 <script>
@@ -9,19 +9,19 @@ export default {
     props: {
         title: {
             type: String,
-            default: "阿法狗豆腐干豆腐干豆腐干豆腐干岁的法国",
+            default: "阿法狗豆腐干豆腐干",
         },
     },
 }
 </script>
 <style lang="scss" scoped>
-.title-item {
-    width: 160px;
-    height: 40px;
+.title {
     line-height: 40px;
-    padding: 0 0 0 20px;
-    border: 1px solid #ccc;
-    border-right: 0px;
+    display: inline-block;
+    height: 40px;
+    width: 100%;
+    padding: 5px 0;
+    border-bottom: 1px solid #ccc;
     box-sizing: border-box;
     white-space: nowrap;
     overflow: hidden;

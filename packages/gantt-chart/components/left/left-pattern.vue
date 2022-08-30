@@ -1,23 +1,38 @@
 <template>
-    <div class="left-container-p">
-        <slash-cell />
-        <div class="pattern-container">
-            <div class="title">{{ title }}</div>
-            <div class="item-containner" ref="container">
-                <div class="items" ref="items">
-                    <title-item v-for="(data, index) in dataList" :key="index" :title="data.name" />
-                </div>
+    <div class="pattern-container">
+        <div class="title-container" ref="titleContainer">
+            <div class="titles"  ref="titlesItems">
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+                <title-group :title="title" />
+            </div>
+        </div>
+        <div class="item-containner" ref="container">
+            <div class="items" ref="items">
+                <title-item v-for="(data, index) in dataList" :key="index" :title="data.name" />
             </div>
         </div>
     </div>
 </template>
 <script>
-import slashCell from "./slash-cell.vue"
 import titleItem from "./title-item.vue"
+import titleGroup from "./title-group.vue"
 
 export default {
     name: "left-pattern",
-    components: { slashCell, titleItem },
+    components: { titleItem, titleGroup },
     props: {
         dataList: {
             type: Array,
@@ -31,14 +46,17 @@ export default {
     methods: {
         scrollTo(y, maxHeight) {
             this.$refs.container && this.$refs.container.scrollTo(0, y)
+            this.$refs.titleContainer && this.$refs.titleContainer.scrollTo(0, y)
 
             // 处理滚动的最后一个角
             if (!maxHeight) return
             const offset = maxHeight - y
             if (offset <= 7) {
                 this.$refs.items.style.transform = `translateY(-${7 - offset}px)`
+                this.$refs.titlesItems.style.transform = `translateY(-${7 - offset}px)`
             } else {
                 this.$refs.items.style.transform = null
+                this.$refs.titlesItems.style.transform = null
             }
         },
     },
@@ -48,25 +66,34 @@ export default {
 * {
     box-sizing: border-box;
 }
-.left-container-p {
-    height: 100%;
-}
 
 .pattern-container {
     display: flex;
     // height: 400px;
     height: calc(100% - 60px);
     min-height: 400px;
+    width: 200px;
+
     // overflow-y: hidden;
-    .title {
+    .title-container {
         flex: 40px 0 0;
-        padding: 0 7px;
         writing-mode: tb-rl;
         border: 1px solid #ccc;
+        border-bottom: 0px;
+        overflow: hidden;
+
+        .titles {
+            height: 600px;
+            width: 100%;
+            background: white;
+            text-align: left;
+        }
     }
+
     .item-containner {
         flex: 1;
         overflow: hidden;
+
         .items {
             background: white;
         }

@@ -65,10 +65,13 @@ export default class FormatDate {
      * @param {*} outData
      * @param {*} list datelist
      */
-    getDataItemList(outData, list) {
+    getDataItemList(outData, list, filterFlag = true) {
         // console.log(outData, list)
-        // 过滤结束时间小于当前的任务
-        outData = outData.filter((item) => new Date(item.endAt).getTime() + 86400000 > Date.now())
+        // 正常时间，过滤结束时间小于当前的任务
+        console.log('filterFlag:', filterFlag)
+        if (filterFlag) {
+            outData = outData.filter((item) => new Date(item.endAt).getTime() + 86400000 > Date.now())
+        }
         const result = []
         let cursor = 0
 

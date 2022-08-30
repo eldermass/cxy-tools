@@ -1,12 +1,13 @@
 <template>
     <div class="container" ref="container">
         <div class="left-container">
-            <left-pattern :data-list="eventList" ref="leftRef" :title="leftTitle" />
+            <slash-cell />
+            <left-pattern :data-list="formattedDataList" ref="leftRef" :title="leftTitle" />
         </div>
         <div class="right-container" ref="rightContainer">
             <right-pattern
                 :datelist="datelist"
-                :eventList="eventList"
+                :eventList="formattedDataList"
                 @scrollY="handleContScroll"
                 @item-click="handleClick"
                 @item-drop="handleItemDrop"
@@ -17,13 +18,14 @@
 </template>
 
 <script>
+import SlashCell from './components/slash-cell.vue'
 import FormatDate from "./date"
 import leftPattern from "./components/left/left-pattern.vue"
 import rightPattern from "./components/right/right-pattern.vue"
 
 export default {
     name: "gantt-chart",
-    components: { leftPattern, rightPattern },
+    components: { leftPattern, rightPattern, SlashCell },
     props: {
         dataList: {
             type: Array,
@@ -43,7 +45,7 @@ export default {
     data() {
         return {
             datelist: [],
-            eventList: [],
+            formattedDataList: [],
             dateInstance: null,
         }
     },
@@ -51,19 +53,20 @@ export default {
         const dateInstance = (this.dateInstance = new FormatDate(this.days, this.start_timestamp))
         this.datelist = dateInstance.list
 
-        this.eventList = this.formatDataList(dateInstance, this.dataList)
+        this.formattedDataList = this.formatDataList(dateInstance, this.dataList)
 
         this.calcRightContainerWidth()
         console.log("hello: gantt-chart！！！")
     },
     methods: {
+        // 格式化数据
         formatDataList(dateInstance, dataList) {
             // 每项中都加入 eventList
-            const eventList = dataList.map((row) => {
-                row.eventList = dateInstance.getDataItemList(row.items, dateInstance.list)
+            const formattedDataList = dataList.map((row) => {
+                row.eventList = dateInstance.getDataItemList(row.items, dateInstance.list, !this.start_timestamp)
                 return row
             })
-            return eventList
+            return formattedDataList
         },
         handleContScroll(y, maxHeight) {
             this.$refs.leftRef && this.$refs.leftRef.scrollTo(y, maxHeight)
@@ -76,8 +79,8 @@ export default {
             this.$emit("item-click", data)
         },
         handleItemDrop(index, from, to) {
-            const eventItems = this.eventList[index].eventList // 数据事件
-            const dataItems = this.eventList[index].items // 源数据
+            const eventItems = this.formattedDataList[index].eventList // 数据事件
+            const dataItems = this.formattedDataList[index].items // 源数据
 
             const fromItem = eventItems[from]
             const toItem = eventItems[to]
@@ -100,7 +103,7 @@ export default {
 
             // 更新 eventItems
             const newEventList = this.dateInstance.getDataItemList(sortedDataItems, this.dateInstance.list)
-            this.$set(this.eventList[index], "eventList", newEventList)
+            this.$set(this.formattedDataList[index], "eventList", newEventList)
             this.$refs.right.$forceUpdate()
 
             this.$emit("item-drop", newFromDataItem)
