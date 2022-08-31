@@ -57,7 +57,7 @@ export default {
         formatDataList(dateInstance, dataList) {
             // 每项中都加入 eventList
             const formattedDataList = dataList.map((row) => {
-                row.eventList = dateInstance.getDataItemList(row.items, dateInstance.list, !this.start_timestamp)
+                row.eventList = dateInstance.getDataItemList(row.items, dateInstance.list, this.start_timestamp)
                 return row
             })
             return formattedDataList
@@ -148,7 +148,7 @@ export default {
             const sortedDataItems = dataItems.sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
 
             // 更新数据源中的 eventItems
-            const newEventList = this.dateInstance.getDataItemList(sortedDataItems, this.dateInstance.list, !this.start_timestamp)
+            const newEventList = this.dateInstance.getDataItemList(sortedDataItems, this.dateInstance.list, this.start_timestamp)
             this.$set(this.formattedDataList[rowIndex], "eventList", newEventList)
             this.$refs.right.$forceUpdate()
         },
@@ -175,7 +175,7 @@ export default {
             const sortedDataItems = dataItems.sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
 
             // 更新数据源中的 eventItems
-            const newEventList = this.dateInstance.getDataItemList(sortedDataItems, this.dateInstance.list, !this.start_timestamp)
+            const newEventList = this.dateInstance.getDataItemList(sortedDataItems, this.dateInstance.list, this.start_timestamp)
             this.$set(this.formattedDataList[rowIndex], "eventList", newEventList)
             this.$refs.right.$forceUpdate()
         }

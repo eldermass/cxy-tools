@@ -2,7 +2,7 @@
     <div class="date-list-container" ref="container">
         <div class="month-wrapper" ref="months">
             <div class="month-container" v-for="(item, index) in dateList" :key="index" ref="month">
-                <div class="month">{{ item.year }}-{{ item.month }}</div>
+                <div class="month" :style="item.dates.length === 1 ? 'width: 30px' : ''">{{ item.year }}-{{ item.month }}</div>
                 <div class="date-cotainner">
                     <div class="date-item" v-for="(date, index) in item.dates" :key="index">
                         {{ date }}
@@ -116,6 +116,9 @@ export default {
                 height: 30px;
                 border: 1px solid #ccc;
                 text-align: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             .date-cotainner {
                 .date-item {

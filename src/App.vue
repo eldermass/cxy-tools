@@ -1,7 +1,7 @@
 <template>
     <div id="app">
-        <gantt-chart :data-list="outData" :days="50" :start_timestamp="new Date('2022-08-01').getTime()"
-            @item-click="handleClick" @item-drop="handleDrop" :titles="titles" />
+        <gantt-chart :data-list="outData" :titles="titles" :days="50"
+            :start_timestamp="new Date('2022-08-01').getTime()" @item-click="handleClick" @item-drop="handleDrop" @drag-error="handleDragError" />
     </div>
 </template>
 
@@ -42,6 +42,9 @@ export default {
         },
         handleDrop(from, to) {
             console.log(from, to)
+        },
+        handleDragError(msg) {
+            this.$message.error(msg)
         }
     },
 }

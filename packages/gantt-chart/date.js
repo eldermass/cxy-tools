@@ -65,13 +65,11 @@ export default class FormatDate {
      * @param {*} outData
      * @param {*} list datelist
      */
-    getDataItemList(outData, list, filterFlag = true) {
+    getDataItemList(outData, list, start_timestamp) {
         // console.log(outData, list)
-        // 正常时间，过滤结束时间小于当前的任务
-        console.log('filterFlag:', filterFlag)
-        if (filterFlag) {
-            outData = outData.filter((item) => new Date(item.endAt).getTime() + 86400000 > Date.now())
-        }
+        // 过滤结束时间小于当前的任务, 不过滤会导致一行的内容都不显示了
+        outData = outData.filter((item) => new Date(item.endAt).getTime() + 86400000 > (start_timestamp ? new Date(start_timestamp) : Date.now()))
+        
         const result = []
         let cursor = 0
 
