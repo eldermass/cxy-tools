@@ -1,7 +1,7 @@
 <template>
     <div class="pattern-container">
         <div class="title-container" ref="titleContainer">
-            <div class="titles" style="height: 600px;"  ref="titlesItems">
+            <div class="titles" :style="{height: titlesHeight + 'px'}"  ref="titlesItems">
                 <title-group v-for="(item, index) in titles" :key="index" :title="item.title" :length="item.length" />
             </div>
         </div>
@@ -32,6 +32,19 @@ export default {
                     length: 5
                 }
             ]
+        }
+    },
+    computed: {
+        titlesHeight() {
+            return 40 * this.titles.reduce((a, b) => {
+                if (typeof a !== 'number') {
+                    a = a.length
+                }
+                if (typeof b !== 'number') {
+                    b = b.length
+                }
+                return a + b
+            })
         }
     },
     methods: {

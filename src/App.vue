@@ -12,7 +12,7 @@ import mockData from "../packages/gantt-chart/data-struct"
 const titles = [
     {
         title: "2 号楼 1 楼SMT车间",
-        length: 4
+        length: 9
     },
     {
         title: "2 号楼 1 楼SMT车间",
@@ -20,7 +20,7 @@ const titles = [
     },
     {
         title: "2 号楼 1 楼SMT车间",
-        length: 6
+        length: 16
     }
 ]
 
@@ -31,7 +31,7 @@ export default {
     // },
     data() {
         return {
-            outData: mockData,
+            outData: mockData.concat(mockData),
             titles
         }
     },
