@@ -1,22 +1,8 @@
 <template>
     <div class="pattern-container">
         <div class="title-container" ref="titleContainer">
-            <div class="titles"  ref="titlesItems">
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
-                <title-group :title="title" />
+            <div class="titles" style="height: 600px;"  ref="titlesItems">
+                <title-group v-for="(item, index) in titles" :key="index" :title="item.title" :length="item.length" />
             </div>
         </div>
         <div class="item-containner" ref="container">
@@ -38,9 +24,14 @@ export default {
             type: Array,
             default: () => [],
         },
-        title: {
-            type: String,
-            default: "2 号楼 1 楼SMT车间"
+        titles: {
+            type: Array,
+            default: () => [
+                {
+                    title: "2 号楼 1 楼SMT车间",
+                    length: 5
+                }
+            ]
         }
     },
     methods: {
@@ -79,11 +70,12 @@ export default {
         flex: 40px 0 0;
         writing-mode: tb-rl;
         border: 1px solid #ccc;
-        border-bottom: 0px;
+        border-bottom: 0;
+        border-top: 0;
         overflow: hidden;
+        background: #ccc;
 
         .titles {
-            height: 600px;
             width: 100%;
             background: white;
             text-align: left;
@@ -93,6 +85,7 @@ export default {
     .item-containner {
         flex: 1;
         overflow: hidden;
+        background: #ccc;
 
         .items {
             background: white;

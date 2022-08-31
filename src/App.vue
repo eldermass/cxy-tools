@@ -1,12 +1,28 @@
 <template>
     <div id="app">
-        <gantt-chart :data-list="outData" :days="50" :start_timestamp="new Date('2022-08-01').getTime()" @item-click="handleClick" @item-drop="handleDrop" />
+        <gantt-chart :data-list="outData" :days="50" :start_timestamp="new Date('2022-08-01').getTime()"
+            @item-click="handleClick" @item-drop="handleDrop" :titles="titles" />
     </div>
 </template>
 
 <script>
 // import ganttChart from "./components/gantt-chart.vue"
 import mockData from "../packages/gantt-chart/data-struct"
+
+const titles = [
+    {
+        title: "2 号楼 1 楼SMT车间",
+        length: 4
+    },
+    {
+        title: "2 号楼 1 楼SMT车间",
+        length: 5
+    },
+    {
+        title: "2 号楼 1 楼SMT车间",
+        length: 6
+    }
+]
 
 export default {
     name: "App",
@@ -16,6 +32,7 @@ export default {
     data() {
         return {
             outData: mockData,
+            titles
         }
     },
     methods: {
@@ -23,8 +40,8 @@ export default {
             console.log(data)
             this.$message.success('收到了数据:  ' + data.title)
         },
-        handleDrop(newItem) {
-            console.log(newItem)
+        handleDrop(from, to) {
+            console.log(from, to)
         }
     },
 }
@@ -43,6 +60,7 @@ export default {
     /* height: 100vh;
     width: 100vw; */
 }
+
 body {
     margin: 0;
     padding: 0;

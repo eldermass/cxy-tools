@@ -37,7 +37,7 @@ export default {
         content: "";
         position: absolute;
         width: 2px;
-        height: 204px; /*根据td的宽度和高度*/
+        height: 208px; /*根据td的宽度和高度*/
         top: 0;
         left: 0;
         background-color:  #ccc;
