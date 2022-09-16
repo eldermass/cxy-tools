@@ -87,8 +87,7 @@ export default {
                 // 落在空点
                 this.dropOnEmpty(fromItem, toItem, dataItems, index)
             } else {
-                console.error('事件不可相交')
-                this.$emit('drag-error', "事件不可相交")
+                this.dropCross()
             }
 
             this.$emit("item-drop", fromItem, toItem)
@@ -136,7 +135,7 @@ export default {
                 fromItem.data.startAt && fromItem.data.endAt
                     ? FormatDate.getIntervalDays(fromItem.data.startAt, fromItem.data.endAt)
                     : fromItem.days - 1
-            // 替换 源数据 dataItem 中的时间信息
+            // 替换 源数据 dataItem 中的时间信息, 这里直接修改了应用对象里的时间数据
             const newFromDataItem = Object.assign({}, fromItem.data, {
                 startAt: toItem.startDay.date_string,
                 endAt: FormatDate.addDays(toItem.startDay.date_string, intervalDays),
@@ -153,7 +152,10 @@ export default {
             this.$refs.right.$forceUpdate()
         },
         // 落点有交叉
-        dropCross() { },
+        dropCross() {
+            console.error('事件不可相交')
+            this.$emit('drag-error', "事件不可相交")
+        },
         // 落在事件上
         dropOnItem(fromItem, toItem, dataItems, rowIndex) {
             // 创建新的事件数据中的时间信息
@@ -178,6 +180,14 @@ export default {
             const newEventList = this.dateInstance.getDataItemList(sortedDataItems, this.dateInstance.list, this.start_timestamp)
             this.$set(this.formattedDataList[rowIndex], "eventList", newEventList)
             this.$refs.right.$forceUpdate()
+        },
+        getData() {
+            let copyedList = JSON.parse(JSON.stringify(this.formattedDataList))
+            copyedList = copyedList.map(item => {
+                delete item.eventList
+                return item
+            })
+            return copyedList
         }
     },
 }

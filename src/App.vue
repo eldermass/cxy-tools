@@ -1,7 +1,8 @@
 <template>
     <div id="app">
-        <gantt-chart :data-list="outData" :titles="titles" :days="50"
+        <gantt-chart ref="gantt" :data-list="outData" :titles="titles" :days="50"
             :start_timestamp="new Date('2022-08-01').getTime()" @item-click="handleClick" @item-drop="handleDrop" @drag-error="handleDragError" />
+        <el-button @click="handleBtnClick" type="primary" style="margin-top: 10px;">获取数据</el-button>
     </div>
 </template>
 
@@ -45,6 +46,10 @@ export default {
         },
         handleDragError(msg) {
             this.$message.error(msg)
+        },
+        handleBtnClick() {
+            const data = this.$refs.gantt.getData()
+            console.log(data)
         }
     },
 }
