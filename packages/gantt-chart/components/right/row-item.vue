@@ -1,7 +1,7 @@
 <template>
     <div
         @click.prevent="handleClick"
-        :draggable="rowData.data.id"
+        :draggable="candrag"
         @dragstart="handleDragstart"
         @drop.prevent="handleDrop"
         @dragover.prevent="handleDragover"
@@ -10,7 +10,7 @@
         v-if="days"
         :style="{ width: 30 * days + 'px', background: background }"
     >
-        <div :class="['container', rowData.data.themeType ? rowData.data.themeType : 'default']" v-if="rowData.data.id">
+        <div :class="['container', rowData.data.themeType ? rowData.data.themeType : 'default']" v-if="candrag">
             <div class="back"></div>
             <span class="title" :title="rowData.data.title">
                 {{ rowData.data.title }}
@@ -45,6 +45,11 @@ export default {
             background: "none",
         }
     },
+    computed: {
+        candrag() {
+            return !!Object.keys(this.rowData.data).length
+        }
+    },
     methods: {
         handleClick() {
             if (!this.rowData.data.id) return
@@ -52,7 +57,12 @@ export default {
             this.$emit("item-click", this.rowData.data)
         },
         handleDragstart(e) {
-            // console.log("dragstart ", e)
+            // 不允许没有数据的格子拖拽
+            if (!this.candrag) {
+                e.preventDefault()
+                e.stopPropagation()
+                return false
+            }
             e.dataTransfer.setData("index", this.eventIndex + "-" + this.itemIndex)
         },
         handleDrop(e) {
