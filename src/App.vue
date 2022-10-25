@@ -8,7 +8,7 @@
 
 <script>
 // import ganttChart from "./components/gantt-chart.vue"
-import mockData from "../packages/gantt-chart/data-struct"
+import mockData from "../packages/mocks/gantt-chart"
 
 const titles = [
     {
@@ -32,7 +32,7 @@ export default {
     // },
     data() {
         return {
-            outData: mockData.concat(mockData),
+            outData: mockData.concat(JSON.parse(JSON.stringify(mockData))),
             titles
         }
     },
