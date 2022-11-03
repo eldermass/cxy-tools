@@ -58,7 +58,7 @@ export default {
         },
         handleDragstart(e) {
             // 不允许没有数据的格子拖拽
-            if (!this.candrag) {
+            if (!this.candrag || this.rowData.data.lock) {
                 e.preventDefault()
                 e.stopPropagation()
                 return false
@@ -74,6 +74,10 @@ export default {
 
             if (dragRowIndex !== this.eventIndex) {
                 console.log("不能拖到其他行里去")
+                return
+            }
+            if (this.rowData.data && this.rowData.data.lock) {
+                console.log("被拖入单元被锁定")
                 return
             }
 

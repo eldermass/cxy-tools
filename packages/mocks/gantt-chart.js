@@ -43,6 +43,7 @@ export default [
                 startAt: "2022-08-21",
                 endAt: "2022-08-22",
                 themeType: "orange",
+                lock: true
             },
         ],
     },

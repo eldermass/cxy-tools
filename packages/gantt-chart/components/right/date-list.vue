@@ -58,17 +58,21 @@ export default {
             return formattedList
         },
         calcMonthsWidth() {
-            const monthList = this.$refs.month
+            // const monthList = this.$refs.month
             const monthsRef = this.$refs.months
 
-            const width = monthList.reduce((a, b) => {
-                if (typeof a === "number") {
-                    return a + b.offsetWidth
-                } else {
-                    return a.offsetWidth + b.offsetWidth
-                }
-            })
-            console.log("calc widht: ", width)
+            const len = this.dateList.map(item => item.dates.length).reduce((a, b) => a + b)
+
+            const width = len * 30
+            // const width = monthList.reduce((a, b) => {
+            //     if (typeof a === "number") {
+            //         return a + b.offsetWidth
+            //     } else {
+            //         return a.offsetWidth + b.offsetWidth
+            //     }
+            // })
+            // 这里可以直接 *30
+            console.log("calc width: ", width)
             monthsRef.style.width = `${width}px`
         },
         scrollTo(x, maxWidth) {
