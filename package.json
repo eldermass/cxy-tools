@@ -1,6 +1,6 @@
 {
   "name": "cxy-tools",
-  "version": "0.0.10",
+  "version": "1.0.0",
   "main": "dist/tools.common.js",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,7 +12,7 @@
   "files": [
     "dist",
     "src",
-    "packages",
+    "mocks",
     "types"
   ],
   "dependencies": {
