@@ -1,12 +1,14 @@
 <template>
     <div>
         <div class="slash-cell">
-            <span class="top">{{ top }}</span>
+            <span class="top">{{ top }} {{ rowKey }}</span>
             <span class="bottom">{{ bottom }}</span>
         </div>
     </div>
 </template>
 <script>
+import { mapStates } from '../store/helper';
+
 export default {
     name: "slash-cell",
     props: {
@@ -14,11 +16,26 @@ export default {
             type: String,
             default: "日历",
         },
+        store: {
+            required: true
+        },
         bottom: {
             type: String,
             default: "资源",
         },
     },
+    computed: {
+        ...mapStates({
+            rowKey: 'rowKey',
+            defaultExpandAll: 'defaultExpandAll'
+        })
+    },
+    mounted() {
+        setTimeout(() => {
+            this.store.scheduleLayout()
+            this.store.commit('setRowKey', 123)
+        }, 1000)
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -33,23 +50,28 @@ export default {
     border: 1px solid #ccc;
     position: relative;
     border-right: none;
+
     &:before {
         content: "";
         position: absolute;
         width: 2px;
-        height: 208px; /*根据td的宽度和高度*/
+        height: 208px;
+        /*根据td的宽度和高度*/
         top: 0;
         left: 0;
-        background-color:  #ccc;
+        background-color: #ccc;
         display: block;
-        transform: rotate(-74deg); /*根据线的位置*/
+        transform: rotate(-74deg);
+        /*根据线的位置*/
         transform-origin: top;
     }
+
     .top {
         position: absolute;
         right: 20px;
         top: 10px;
     }
+
     .bottom {
         position: absolute;
         left: 20px;

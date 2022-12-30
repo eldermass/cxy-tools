@@ -1,21 +1,28 @@
 <template>
     <div class="container" ref="container">
         <div class="left-container">
-            <slash-cell />
+            <slash-cell :store="store"/>
             <left-pattern :data-list="formattedDataList" ref="leftRef" :titles="titles" />
         </div>
         <div class="right-container" ref="rightContainer">
-            <right-pattern :datelist="datelist" :eventList="formattedDataList" @scrollY="handleContScroll"
-                @item-click="handleClick" @item-drop="handleItemDrop" ref="right" />
+            <right-pattern
+                :datelist="datelist"
+                :eventList="formattedDataList"
+                @scrollY="handleContScroll"
+                @item-click="handleClick"
+                @item-drop="handleItemDrop"
+                ref="right"
+            />
         </div>
     </div>
 </template>
 
 <script>
-import SlashCell from './components/slash-cell.vue'
+import SlashCell from "./components/slash-cell.vue"
 import FormatDate from "./date"
 import leftPattern from "./components/left/left-pattern.vue"
 import rightPattern from "./components/right/right-pattern.vue"
+import { createStore, mapStates } from "./store/helper"
 
 export default {
     name: "gantt-next",
@@ -30,18 +37,35 @@ export default {
             default: 10,
         },
         titles: {
-            type: Array
+            type: Array,
         },
         start_timestamp: {
-            type: Number
-        }
+            type: Number,
+        },
     },
     data() {
+        this.store = createStore(this, {
+            rowKey: 'this.rowKey',
+            defaultExpandAll: 'this.defaultExpandAll',
+            selectOnIndeterminate: this.selectOnIndeterminate,
+            // TreeTable 的相关配置
+            indent: this.indent,
+            lazy: this.lazy,
+        })
+
         return {
             datelist: [],
             formattedDataList: [],
             dateInstance: null,
         }
+    },
+    computed: {
+        ...mapStates({
+            selection: "selection",
+            columns: "columns",
+            tableData: "data",
+            rowKey: "rowKey"
+        }),
     },
     mounted() {
         const dateInstance = (this.dateInstance = new FormatDate(this.days, this.start_timestamp))
@@ -106,10 +130,10 @@ export default {
             // 新的时间范围
             const newRange = {
                 startAt: toItem.startDay.date_string,
-                endAt: FormatDate.addDays(toItem.startDay.date_string, intervalDays)
+                endAt: FormatDate.addDays(toItem.startDay.date_string, intervalDays),
             }
             // 过滤无关项
-            const filteredEventItems = eventItems.filter(item => {
+            const filteredEventItems = eventItems.filter((item) => {
                 if (!item.data.id || item.data.id === fromItem.data.id) {
                     return false
                 } else {
@@ -119,9 +143,11 @@ export default {
                     const itemStart = new Date(item.data.startAt)
                     const itemEnd = new Date(item.data.endAt)
 
-                    return (itemStart <= rangeStart && rangeStart <= itemEnd)
-                        || (itemStart <= rangeEnd && rangeEnd <= itemEnd)
-                        || (rangeStart <= itemStart && itemEnd <= rangeEnd)
+                    return (
+                        (itemStart <= rangeStart && rangeStart <= itemEnd) ||
+                        (itemStart <= rangeEnd && rangeEnd <= itemEnd) ||
+                        (rangeStart <= itemStart && itemEnd <= rangeEnd)
+                    )
                 }
             })
 
@@ -147,14 +173,18 @@ export default {
             const sortedDataItems = dataItems.sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
 
             // 更新数据源中的 eventItems
-            const newEventList = this.dateInstance.getDataItemList(sortedDataItems, this.dateInstance.list, this.start_timestamp)
+            const newEventList = this.dateInstance.getDataItemList(
+                sortedDataItems,
+                this.dateInstance.list,
+                this.start_timestamp
+            )
             this.$set(this.formattedDataList[rowIndex], "eventList", newEventList)
             this.$refs.right.$forceUpdate()
         },
         // 落点有交叉
         dropCross() {
-            console.error('事件不可相交')
-            this.$emit('drag-error', "事件不可相交")
+            console.error("事件不可相交")
+            this.$emit("drag-error", "事件不可相交")
         },
         // 落在事件上
         dropOnItem(fromItem, toItem, dataItems, rowIndex) {
@@ -177,18 +207,22 @@ export default {
             const sortedDataItems = dataItems.sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
 
             // 更新数据源中的 eventItems
-            const newEventList = this.dateInstance.getDataItemList(sortedDataItems, this.dateInstance.list, this.start_timestamp)
+            const newEventList = this.dateInstance.getDataItemList(
+                sortedDataItems,
+                this.dateInstance.list,
+                this.start_timestamp
+            )
             this.$set(this.formattedDataList[rowIndex], "eventList", newEventList)
             this.$refs.right.$forceUpdate()
         },
         getData() {
             let copyedList = JSON.parse(JSON.stringify(this.formattedDataList))
-            copyedList = copyedList.map(item => {
+            copyedList = copyedList.map((item) => {
                 delete item.eventList
                 return item
             })
             return copyedList
-        }
+        },
     },
 }
 </script>
