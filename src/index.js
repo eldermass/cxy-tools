@@ -1,6 +1,7 @@
 import ganttChart from "../packages/gantt-chart/index"
+import gantNext from "../packages/gantt-next/index"
 
-const components = [ganttChart]
+const components = [ganttChart, gantNext]
 
 const install = function (Vue) {
     // console.log(opts)
@@ -17,5 +18,6 @@ if (typeof window !== "undefined" && window.Vue) {
 
 export default {
     ganttChart,
+    gantNext,
     install,
 }

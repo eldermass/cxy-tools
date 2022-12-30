@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <gantt-chart ref="gantt" :data-list="outData" :titles="titles" :days="50"
+        <gantt-next ref="gantt" :data-list="outData" :titles="titles" :days="50"
             :start_timestamp="new Date('2022-08-01').getTime()" @item-click="handleClick" @item-drop="handleDrop" @drag-error="handleDragError" />
         <el-button @click="handleBtnClick" type="primary" style="margin-top: 10px;">获取数据</el-button>
     </div>
@@ -8,7 +8,7 @@
 
 <script>
 // import ganttChart from "./components/gantt-chart.vue"
-import mockData from "../packages/mocks/gantt-chart"
+import mockData from "../mocks/gantt-chart"
 
 const titles = [
     {

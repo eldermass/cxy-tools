@@ -18,7 +18,7 @@ import leftPattern from "./components/left/left-pattern.vue"
 import rightPattern from "./components/right/right-pattern.vue"
 
 export default {
-    name: "gantt-chart",
+    name: "gantt-next",
     components: { leftPattern, rightPattern, SlashCell },
     props: {
         dataList: {
