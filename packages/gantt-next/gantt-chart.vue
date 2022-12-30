@@ -1,18 +1,12 @@
 <template>
     <div class="container" ref="container">
         <div class="left-container">
-            <slash-cell :store="store"/>
+            <slash-cell :store="store" />
             <left-pattern :data-list="formattedDataList" ref="leftRef" :titles="titles" />
         </div>
         <div class="right-container" ref="rightContainer">
-            <right-pattern
-                :datelist="datelist"
-                :eventList="formattedDataList"
-                @scrollY="handleContScroll"
-                @item-click="handleClick"
-                @item-drop="handleItemDrop"
-                ref="right"
-            />
+            <right-pattern :datelist="datelist" :eventList="formattedDataList" @scrollY="handleContScroll"
+                @item-click="handleClick" @item-drop="handleItemDrop" ref="right" />
         </div>
     </div>
 </template>
@@ -23,6 +17,7 @@ import FormatDate from "./date"
 import leftPattern from "./components/left/left-pattern.vue"
 import rightPattern from "./components/right/right-pattern.vue"
 import { createStore, mapStates } from "./store/helper"
+const dayjs = require('dayjs')
 
 export default {
     name: "gantt-next",
@@ -74,7 +69,8 @@ export default {
         this.formattedDataList = this.formatDataList(dateInstance, this.dataList)
 
         this.calcRightContainerWidth()
-        console.log("hello: gantt-chart！！！")
+
+        console.log(dayjs().format('yyyy-mm'))
     },
     methods: {
         // 格式化数据
