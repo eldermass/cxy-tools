@@ -2,28 +2,8 @@ import Vue from 'vue';
 import Watcher from './watcher'
 
 Watcher.prototype.mutations = {
-  setData(states, data) {
-    const dataInstanceChanged = states._data !== data;
-    states._data = data;
-
-    this.execQuery();
-    // 数据变化，更新部分数据。
-    // 没有使用 computed，而是手动更新部分数据 https://github.com/vuejs/vue/issues/6660#issuecomment-331417140
-    this.updateCurrentRowData();
-    this.updateExpandRows();
-    if (states.reserveSelection) {
-      this.assertRowKey();
-      this.updateSelectionByRowKey();
-    } else {
-      if (dataInstanceChanged) {
-        this.clearSelection();
-      } else {
-        this.cleanSelection();
-      }
-    }
-    this.updateAllSelected();
-
-    this.updateTableScrollY();
+  setDaysList(states, list) {
+    states.daysList = list.slice()
   },
 
 

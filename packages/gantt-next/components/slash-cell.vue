@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="slash-cell">
-            <span class="top">{{ top }} {{ rowKey }}</span>
+            <span class="top">{{ top }}</span>
             <span class="bottom">{{ bottom }}</span>
         </div>
     </div>
@@ -26,8 +26,7 @@ export default {
     },
     computed: {
         ...mapStates({
-            rowKey: 'rowKey',
-            defaultExpandAll: 'defaultExpandAll'
+            dayBoxWidth: 'dayBoxWidth'
         })
     },
     mounted() {

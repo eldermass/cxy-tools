@@ -5,9 +5,17 @@ export default Vue.extend({
   data() {
     return {
       states: {
-        rowKey: null,
-        // 渲染的数据来源，是对 table 中的 data 过滤排序后的结果
-        data: [],
+        // 每个格子的宽度
+        dayBoxWidth: 30,
+        dayBoxHeight: 40,
+        // 渲染的数据来源
+        rows: [{}, {}, {}],
+        // 展示的每个栏目
+        tasks: [],
+        // 箭头
+        links: [],
+        // 要展示的日历周期，用于绘制底图
+        daysList: []
       }
     };
   },

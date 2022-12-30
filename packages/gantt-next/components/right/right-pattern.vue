@@ -1,28 +1,23 @@
 <template>
     <div style="height: 100%">
-        <date-list :list="datelist" ref="dateList" />
+        <date-list :store="store" />
         <div class="rows-container" ref="rowsContainer">
-            <event-row
-                v-for="(event, index) in eventList"
-                :key="index"
-                :list="datelist"
-                :datalist="event.eventList"
-                :event-index="index"
-                @item-click="handleClick"
-                @item-drop="handleItemDrop"
-            />
+            <row-mask :store="store" />
         </div>
     </div>
 </template>
 
 <script>
 import dateList from "./date-list.vue"
-import eventRow from "./event-row.vue"
+import rowMask from "./row-mask.vue"
 
 export default {
     name: "right-pattern",
-    components: { dateList, eventRow },
+    components: { dateList, rowMask },
     props: {
+        store: {
+            required: true
+        },
         datelist: {
             type: Array,
             default: () => [],

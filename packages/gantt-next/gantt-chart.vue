@@ -5,8 +5,7 @@
             <left-pattern :data-list="formattedDataList" ref="leftRef" :titles="titles" />
         </div>
         <div class="right-container" ref="rightContainer">
-            <right-pattern :datelist="datelist" :eventList="formattedDataList" @scrollY="handleContScroll"
-                @item-click="handleClick" @item-drop="handleItemDrop" ref="right" />
+            <right-pattern :store="store"/>
         </div>
     </div>
 </template>
@@ -40,12 +39,7 @@ export default {
     },
     data() {
         this.store = createStore(this, {
-            rowKey: 'this.rowKey',
-            defaultExpandAll: 'this.defaultExpandAll',
-            selectOnIndeterminate: this.selectOnIndeterminate,
-            // TreeTable 的相关配置
-            indent: this.indent,
-            lazy: this.lazy,
+            dayBoxWidth: 40
         })
 
         return {
@@ -65,6 +59,7 @@ export default {
     mounted() {
         const dateInstance = (this.dateInstance = new FormatDate(this.days, this.start_timestamp))
         this.datelist = dateInstance.list
+        this.store.commit('setDaysList', dateInstance.list)
 
         this.formattedDataList = this.formatDataList(dateInstance, this.dataList)
 
