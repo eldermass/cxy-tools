@@ -1,3 +1,18 @@
+export const titleGroups = [
+    {
+        title: "2 号楼 1 楼SMT车间",
+        length: 5
+    },
+    {
+        title: "2 号楼 3 楼SMT车间",
+        length: 4
+    },
+    {
+        title: "2 号楼 4 楼SMT车间",
+        length: 6
+    }
+]
+
 export default [
     {
         id: 1,

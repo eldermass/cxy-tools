@@ -1,7 +1,7 @@
 <template>
     <div class="date-list-container" ref="container">
-        <div class="month-wrapper" :style="monthsStyle">
-            <div class="month-container" v-for="(item, index) in daysList" :key="index" ref="month">
+        <div class="month-wrapper" :style="monthsStyle" ref="months">
+            <div class="month-container" v-for="(item, index) in monthsList" :key="index" ref="month">
                 <div class="month" :style="{ width: item.dates.length * dayBoxWidth + 'px' }">
                     {{ item.year }}-{{ item.month }}
                 </div>
@@ -39,7 +39,7 @@ export default {
     computed: {
         ...mapStates({
             monthsStyle: (state) => ({ width: state.daysList.length * state.dayBoxWidth + 'px' }),
-            daysList: (state) => formatList(state.daysList),
+            monthsList: (state) => formatList(state.daysList),
             dayBoxWidth: "dayBoxWidth",
         }),
     },

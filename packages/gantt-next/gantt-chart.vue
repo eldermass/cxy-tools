@@ -2,7 +2,7 @@
     <div class="container" ref="container">
         <div class="left-container">
             <slash-cell :store="store" />
-            <left-pattern :data-list="formattedDataList" ref="leftRef" :titles="titles" />
+            <left-pattern :store="store"/>
         </div>
         <div class="right-container" ref="rightContainer">
             <right-pattern :store="store"/>
@@ -39,7 +39,8 @@ export default {
     },
     data() {
         this.store = createStore(this, {
-            dayBoxWidth: 40
+            dayBoxWidth: 60,
+            dayBoxHeight: 40
         })
 
         return {

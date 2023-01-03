@@ -1,5 +1,5 @@
 <template>
-    <div class="title-item" :title="title">
+    <div class="title-item" :title="title" :style="{ height: height + 'px', lineHeight: height + 'px' }">
         {{ title }}
     </div>
 </template>
@@ -9,14 +9,18 @@ export default {
     props: {
         title: {
             type: String,
-            default: "阿法狗豆腐干豆腐干豆腐干豆腐干岁的法国",
+            default: "这是一行测试的标题，有点长",
         },
+        height: {
+            type: Number,
+            default: 40
+        }
     },
 }
 </script>
 <style lang="scss" scoped>
 .title-item {
-    width: 160px;
+    // width: 160px;
     height: 40px;
     line-height: 40px;
     padding: 0 0 0 20px;

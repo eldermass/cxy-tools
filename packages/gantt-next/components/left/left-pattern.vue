@@ -1,13 +1,14 @@
 <template>
     <div class="pattern-container">
-        <div class="title-container" ref="titleContainer">
-            <div class="titles" :style="{height: titlesHeight + 'px'}"  ref="titlesItems">
-                <title-group v-for="(item, index) in titles" :key="index" :title="item.title" :length="item.length" />
+        <div class="title-container" ref="titleContainer" v-if="showTitleGroup">
+            <div class="titles" :style="{ height: titlesHeight + 'px' }" ref="titlesItems">
+                <title-group v-for="(item, index) in titleGroups" :key="index" :title="item.title"
+                    :height="item.length * dayBoxHeight" />
             </div>
         </div>
         <div class="item-containner" ref="container">
             <div class="items" ref="items">
-                <title-item v-for="(data, index) in dataList" :key="index" :title="data.name" />
+                <title-item v-for="(data, index) in rows" :key="index" :title="data.name" :height="dayBoxHeight" />
             </div>
         </div>
     </div>
@@ -15,28 +16,22 @@
 <script>
 import titleItem from "./title-item.vue"
 import titleGroup from "./title-group.vue"
+import { mapStates } from '../../store/helper'
 
 export default {
     name: "left-pattern",
     components: { titleItem, titleGroup },
     props: {
-        dataList: {
-            type: Array,
-            default: () => [],
-        },
-        titles: {
-            type: Array,
-            default: () => [
-                {
-                    title: "2 号楼 1 楼SMT车间",
-                    length: 5
-                }
-            ]
+        store: {
+            required: true
         }
     },
     computed: {
-        titlesHeight() {
-            return 40 * this.titles.reduce((a, b) => {
+        ...mapStates({
+            rows: 'rows',
+            titleGroups: 'titleGroups',
+            dayBoxHeight: 'dayBoxHeight',
+            titlesHeight: state => state.dayBoxHeight * state.titleGroups.reduce((a, b) => {
                 if (typeof a !== 'number') {
                     a = a.length
                 }
@@ -44,8 +39,16 @@ export default {
                     b = b.length
                 }
                 return a + b
-            })
-        }
+            }),
+            scrollY: 'scrollY',
+            maxScrollHeight: 'maxScrollHeight',
+            showTitleGroup: 'showTitleGroup'
+        })
+    },
+    watch: {
+      scrollY(newVal) {
+        this.scrollTo(newVal, this.maxScrollHeight)
+      }  
     },
     methods: {
         scrollTo(y, maxHeight) {

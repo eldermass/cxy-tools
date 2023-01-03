@@ -17,6 +17,11 @@ Watcher.prototype.mutations = {
 
   setRowKey(states, key) {
     states.rowKey = key
+  },
+
+  setScrollY(states, scrollY, maxScrollHeight) {
+    states.scrollY = scrollY
+    states.maxScrollHeight = maxScrollHeight
   }
 };
 

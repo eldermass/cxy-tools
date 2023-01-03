@@ -1,5 +1,5 @@
 <template>
-    <div class="title" :style="{ height: length * 40 + 'px' }" :title="title">
+    <div class="title" :style="{ height: height + 'px' }" :title="title">
         {{  title  }}
     </div>
 </template>
@@ -9,11 +9,11 @@ export default {
     props: {
         title: {
             type: String,
-            default: "阿法狗豆腐干豆腐干",
+            default: "这是一组title的父级",
         },
-        length: {
+        height: {
             type: Number,
-            default: 1
+            default: 40
         }
     },
 }

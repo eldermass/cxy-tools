@@ -6,7 +6,7 @@
 </template>
 <script>
 export default {
-    name: "row-item-back",
+    name: "row-mask-item",
     props: {
         boxLenght: {
             type: Number,

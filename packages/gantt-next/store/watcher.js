@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import mockList, { titleGroups } from '../../../mocks/gantt-chart'
 // import current from './current'
 
 export default Vue.extend({
@@ -9,13 +10,21 @@ export default Vue.extend({
         dayBoxWidth: 30,
         dayBoxHeight: 40,
         // 渲染的数据来源
-        rows: [{}, {}, {}],
+        rows: mockList,
         // 展示的每个栏目
         tasks: [],
         // 箭头
         links: [],
         // 要展示的日历周期，用于绘制底图
-        daysList: []
+        daysList: [],
+        // 左侧分组
+        titleGroups: titleGroups,
+        // 是否展示左侧分组
+        showTitleGroup: true,
+        // 内容的y轴滚动距离
+        scrollY: 0,
+        // y 轴最大滚动
+        maxScrollHeight: 0
       }
     };
   },

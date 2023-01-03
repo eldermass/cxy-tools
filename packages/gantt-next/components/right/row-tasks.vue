@@ -1,17 +1,15 @@
 <template>
-    <div class="back-mask">
-        <div v-for="(row, i) in rows" :key="i" :style="{ height: dayBoxHeight + 'px' }">
-            <row-mask-item v-for="(date, index) in daysList" :key="index" :box-lenght="dayBoxWidth" :date="date" />
-        </div>
+    <div class="row-tasks">
+        <row-tasks-item :store="store" />
     </div>
 </template>
 <script>
-import rowMaskItem from "./row-mask-item.vue"
+import rowTasksItem from "./row-tasks-item.vue"
 import { mapStates } from "../../store/helper"
 
 export default {
-    name: "row-mask",
-    components: { rowMaskItem },
+    name: "row-tasks",
+    components: { rowTasksItem },
     props: {
         store: {
             required: true
@@ -56,10 +54,11 @@ export default {
     box-sizing: border-box;
 }
 
-.back-mask {
+.row-tasks {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    font-size: 0;
-    position: relative;
 }
 </style>
