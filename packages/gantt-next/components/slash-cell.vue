@@ -28,12 +28,6 @@ export default {
         ...mapStates({
             dayBoxWidth: 'dayBoxWidth'
         })
-    },
-    mounted() {
-        setTimeout(() => {
-            this.store.scheduleLayout()
-            this.store.commit('setRowKey', 123)
-        }, 1000)
     }
 }
 </script>

@@ -2,10 +2,10 @@
     <div class="container" ref="container">
         <div class="left-container">
             <slash-cell :store="store" />
-            <left-pattern :store="store"/>
+            <left-pattern :store="store" />
         </div>
         <div class="right-container" ref="rightContainer">
-            <right-pattern :store="store"/>
+            <right-pattern :store="store" />
         </div>
     </div>
 </template>
@@ -16,7 +16,6 @@ import FormatDate from "./date"
 import leftPattern from "./components/left/left-pattern.vue"
 import rightPattern from "./components/right/right-pattern.vue"
 import { createStore, mapStates } from "./store/helper"
-const dayjs = require('dayjs')
 
 export default {
     name: "gantt-next",
@@ -61,12 +60,11 @@ export default {
         const dateInstance = (this.dateInstance = new FormatDate(this.days, this.start_timestamp))
         this.datelist = dateInstance.list
         this.store.commit('setDaysList', dateInstance.list)
+        this.store.commit('setTimeNow', '2023-01-04')
 
         this.formattedDataList = this.formatDataList(dateInstance, this.dataList)
 
         this.calcRightContainerWidth()
-
-        console.log(dayjs().format('yyyy-mm'))
     },
     methods: {
         // 格式化数据

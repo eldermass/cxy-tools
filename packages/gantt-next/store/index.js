@@ -1,4 +1,4 @@
-import Vue from 'vue';
+// import Vue from 'vue';
 import Watcher from './watcher'
 
 Watcher.prototype.mutations = {
@@ -6,17 +6,8 @@ Watcher.prototype.mutations = {
     states.daysList = list.slice()
   },
 
-
-  setHoverRow(states, row) {
-    states.hoverRow = row;
-  },
-
-  setCurrentRow(states, row) {
-    this.updateCurrentRow(row);
-  },
-
-  setRowKey(states, key) {
-    states.rowKey = key
+  setTimeNow(states, nowTime) {
+    states.nowTime = nowTime
   },
 
   setScrollY(states, scrollY, maxScrollHeight) {
@@ -35,8 +26,8 @@ Watcher.prototype.commit = function(name, ...args) {
 };
 
 // 更新y轴滚动
-Watcher.prototype.updateTableScrollY = function() {
-  Vue.nextTick(this.table.updateScrollY);
-};
+// Watcher.prototype.updateTableScrollY = function() {
+//   Vue.nextTick(this.table.updateScrollY);
+// };
 
 export default Watcher;

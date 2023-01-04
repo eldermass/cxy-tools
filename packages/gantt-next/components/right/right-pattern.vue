@@ -1,10 +1,11 @@
 <template>
-    <div style="height: 100%">
+    <div style="height: 100%" @click="handleEmptyClick">
         <date-list :store="store" ref="dateList" />
         <div class="rows-container" @scroll="handleScroll">
             <div class="content-panel" :style="totalLengthStyle">
                 <row-mask :store="store" />
                 <row-tasks :store="store" />
+                <row-links :store="store" />
             </div>
         </div>
     </div>
@@ -14,11 +15,12 @@
 import dateList from "./date-list.vue"
 import rowMask from "./row-mask.vue"
 import rowTasks from './row-tasks.vue'
+import rowLinks from './row-links.vue'
 import { mapStates } from "../../store/helper"
 
 export default {
     name: "right-pattern",
-    components: { dateList, rowMask, rowTasks },
+    components: { dateList, rowMask, rowTasks, rowLinks },
     props: {
         store: {
             required: true
@@ -68,6 +70,9 @@ export default {
                 this.maxScrollHeight = e.target.scrollHeight - e.target.clientHeight
             }
             // console.log(this.lastX, this.lastY, this.maxScrollHeight, this.maxScrollWidth)
+        },
+        handleEmptyClick() {
+            this.store.setSelectedTask()
         }
     },
 }

@@ -38,6 +38,6 @@ export default {
 }
 
 .gray-background {
-    background: #e0e2ee;
+    background: #f4f5fb;
 }
 </style>

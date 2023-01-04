@@ -1,3 +1,42 @@
+export const links = [
+    {
+        
+    }
+]
+
+export const tasks = [
+    {
+        task_id: 1,
+        text: 'this is test one',
+        row_index: 0,
+        start_date: '2023-01-05 12:00:00',
+        duration: 1.5,
+        theme: 'default',
+        is_lock: false,
+        data: {},
+    },
+    {
+        task_id: 2,
+        text: 'two ok ok twotwotwotwotwotwo',
+        row_index: 3,
+        start_date: '2023-01-06 12:06:00',
+        duration: 2.5,
+        theme: 'purple',
+        is_lock: true,
+        data: {},
+    },
+    {
+        task_id: 3,
+        text: 't3333333333333333333333',
+        row_index: 4,
+        start_date: '2023-01-12 10:46:00',
+        duration: 2.8,
+        theme: 'cyan',
+        is_lock: true,
+        data: {},
+    }
+]
+
 export const titleGroups = [
     {
         title: "2 号楼 1 楼SMT车间",

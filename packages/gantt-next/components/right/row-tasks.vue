@@ -1,6 +1,6 @@
 <template>
     <div class="row-tasks">
-        <row-tasks-item :store="store" />
+        <row-tasks-item v-for="(task, index) in tasks" :key="index" :store="store" :task="task" />
     </div>
 </template>
 <script>
@@ -17,29 +17,23 @@ export default {
     },
     data() {
         return {
-            dates: [
+            tasksList: [
                 // {
-                //     year: 2022,
-                //     month: 8,
-                //     date: 2,
-                //     day: 2,
-                //     is_last_date: false,
-                //     is_last_month: false,
-                //     date_string: "2022-8-2",
-                // },
-            ],
+                //     task_id: 1,
+                //     text: 'this is test one',
+                //     row_index: 0,
+                //     start_date: '2023-01-05 12:00:00',
+                //     duration: 1.5,
+                //     theme: 'default',
+                //     is_lock: false,
+                //     data: {},
+                // }
+            ]
         }
     },
     computed: {
         ...mapStates({
-            totalLengthStyle: (state) => ({
-                width: state.daysList.length * state.dayBoxWidth + 'px',
-                height: state.rows.length * state.dayBoxHeight + 'px'
-            }),
-            daysList: 'daysList',
-            dayBoxWidth: "dayBoxWidth",
-            rows: 'rows',
-            dayBoxHeight: 'dayBoxHeight'
+            tasks: 'tasks'
         }),
     },
     mounted() {
