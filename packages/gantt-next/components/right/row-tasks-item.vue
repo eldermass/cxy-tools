@@ -166,10 +166,10 @@ export default {
     ("green", #6bb42e, #d7eec0),
     ("purple", #7d78c8, #c5c5f9),
     ("blue", #afbfe4, #dfebf7),
-    ("red", #eb3626, #f7635c),
+    ("red", #eb3626, #fb9e99),
     ("cyan", #3498ff, #a6d7ff),
     ("yellow", #ffb300, #ffe9c2),
-    ("orange", #db8000, #fa9b2f) {
+    ("orange", #db8000, #fbad53) {
         .#{$type} {
             border: 1px solid $bordercolor;
             background: $backcolor;

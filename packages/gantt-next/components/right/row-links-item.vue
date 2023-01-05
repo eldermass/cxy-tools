@@ -1,9 +1,13 @@
 <template>
     <div class="row-links-item">
-        <div class="link-line" :style="sourceItemStyle"></div>
-        <div class="link-line" :style="targetItemStyle"></div>
+        <div v-if="linkStep > 0" class="link-line" :style="sourceItemStyle"></div>
+        <div v-if="linkStep > 0" class="link-line" :style="targetItemStyle"></div>
         <div v-if="linkStep <= 4" class="link-line-vertical" :style="dVerticalLineStyle"></div>
         <div v-if="linkStep <= 4" class="link-line" :style="dHorizontalLineStyle"></div>
+        <!-- 三步连线 -->
+        <div v-if="linkStep === 5 || linkStep === 6" class="link-line-vertical" :style="tVerticalTopStyle"></div>
+        <div v-if="linkStep === 5 || linkStep === 6" class="link-line" :style="tHorizontalLineStyle"></div>
+        <div v-if="linkStep === 5 || linkStep === 6" class="link-line-vertical" :style="tVerticalBottomStyle"></div>
     </div>
 </template>
 <script>
@@ -30,19 +34,40 @@ export default {
     computed: {
         // 判断连线的方式
         linkStep() {
-            // 1234 为2步连
+            // 1234 为2步连， 56为3步骤， 10为直连, 0 为错误不显示
             // 前前
+            let A = this.sourcePostion, B = this.targetPostion
+            if (A.top === B.top) {
+                return (this.link.source_point === 'end' && this.link.target_point === 'start') ? 10 : 0
+            }
+
             if (this.link.source_point === 'start' && this.link.target_point === 'start') {
                 // 只有一种链接方式，c字形
                 return 1
             }
             // 前后
             else if (this.link.source_point === 'start' && this.link.target_point === 'end') {
-                return 2
+                if (B.top > A.top && B.right < A.left) {
+                    return 2
+                } else if (B.top > A.top && B.right > A.left) {
+                    return 5
+                } else if (A.top > B.top && A.left > B.right) {
+                    return 3
+                } else if (A.top > B.top && A.left < B.right) {
+                    return 6
+                }
             }
             // 后前
             else if (this.link.source_point === 'end' && this.link.target_point === 'start') {
-                return 3
+                if (B.top > A.top && B.left > A.right) {
+                    return 3
+                } else if (B.top > A.top && B.left < A.right) {
+                    return 6
+                } else if (A.top > B.top && A.right < B.left) {
+                    return 2
+                } else if (A.top > B.top && A.right > B.left) {
+                    return 5
+                }
             }
             // 后后
             else if (this.link.source_point === 'end' && this.link.target_point === 'end') {
@@ -100,7 +125,7 @@ export default {
                 top: this.targetTask.row_index * this.dayBoxHeight
             }
         },
-        // step 1 的连线
+        // 2步到达的连线
         dVerticalLineStyle() {
             // 竖线
             const height = Math.abs(this.targetPostion.top - this.sourcePostion.top)
@@ -165,6 +190,85 @@ export default {
                 left: left + 'px',
                 top: top + this.dayBoxHeight / 2 - 1 + 'px',
                 width: width + 'px'
+            }
+        },
+        // 3步到达的连线
+        tVerticalTopStyle() {
+            let left = 0
+            let top = Math.min(this.sourcePostion.top, this.targetPostion.top) + this.dayBoxHeight / 2
+            if (this.linkStep === 5) {
+                // a在下
+                if (this.sourcePostion.top > this.targetPostion.top) {
+                    left = this.targetPostion.left - 14
+                } else {
+                    left = this.sourcePostion.left - 14
+                }
+            } else if (this.linkStep === 6) {
+                // a在下
+                if (this.sourcePostion.top > this.targetPostion.top) {
+                    left = this.targetPostion.right + 12
+                } else {
+                    left = this.sourcePostion.right + 12
+                }
+            }
+
+            return {
+                left: left + 'px',
+                top: top + 'px',
+                height: this.dayBoxHeight / 2 + 'px'
+            }
+        },
+        tHorizontalLineStyle() {
+            let left = 0, width = 0, A = this.sourcePostion, B = this.targetPostion
+            let top = Math.min(A.top, B.top) + this.dayBoxHeight
+
+            if (this.linkStep === 5) {
+                if (A.top > B.top) {
+                    left = B.left - 14
+                    width = Math.abs(A.right - B.left) + 28
+                } else {
+                    left = A.left - 14
+                    width = Math.abs(A.left - B.right) + 28
+                }
+            } else if (this.linkStep === 6) {
+                if (A.top > B.top) {
+                    left = A.left - 14
+                    width = Math.abs(A.left - B.right) + 28
+                } else {
+                    left = B.left - 14
+                    width = Math.abs(A.right - B.left) + 28
+                }
+            }
+
+            return {
+                left: left + 'px',
+                top: top + 'px',
+                width: width + 'px'
+            }
+        },
+        tVerticalBottomStyle() {
+            let left = 0
+            let top = Math.min(this.sourcePostion.top, this.targetPostion.top) + this.dayBoxHeight
+            let height = Math.abs(this.sourcePostion.top - this.targetPostion.top) - this.dayBoxHeight / 2
+
+            if (this.linkStep === 5) {
+                if (this.sourcePostion.top > this.targetPostion.top) {
+                    left = this.sourcePostion.right + 12
+                } else {
+                    left = this.targetPostion.right + 12
+                }
+            } else if (this.linkStep === 6) {
+                if (this.sourcePostion.top > this.targetPostion.top) {
+                    left = this.sourcePostion.left - 14
+                } else {
+                    left = this.targetPostion.left - 14
+                }
+            }
+
+            return {
+                left: left + 'px',
+                top: top + 'px',
+                height: height + 'px'
             }
         },
         ...mapStates({

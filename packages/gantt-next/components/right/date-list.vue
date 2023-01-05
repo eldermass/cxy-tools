@@ -92,6 +92,7 @@ function formatList(list) {
 }
 
 .date-list-container {
+    user-select: none;
     height: 60px;
     // border: 1px solid;
     background: #b3b3b3;

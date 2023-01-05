@@ -46,9 +46,9 @@ export default {
         })
     },
     watch: {
-      scrollY(newVal) {
-        this.scrollTo(newVal, this.maxScrollHeight)
-      }  
+        scrollY(newVal) {
+            this.scrollTo(newVal, this.maxScrollHeight)
+        }
     },
     methods: {
         scrollTo(y, maxHeight) {
@@ -83,6 +83,7 @@ export default {
 
     // overflow-y: hidden;
     .title-container {
+        user-select: none;
         flex: 40px 0 0;
         writing-mode: tb-rl;
         border: 1px solid #ccc;

@@ -18,33 +18,113 @@ export default {
     data() {
         return {
             links: [
+                // 连线覆盖测试，不删
                 {
-                    source_id: 3,
-                    source_point: 'start',
-                    target_id: 2,
+                    source_id: 2,
+                    source_point: 'end',
+                    target_id: 11,
                     target_point: 'start',
                     group_id: 1
                 },
+                // {
+                //     source_id: 2,
+                //     source_point: 'start',
+                //     target_id: 3,
+                //     target_point: 'start',
+                //     group_id: 1
+                // },
+                // {
+                //     source_id: 2,
+                //     source_point: 'end',
+                //     target_id: 1,
+                //     target_point: 'end',
+                //     group_id: 1
+                // },
+                // {
+                //     source_id: 4,
+                //     source_point: 'end',
+                //     target_id: 3,
+                //     target_point: 'start',
+                //     group_id: 1
+                // },
+                // {
+                //     source_id: 4,
+                //     source_point: 'start',
+                //     target_id: 1,
+                //     target_point: 'end',
+                //     group_id: 1
+                // },
+                // step 5
+                // {
+                //     source_id: 4,
+                //     source_point: 'end',
+                //     target_id: 3,
+                //     target_point: 'start',
+                //     group_id: 1
+                // },
+                // {
+                //     source_id: 5,
+                //     source_point: 'start',
+                //     target_id: 4,
+                //     target_point: 'end',
+                //     group_id: 2
+                // },
+                // {
+                //     source_id: 6,
+                //     source_point: 'end',
+                //     target_id: 4,
+                //     target_point: 'start',
+                //     group_id: 2
+                // },
+                // {
+                //     source_id: 4,
+                //     source_point: 'end',
+                //     target_id: 1,
+                //     target_point: 'start',
+                //     group_id: 2
+                // },
+                // {
+                //     source_id: 4,
+                //     source_point: 'start',
+                //     target_id: 8,
+                //     target_point: 'end',
+                //     group_id: 2
+                // },
+                // {
+                //     source_id: 4,
+                //     source_point: 'start',
+                //     target_id: 10,
+                //     target_point: 'end',
+                //     group_id: 2
+                // },
+                // step 6
+                // {
+                //     source_id: 4,
+                //     source_point: 'end',
+                //     target_id: 7,
+                //     target_point: 'start',
+                //     group_id: 1
+                // },
+                // {
+                //     source_id: 3,
+                //     source_point: 'end',
+                //     target_id: 6,
+                //     target_point: 'start',
+                //     group_id: 2
+                // },
+                // {
+                //     source_id: 4,
+                //     source_point: 'start',
+                //     target_id: 1,
+                //     target_point: 'end',
+                //     group_id: 2
+                // },
                 {
-                    source_id: 1,
+                    source_id: 4,
                     source_point: 'end',
-                    target_id: 2,
-                    target_point: 'end',
-                    group_id: 1
-                },
-                {
-                    source_id: 3,
-                    source_point: 'end',
-                    target_id: 4,
+                    target_id: 8,
                     target_point: 'start',
-                    group_id: 1
-                },
-                {
-                    source_id: 1,
-                    source_point: 'start',
-                    target_id: 4,
-                    target_point: 'end',
-                    group_id: 1
+                    group_id: 2
                 }
             ]
         }
