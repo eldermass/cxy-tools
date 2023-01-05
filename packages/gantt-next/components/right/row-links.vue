@@ -19,10 +19,31 @@ export default {
         return {
             links: [
                 {
+                    source_id: 3,
+                    source_point: 'start',
+                    target_id: 2,
+                    target_point: 'start',
+                    group_id: 1
+                },
+                {
                     source_id: 1,
                     source_point: 'end',
-                    target_id: 3,
+                    target_id: 2,
+                    target_point: 'end',
+                    group_id: 1
+                },
+                {
+                    source_id: 3,
+                    source_point: 'end',
+                    target_id: 4,
                     target_point: 'start',
+                    group_id: 1
+                },
+                {
+                    source_id: 1,
+                    source_point: 'start',
+                    target_id: 4,
+                    target_point: 'end',
                     group_id: 1
                 }
             ]
