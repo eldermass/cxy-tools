@@ -18,8 +18,13 @@ Watcher.prototype.mutations = {
   updateTask(states, taskId, startDate, duration) {
     const task = states.tasks.find(task => task.task_id === taskId)
     if (!task) return
+    task.is_drag_changed = true
     startDate && (task.start_date = startDate)
     duration && (task.duration = duration)
+  },
+
+  setDayBoxWidth(states, width) {
+    states.dayBoxWidth = width
   }
 };
 

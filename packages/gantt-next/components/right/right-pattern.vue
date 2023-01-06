@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 100%" @click="handleEmptyClick">
+    <div style="height: 100%; border-left: 1px solid #ccc" @click="handleEmptyClick">
         <date-list :store="store" ref="dateList" />
         <div class="rows-container" @scroll="handleScroll">
             <div class="content-panel" :style="totalLengthStyle">

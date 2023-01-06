@@ -6,6 +6,7 @@ export default Vue.extend({
   data() {
     return {
       states: {
+        // 表格开始时间
         nowTime: Date.now(),
         // 每个格子的宽度
         dayBoxWidth: 30,

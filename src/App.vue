@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <gantt-next ref="gantt" :data-list="outData" :titles="titles" :days="50"
-            :start_timestamp="new Date('2023-01-04').getTime()" @item-click="handleClick" @item-drop="handleDrop" @drag-error="handleDragError" />
+            :start_time="'2023-01-04'" @item-click="handleClick" @item-drop="handleDrop" @drag-error="handleDragError" />
         <el-button @click="handleBtnClick" type="primary" style="margin-top: 10px;">获取数据</el-button>
     </div>
 </template>
