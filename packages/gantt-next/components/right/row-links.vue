@@ -17,15 +17,15 @@ export default {
     },
     data() {
         return {
-            links: [
+            linksList: [
                 // 连线覆盖测试，不删
-                {
-                    source_id: 2,
-                    source_point: 'end',
-                    target_id: 11,
-                    target_point: 'start',
-                    group_id: 1
-                },
+                // {
+                //     source_id: 2,
+                //     source_point: 'end',
+                //     target_id: 11,
+                //     target_point: 'start',
+                //     group_id: 1
+                // },
                 // {
                 //     source_id: 2,
                 //     source_point: 'start',
@@ -106,32 +106,39 @@ export default {
                 //     group_id: 1
                 // },
                 // {
-                //     source_id: 3,
-                //     source_point: 'end',
-                //     target_id: 6,
-                //     target_point: 'start',
+                //     source_id: 1,
+                //     source_point: 'start',
+                //     target_id: 5,
+                //     target_point: 'end',
+                //     group_id: 2
+                // },
+                // {
+                //     source_id: 10,
+                //     source_point: 'start',
+                //     target_id: 8,
+                //     target_point: 'end',
                 //     group_id: 2
                 // },
                 // {
                 //     source_id: 4,
-                //     source_point: 'start',
-                //     target_id: 1,
-                //     target_point: 'end',
+                //     source_point: 'end',
+                //     target_id: 8,
+                //     target_point: 'start',
                 //     group_id: 2
                 // },
-                {
-                    source_id: 4,
-                    source_point: 'end',
-                    target_id: 8,
-                    target_point: 'start',
-                    group_id: 2
-                }
+                // {
+                //     source_id: 6,
+                //     source_point: 'end',
+                //     target_id: 4,
+                //     target_point: 'start',
+                //     group_id: 2
+                // }
             ]
         }
     },
     computed: {
         ...mapStates({
-            linksList: 'links'
+            links: 'links'
         }),
     },
     mounted() {

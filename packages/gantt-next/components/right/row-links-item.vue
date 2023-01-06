@@ -2,6 +2,9 @@
     <div class="row-links-item">
         <div v-if="linkStep > 0" class="link-line" :style="sourceItemStyle"></div>
         <div v-if="linkStep > 0" class="link-line" :style="targetItemStyle"></div>
+        <!-- 一步连线 -->
+        <div v-if="linkStep === 10" class="link-line" :style="oHorizontalLineStyle"></div>
+        <!-- 两步连线 -->
         <div v-if="linkStep <= 4" class="link-line-vertical" :style="dVerticalLineStyle"></div>
         <div v-if="linkStep <= 4" class="link-line" :style="dHorizontalLineStyle"></div>
         <!-- 三步连线 -->
@@ -35,6 +38,7 @@ export default {
         // 判断连线的方式
         linkStep() {
             // 1234 为2步连， 56为3步骤， 10为直连, 0 为错误不显示
+            // 1-6的形状：C/反Z/Z/反C/S/反S
             // 前前
             let A = this.sourcePostion, B = this.targetPostion
             if (A.top === B.top) {
@@ -47,6 +51,10 @@ export default {
             }
             // 前后
             else if (this.link.source_point === 'start' && this.link.target_point === 'end') {
+                // 突出相交时
+                if (Math.abs(A.left - B.right) < 27 && A.left > B.right) {
+                    return A.top > B.top ? 6 : 5
+                }
                 if (B.top > A.top && B.right < A.left) {
                     return 2
                 } else if (B.top > A.top && B.right > A.left) {
@@ -59,6 +67,11 @@ export default {
             }
             // 后前
             else if (this.link.source_point === 'end' && this.link.target_point === 'start') {
+                // 突出相交时
+                if (Math.abs(A.right - B.left) < 27 && A.right < B.left) {
+                    return A.top < B.top ? 6 : 5
+                }
+
                 if (B.top > A.top && B.left > A.right) {
                     return 3
                 } else if (B.top > A.top && B.left < A.right) {
@@ -123,6 +136,16 @@ export default {
                 left: timeOffsetNow.toFixed(2) * this.dayBoxWidth,
                 right: (timeOffsetNow + this.targetTask.duration).toFixed(2) * this.dayBoxWidth,
                 top: this.targetTask.row_index * this.dayBoxHeight
+            }
+        },
+        // 1步到达的连线
+        oHorizontalLineStyle() {
+            const width = Math.abs(this.targetPostion.left - this.sourcePostion.right)
+
+            return {
+                top: this.sourcePostion.top + this.dayBoxHeight / 2 - 1 + 'px',
+                left: this.sourcePostion.right + 'px',
+                width: width + 'px'
             }
         },
         // 2步到达的连线
@@ -224,19 +247,23 @@ export default {
 
             if (this.linkStep === 5) {
                 if (A.top > B.top) {
+                    let is_near_cross = Math.abs(A.right - B.left) < 28 && A.right < B.left
                     left = B.left - 14
-                    width = Math.abs(A.right - B.left) + 28
+                    width = is_near_cross ? 28 - Math.abs(A.right - B.left) : Math.abs(A.right - B.left) + 28
                 } else {
+                    let is_near_cross = Math.abs(A.left - B.right) < 28 && A.left > B.right
                     left = A.left - 14
-                    width = Math.abs(A.left - B.right) + 28
+                    width = is_near_cross ? 28 - Math.abs(A.left - B.right) : Math.abs(A.left - B.right) + 28
                 }
             } else if (this.linkStep === 6) {
                 if (A.top > B.top) {
+                    let is_near_cross = Math.abs(A.left - B.right) < 28 && A.left > B.right
                     left = A.left - 14
-                    width = Math.abs(A.left - B.right) + 28
+                    width = is_near_cross ? 28 - Math.abs(A.left - B.right) : Math.abs(A.left - B.right) + 28
                 } else {
+                    let is_near_cross = Math.abs(A.right - B.left) < 28 && A.right < B.left
                     left = B.left - 14
-                    width = Math.abs(A.right - B.left) + 28
+                    width = is_near_cross ? 28 - Math.abs(A.right - B.left) : Math.abs(A.right - B.left) + 28
                 }
             }
 

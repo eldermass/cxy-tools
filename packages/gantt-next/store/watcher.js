@@ -15,6 +15,7 @@ export default Vue.extend({
         // 展示的每个任务
         tasks: tasks,
         // 箭头
+        originLinks: links,
         links: links,
         // 要展示的日历周期，用于绘制底图
         daysList: [],
