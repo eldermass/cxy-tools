@@ -16,7 +16,7 @@ export default Vue.extend({
         tasks: tasks,
         // 箭头
         originLinks: links,
-        links: links,
+        links: [],
         // 要展示的日历周期，用于绘制底图
         daysList: [],
         // 左侧分组
@@ -48,9 +48,19 @@ export default Vue.extend({
         }
         return task
       })
-      console.log("select", task_id)
+      // console.log("select", task_id)
+      this.setLinksActive(task_id)
     },
-
+    // 设置 连线激活
+    setLinksActive(task_id) {
+      const activeLink = this.states.originLinks.find(link => link.source_id === task_id || link.target_id === task_id)
+      if (!activeLink) {
+        this.states.links = []
+        return
+      }
+      const links = this.states.originLinks.filter(link => link.group_id === activeLink.group_id)
+      this.states.links = links
+    },
     // 检查 rowKey 是否存在
     assertRowKey() {
       const rowKey = this.states.rowKey

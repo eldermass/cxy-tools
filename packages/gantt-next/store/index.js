@@ -13,6 +13,13 @@ Watcher.prototype.mutations = {
   setScrollY(states, scrollY, maxScrollHeight) {
     states.scrollY = scrollY
     states.maxScrollHeight = maxScrollHeight
+  },
+
+  updateTask(states, taskId, startDate, duration) {
+    const task = states.tasks.find(task => task.task_id === taskId)
+    if (!task) return
+    startDate && (task.start_date = startDate)
+    duration && (task.duration = duration)
   }
 };
 
