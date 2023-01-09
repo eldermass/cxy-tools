@@ -1,7 +1,9 @@
 <template>
     <div class="row-links-item">
         <div v-if="linkStep > 0" class="link-line" :style="sourceItemStyle"></div>
-        <div v-if="linkStep > 0" class="link-line" :style="targetItemStyle"></div>
+        <div v-if="linkStep > 0"
+            :class="{ 'link-line': true, 'link-line-arrow-left': this.link.target_point === 'end', 'link-line-arrow-right': this.link.target_point === 'start' }"
+            :style="targetItemStyle"></div>
         <!-- 一步连线 -->
         <div v-if="linkStep === 10" class="link-line" :style="oHorizontalLineStyle"></div>
         <!-- 两步连线 -->
@@ -329,6 +331,44 @@ export default {
         height: 2px;
         width: 14px;
         background-color: #ffa011;
+    }
+
+    .link-line-arrow-left {
+        position: relative;
+
+        &::before {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 0;
+            width: 0;
+            content: '';
+            margin-left: -7px;
+            margin-top: -5px;
+            border-top: 6px solid transparent;
+            border-left: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-right: 8px solid #ffa011;
+        }
+    }
+
+    .link-line-arrow-right {
+        position: relative;
+
+        &::before {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 0;
+            width: 0;
+            content: '';
+            margin-left: 7px;
+            margin-top: -5px;
+            border-top: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 8px solid #ffa011;
+        }
     }
 
     .link-line-vertical {

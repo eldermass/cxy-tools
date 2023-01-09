@@ -79,6 +79,7 @@ export default {
     },
     methods: {
         handleMouseWheel(e) {
+            // 里面一层也有这个函数，但是不影响
             if ((e.wheelDelta && e.ctrlKey) || e.detail) {
                 e.preventDefault()
                 const detail = e.detail || e.wheelDelta

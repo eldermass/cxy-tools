@@ -30,6 +30,10 @@ export default Vue.extend({
         maxScrollHeight: 0,
         // 吸附类型:0不吸附,1小时吸附，2按天吸附，不好弄还没做
         adsorbType: 0,
+        // 拖拽辅助线
+        assistLine: true,
+        assistLineActive: false,
+        assistLineOffset: -1,
         // 双击回调函数
         handleTaskDbClickFn: undefined,
         // 任务改变的回调
@@ -67,6 +71,16 @@ export default Vue.extend({
       }
       const links = this.states.originLinks.filter(link => link.group_id === activeLink.group_id)
       this.states.links = links
+    },
+    // 设置辅助线
+    setAssistLineOffset(x) {
+      this.states.assistLineOffset = x
+    },
+    setAssistLineActive(type) {
+      this.states.assistLineActive = type
+      if (!type) {
+        this.setAssistLineOffset(-1)
+      }
     },
     getTasks(onlyChanged = true) {
       if (onlyChanged) {

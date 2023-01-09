@@ -116,6 +116,7 @@ export default {
         // 处理拖拽
         handlePointMouseDown(e, type) {
             if (this.task.is_lock) return
+            this.store.setAssistLineActive(true)
 
             if (type === 'left') {
                 this.isLeftPointDown = true
@@ -129,6 +130,7 @@ export default {
             this.pointMove.startY = e.clientY
             this.pointMove.offsetX = 0
             this.pointMove.offsetY = 0
+
             document.onmousemove = this.fnMove.bind(this)
             document.onmouseup = this.fnStop.bind(this)
         },
@@ -137,9 +139,11 @@ export default {
             this.pointMove.offsetY = e.clientY - this.pointMove.startY
             // console.log('offset: ', this.pointMove.offsetX, this.pointMove.offsetY)
             // document.addEventListener('mousemove', overArea, false)
+            this.store.setAssistLineOffset(parseFloat(this.itemStyle.left))
         },
         fnStop() {
             // document.removeEventListener('mousemove', overArea, false)
+
             document.onmousemove = null
             document.onmouseup = null
             this.handleTaskChange()
@@ -172,6 +176,7 @@ export default {
                 this.isLeftPointDown = false
                 this.isRightPointDown = false
                 this.isContainerDown = false
+                this.store.setAssistLineActive(false)
             })
         }
     }

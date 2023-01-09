@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <gantt-next ref="gantt" :titles="titles" :tasks="tasks" :links="links" :rows="rows" :days="100"
+        <gantt-next ref="gantt" :titles="titles" :tasks="tasks" :links="links" :rows="rows" :days="50"
             :oDayBoxWidth="60" :start_time="'2023-01-04'" @task-dbclick="handleTaskClick"
             @task-change="handleTaskChange" />
         <el-button @click="getData" type="primary" style="margin-top: 10px;">获取数据</el-button>

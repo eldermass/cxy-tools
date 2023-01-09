@@ -1,11 +1,12 @@
 <template>
     <div style="height: 100%; border-left: 1px solid #ccc" @click="handleEmptyClick">
         <date-list :store="store" ref="dateList" />
-        <div class="rows-container" @scroll="handleScroll">
+        <div class="rows-container" ref="rowsContainer" @scroll="handleScroll" @mousewheel.stop="handleMouseWheel">
             <div class="content-panel" :style="totalLengthStyle">
                 <row-mask :store="store" />
                 <row-tasks :store="store" />
                 <row-links :store="store" />
+                <assist-line :store="store" />
             </div>
         </div>
     </div>
@@ -16,11 +17,12 @@ import dateList from "./date-list.vue"
 import rowMask from "./row-mask.vue"
 import rowTasks from './row-tasks.vue'
 import rowLinks from './row-links.vue'
+import assistLine from './assistLine.vue'
 import { mapStates } from "../../store/helper"
 
 export default {
     name: "right-pattern",
-    components: { dateList, rowMask, rowTasks, rowLinks },
+    components: { dateList, rowMask, rowTasks, rowLinks, assistLine },
     props: {
         store: {
             required: true
@@ -39,7 +41,8 @@ export default {
             totalLengthStyle: (state) => ({
                 width: state.daysList.length * state.dayBoxWidth + 'px',
                 height: state.rows.length * state.dayBoxHeight + 'px'
-            })
+            }),
+            dayBoxWidth: 'dayBoxWidth'
         })
     },
     mounted() {
@@ -70,6 +73,33 @@ export default {
                 this.maxScrollHeight = e.target.scrollHeight - e.target.clientHeight
             }
             // console.log(this.lastX, this.lastY, this.maxScrollHeight, this.maxScrollWidth)
+        },
+        handleMouseWheel(e) {
+            if ((e.wheelDelta && e.altKey) || e.detail) {
+                e.preventDefault()
+                const detail = e.detail || e.wheelDelta
+                let left = this.$refs.rowsContainer.scrollLeft
+
+                if (detail > 0) {
+                    left -= 50
+                } else {
+                    left += 50
+                }
+                this.$refs.rowsContainer.scrollTo(left < 0 ? 0 : left, 0)
+            }
+
+            if ((e.wheelDelta && e.ctrlKey) || e.detail) {
+                e.preventDefault()
+                const detail = e.detail || e.wheelDelta
+                let width = this.dayBoxWidth
+                if (detail > 0) {
+                    width += 5
+                } else {
+                    width -= 5
+                }
+
+                this.store.commit('setDayBoxWidth', width <= 8 ? 8 : width)
+            }
         },
         handleEmptyClick() {
             this.store.setSelectedTask()
