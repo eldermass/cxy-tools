@@ -25,7 +25,7 @@ export default {
     display: inline-block;
     width: 100%;
     padding: 5px 0;
-    border-top: 1px solid #ccc;
+    // border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     white-space: nowrap;
     overflow: hidden;

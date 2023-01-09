@@ -31,9 +31,15 @@ export default {
     border: 1px solid #ccc;
     line-height: 40px;
     text-align: center;
+    border-right: none;
+    border-top: none;
 
     &:nth-of-type(1) {
         border-left: none;
+    }
+
+    &:last-of-type {
+        border-right: 1px solid #ccc;
     }
 }
 

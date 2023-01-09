@@ -47,14 +47,14 @@ export default {
     &:before {
         content: "";
         position: absolute;
-        width: 2px;
+        width: 1px;
         height: 208px;
         /*根据td的宽度和高度*/
         top: 0;
         left: 0;
         background-color: #ccc;
         display: block;
-        transform: rotate(-74deg);
+        transform: rotate(-73.8deg);
         /*根据线的位置*/
         transform-origin: top;
     }

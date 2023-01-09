@@ -89,7 +89,7 @@ export default {
                     width -= 5
                 }
 
-                this.store.commit('setDayBoxWidth', width <= 10 ? 10 : width)
+                this.store.commit('setDayBoxWidth', width <= 8 ? 8 : width)
             }
         },
         handleDbClick(task) {
@@ -128,11 +128,12 @@ export default {
         flex: 200px 0 0;
         height: 100%;
         border: 1px solid #ccc;
+        border-right: none;
     }
 
     .right-container {
         position: absolute;
-        left: 1px;
+        left: 0;
         top: 0;
         width: 100%;
         height: 100%;

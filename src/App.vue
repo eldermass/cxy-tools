@@ -1,10 +1,11 @@
 <template>
     <div id="app">
-        <gantt-next ref="gantt" :titles="titles" :tasks="tasks" :links="links" :rows="rows" :days="50"
-            :oDayBoxWidth="18" :start_time="'2023-01-04'" @task-dbclick="handleTaskClick"
+        <gantt-next ref="gantt" :titles="titles" :tasks="tasks" :links="links" :rows="rows" :days="100"
+            :oDayBoxWidth="60" :start_time="'2023-01-04'" @task-dbclick="handleTaskClick"
             @task-change="handleTaskChange" />
         <el-button @click="getData" type="primary" style="margin-top: 10px;">获取数据</el-button>
-        <el-button @click="setBoxWidth" type="primary" style="margin-top: 10px;">设置宽度</el-button>
+        <el-button @click="setBoxWidth(15)" type="primary" style="margin-top: 10px;">设置周视图</el-button>
+        <el-button @click="setBoxWidth(120)" type="primary" style="margin-top: 10px;">设置日视图</el-button>
         <el-button @click="changeTaskTime" type="primary" style="margin-top: 10px;">改变时间</el-button>
     </div>
 </template>
@@ -35,11 +36,11 @@ export default {
         },
         getData() {
             // 默认变化过的
-            const data = this.$refs.gantt.getData(false)
+            const data = this.$refs.gantt.getData()
             console.log(data)
         },
-        setBoxWidth() {
-            this.$refs.gantt.setDayBoxWidth(120)
+        setBoxWidth(width = 60) {
+            this.$refs.gantt.setDayBoxWidth(width)
         },
         changeTaskTime() {
             this.$refs.gantt.changeTaskItem(this.tasks[5].task_id, { duration: 5 })

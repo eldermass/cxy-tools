@@ -24,7 +24,7 @@ export default {
     height: 40px;
     line-height: 40px;
     padding: 0 0 0 20px;
-    border: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     border-right: 0px;
     box-sizing: border-box;
     white-space: nowrap;

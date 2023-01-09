@@ -31,6 +31,7 @@ Watcher.prototype.mutations = {
   changeTaskItem(states, task_id, changeObj = {}) {
     let task = states.tasks.find(task => task.task_id === task_id)
     if (!task) return
+    delete task.is_drag_changed
 
     task = Object.assign(task, changeObj)
   },

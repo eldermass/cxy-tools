@@ -86,23 +86,24 @@ export default {
         user-select: none;
         flex: 40px 0 0;
         writing-mode: tb-rl;
-        border: 1px solid #ccc;
+        border-left: 1px solid #ccc;
         border-bottom: 0;
         border-top: 0;
         overflow: hidden;
-        background: #ccc;
+        background: #f5f5f5;
 
         .titles {
             width: 100%;
             background: white;
             text-align: left;
+            border-right: 1px solid #ccc;
         }
     }
 
     .item-containner {
         flex: 1;
         overflow: hidden;
-        background: #ccc;
+        background: #f5f5f5;
 
         .items {
             background: white;

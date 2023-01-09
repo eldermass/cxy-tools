@@ -6,9 +6,9 @@
                     {{ item.year }}-{{ item.month }}
                 </div>
                 <div class="date-cotainner">
-                    <div class="date-item" v-for="(date, index) in item.dates" :style="{ width: dayBoxWidth + 'px' }"
-                        :key="index">
-                        {{ date }}
+                    <div :class="{ 'date-item': true, 'date-monday': monthShow && date.day === 1, 'date-month-show': monthShow }"
+                        v-for="(date, index) in item.dates" :style="{ width: dayBoxWidth + 'px' }" :key="index">
+                        {{ !monthShow || date.day === 1 ? date.date : '' }}
                     </div>
                 </div>
             </div>
@@ -41,6 +41,7 @@ export default {
             monthsStyle: (state) => ({ width: state.daysList.length * state.dayBoxWidth + 'px' }),
             monthsList: (state) => formatList(state.daysList),
             dayBoxWidth: "dayBoxWidth",
+            monthShow: state => state.dayBoxWidth <= 18
         }),
     },
     methods: {
@@ -68,9 +69,9 @@ function formatList(list) {
     list.forEach((item) => {
         const key = `${item.year}-${item.month}`;
         if (!groups[key]) {
-            groups[key] = [item.date];
+            groups[key] = [item];
         } else {
-            groups[key].push(item.date);
+            groups[key].push(item);
         }
     });
     const formattedList = Object.entries(groups).map((entry) => {
@@ -95,7 +96,7 @@ function formatList(list) {
     user-select: none;
     height: 60px;
     // border: 1px solid;
-    background: #b3b3b3;
+    background: #f5f5f5;
     overflow: hidden;
 
     .month-wrapper {
@@ -113,14 +114,27 @@ function formatList(list) {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                border-right: none;
             }
 
             .date-cotainner {
                 .date-item {
                     height: 30px;
                     display: inline-block;
-                    border: 1px solid #ccc;
+                    border-left: 1px solid #ccc;
+                    border-bottom: 1px solid #ccc;
                     text-align: center;
+                }
+
+                .date-month-show {
+                    vertical-align: top;
+                    border-left: none;
+                    border-right: none;
+                    font-size: 10px;
+                }
+
+                .date-monday {
+                    border-left: 1px solid #ccc;
                 }
             }
 
@@ -133,6 +147,20 @@ function formatList(list) {
                     .date-item {
                         &:nth-of-type(1) {
                             border-left: none;
+                        }
+                    }
+                }
+            }
+
+
+            &:last-of-type {
+                .month {
+                    border-right: 1px solid #ccc;
+                }
+                .date-cotainner {
+                    .date-item {
+                        &:last-of-type {
+                            border-right: 1px solid #ccc;
                         }
                     }
                 }

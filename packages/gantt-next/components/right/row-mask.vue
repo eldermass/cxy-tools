@@ -1,7 +1,8 @@
 <template>
     <div class="back-mask">
-        <div v-for="(row, i) in rows" :key="i" :style="{ height: dayBoxHeight + 'px' }">
-            <row-mask-item v-for="(date, index) in daysList" :key="index" :box-lenght="dayBoxWidth" :date="date" />
+        <div class="row-mask-line" v-for="(row, i) in rows" :key="i" :style="{ height: dayBoxHeight + 'px' }">
+            <row-mask-item class="row-mask-item" v-for="(date, index) in daysList" :key="index"
+                :box-lenght="dayBoxWidth" :date="date" />
         </div>
     </div>
 </template>
@@ -61,5 +62,13 @@ export default {
     height: 100%;
     font-size: 0;
     position: relative;
+
+    .row-mask-line {
+        &:first-of-type {
+            .row-mask-item {
+                border-top: none;
+            }
+        }
+    }
 }
 </style>
