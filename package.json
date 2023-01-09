@@ -16,7 +16,8 @@
     "types"
   ],
   "dependencies": {
-    "dayjs": "^1.11.7"
+    "dayjs": "^1.11.7",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "core-js": "^3.8.3",

@@ -15,11 +15,17 @@ Vue.use(Tools)
 
 #### Props
 
-`start_timestamp` 日历列表开始时间的时间戳
+`start_time` 日历列表开始时间
 
 `days` 日历列表的时间长度，默认 10
 
 `titles` 资源分组，title 展示名，length 高度
+
+`tasks`
+
+`links`
+
+`rows`
 
 ```js
 titles = [
@@ -64,9 +70,8 @@ data = [
 
 #### events
 
-`item-click` (data) => void
-`item-drop` (from, to) => void
-`drag-error` (msg) => void
+`task-dbclick` (data) => void
+`task-change` (from, to) => void
 
 #### methods
 

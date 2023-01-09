@@ -1,6 +1,6 @@
 <template>
     <div class="pattern-container">
-        <div class="title-container" ref="titleContainer" v-if="showTitleGroup">
+        <div class="title-container" ref="titleContainer" v-if="showTitleGroup && titleGroups.length">
             <div class="titles" :style="{ height: titlesHeight + 'px' }" ref="titlesItems">
                 <title-group v-for="(item, index) in titleGroups" :key="index" :title="item.title"
                     :height="item.length * dayBoxHeight" />

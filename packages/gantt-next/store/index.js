@@ -1,4 +1,5 @@
 // import Vue from 'vue';
+import _ from 'lodash'
 import Watcher from './watcher'
 
 Watcher.prototype.mutations = {
@@ -21,10 +22,29 @@ Watcher.prototype.mutations = {
     task.is_drag_changed = true
     startDate && (task.start_date = startDate)
     duration && (task.duration = duration)
+    // 回调通知改变
+    if (typeof states.handleTaskChangeFn === 'function') {
+      states.handleTaskChangeFn(_.cloneDeep(task))
+    }
+  },
+
+  changeTaskItem(states, task_id, changeObj = {}) {
+    let task = states.tasks.find(task => task.task_id === task_id)
+    if (!task) return
+
+    task = Object.assign(task, changeObj)
   },
 
   setDayBoxWidth(states, width) {
     states.dayBoxWidth = width
+  },
+
+  listenTaskDbClick(states, fn) {
+    states.handleTaskDbClickFn = fn
+  },
+
+  listenTaskChange(states, fn) {
+    states.handleTaskChangeFn = fn
   }
 };
 

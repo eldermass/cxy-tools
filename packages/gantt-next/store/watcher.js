@@ -1,5 +1,5 @@
+import _ from 'lodash'
 import Vue from "vue"
-import mockList, { titleGroups, tasks, links } from "../../../mocks/gantt-chart"
 // import current from './current'
 
 export default Vue.extend({
@@ -12,22 +12,28 @@ export default Vue.extend({
         dayBoxWidth: 30,
         dayBoxHeight: 40,
         // 渲染的数据来源
-        rows: mockList,
+        rows: [],
         // 展示的每个任务
-        tasks: tasks,
+        tasks: [],
         // 箭头
-        originLinks: links,
+        originLinks: [],
         links: [],
         // 要展示的日历周期，用于绘制底图
         daysList: [],
         // 左侧分组
-        titleGroups: titleGroups,
+        titleGroups: [],
         // 是否展示左侧分组
         showTitleGroup: true,
         // 内容的y轴滚动距离
         scrollY: 0,
         // y 轴最大滚动
         maxScrollHeight: 0,
+        // 吸附类型:0不吸附,1小时吸附，2按天吸附，不好弄还没做
+        adsorbType: 0,
+        // 双击回调函数
+        handleTaskDbClickFn: undefined,
+        // 任务改变的回调
+        handleTaskChangeFn: undefined
       },
     }
   },
@@ -42,10 +48,10 @@ export default Vue.extend({
         // 修改后的对象用响应式，才能在刷新展示，不然就要调用_computedWatchers里的update才能刷新
         if (task_id === task.task_id) {
           task.is_selected = true
-          return JSON.parse(JSON.stringify(task))
+          return _.cloneDeep(task)
         } else if (task.is_selected) {
           delete task.is_selected
-          return JSON.parse(JSON.stringify(task))
+          return _.cloneDeep(task)
         }
         return task
       })
@@ -62,6 +68,14 @@ export default Vue.extend({
       const links = this.states.originLinks.filter(link => link.group_id === activeLink.group_id)
       this.states.links = links
     },
+    getTasks(onlyChanged = true) {
+      if (onlyChanged) {
+        const tasks = this.states.tasks.filter(task => task.is_drag_changed)
+        return _.cloneDeep(tasks)
+      }
+      return _.cloneDeep(this.states.tasks)
+    },
+    // 下面是现在还没用的
     // 检查 rowKey 是否存在
     assertRowKey() {
       const rowKey = this.states.rowKey

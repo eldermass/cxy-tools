@@ -1,29 +1,17 @@
 <template>
     <div id="app">
-        <gantt-next ref="gantt" :data-list="outData" :titles="titles" :days="50"
-            :start_time="'2023-01-04'" @item-click="handleClick" @item-drop="handleDrop" @drag-error="handleDragError" />
-        <el-button @click="handleBtnClick" type="primary" style="margin-top: 10px;">获取数据</el-button>
+        <gantt-next ref="gantt" :titles="titles" :tasks="tasks" :links="links" :rows="rows" :days="50"
+            :oDayBoxWidth="18" :start_time="'2023-01-04'" @task-dbclick="handleTaskClick"
+            @task-change="handleTaskChange" />
+        <el-button @click="getData" type="primary" style="margin-top: 10px;">获取数据</el-button>
+        <el-button @click="setBoxWidth" type="primary" style="margin-top: 10px;">设置宽度</el-button>
+        <el-button @click="changeTaskTime" type="primary" style="margin-top: 10px;">改变时间</el-button>
     </div>
 </template>
 
 <script>
 // import ganttChart from "./components/gantt-chart.vue"
-import mockData from "../mocks/gantt-chart"
-
-const titles = [
-    {
-        title: "2 号楼 1 楼SMT车间",
-        length: 9
-    },
-    {
-        title: "2 号楼 1 楼SMT车间",
-        length: 5
-    },
-    {
-        title: "2 号楼 1 楼SMT车间",
-        length: 16
-    }
-]
+import mockList, { titleGroups, tasks, links } from "../mocks/gantt-chart"
 
 export default {
     name: "App",
@@ -32,24 +20,29 @@ export default {
     // },
     data() {
         return {
-            outData: mockData.concat(JSON.parse(JSON.stringify(mockData))),
-            titles
+            rows: mockList,
+            titles: titleGroups,
+            tasks,
+            links
         }
     },
     methods: {
-        handleClick(data) {
+        handleTaskClick(data) {
+            console.log('双击任务:  ', data.start_date)
+        },
+        handleTaskChange(task) {
+            console.log('改变任务', task)
+        },
+        getData() {
+            // 默认变化过的
+            const data = this.$refs.gantt.getData(false)
             console.log(data)
-            this.$message.success('收到了数据:  ' + data.title)
         },
-        handleDrop(from, to) {
-            console.log(from, to)
+        setBoxWidth() {
+            this.$refs.gantt.setDayBoxWidth(120)
         },
-        handleDragError(msg) {
-            this.$message.error(msg)
-        },
-        handleBtnClick() {
-            const data = this.$refs.gantt.getData()
-            console.log(data)
+        changeTaskTime() {
+            this.$refs.gantt.changeTaskItem(this.tasks[5].task_id, { duration: 5 })
         }
     },
 }
@@ -64,7 +57,7 @@ export default {
     color: #2c3e50;
     margin: 100px 0 0 100px;
     height: 600px;
-    width: 1300px;
+    width: 1200px;
     /* height: 100vh;
     width: 100vw; */
 }

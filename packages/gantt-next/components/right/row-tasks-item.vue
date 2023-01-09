@@ -20,6 +20,7 @@
 <script>
 import { mapStates } from '../../store/helper'
 const dayjs = require('dayjs')
+import _ from 'lodash'
 
 export default {
     name: "row-tasks-item",
@@ -76,7 +77,8 @@ export default {
         ...mapStates({
             nowTime: 'nowTime',
             dayBoxHeight: 'dayBoxHeight',
-            dayBoxWidth: 'dayBoxWidth'
+            dayBoxWidth: 'dayBoxWidth',
+            handleTaskDbClickFn: 'handleTaskDbClickFn'
         })
     },
     methods: {
@@ -86,7 +88,7 @@ export default {
             if (now - this.last_click_time > 200) {
                 this.click_timer = setTimeout(() => {
                     this.handleSingleClick(e)
-                }, 200)
+                }, 250)
                 this.last_click_time = now
             } else {
                 clearTimeout(this.click_timer)
@@ -94,7 +96,6 @@ export default {
             }
         },
         handleSingleClick() {
-            // console.log('click', e)
             this.store.setSelectedTask(this.task.task_id)
             // this.$nextTick(() => {
             //     const computedWatchers = this._computedWatchers
@@ -107,7 +108,10 @@ export default {
             // })
         },
         handleDbClick() {
-            // console.log('db click', e)
+            const callback = this.handleTaskDbClickFn
+            if (typeof callback === 'function') {
+                callback(_.cloneDeep(this.task))
+            }
         },
         // 处理拖拽
         handlePointMouseDown(e, type) {
@@ -160,7 +164,10 @@ export default {
                 newDuration = this.task.duration + diffDays
             }
 
-            this.store.commit('updateTask', this.task.task_id, newStartDate, newDuration)
+            // 没有移动
+            if (!(this.isContainerDown && !this.pointMove.offsetX)) {
+                this.store.commit('updateTask', this.task.task_id, newStartDate, newDuration)
+            }
             this.$nextTick(() => {
                 this.isLeftPointDown = false
                 this.isRightPointDown = false

@@ -4,7 +4,7 @@
             <slash-cell :store="store" />
             <left-pattern :store="store" />
         </div>
-        <div class="right-container">
+        <div class="right-container" @mousewheel.stop="handleMouseWheel">
             <right-pattern :store="store" />
         </div>
     </div>
@@ -22,16 +22,33 @@ export default {
     name: "gantt-next",
     components: { leftPattern, rightPattern, SlashCell },
     props: {
-        dataList: {
-            type: Array,
-            default: () => [],
-        },
         days: {
             type: Number,
             default: 10,
         },
+        oDayBoxHeight: {
+            type: Number,
+            default: 40,
+        },
+        oDayBoxWidth: {
+            type: Number,
+            default: 60,
+        },
         titles: {
             type: Array,
+            default: () => []
+        },
+        tasks: {
+            type: Array,
+            default: () => []
+        },
+        links: {
+            type: Array,
+            default: () => []
+        },
+        rows: {
+            type: Array,
+            default: () => []
         },
         start_time: {
             type: String,
@@ -40,29 +57,55 @@ export default {
     },
     data() {
         this.store = createStore(this, {
-            dayBoxWidth: 60,
-            dayBoxHeight: 40
+            dayBoxWidth: this.oDayBoxWidth,
+            dayBoxHeight: this.oDayBoxHeight,
+            titleGroups: this.titles,
+            tasks: this.tasks,
+            originLinks: this.links,
+            rows: this.rows
         })
 
         return {}
     },
     computed: {
-        ...mapStates({}),
+        ...mapStates({ dayBoxWidth: 'dayBoxWidth' }),
     },
     mounted() {
         // 这个有时区差距，还没解决
         this.store.commit('setTimeNow', this.start_time)
         this.store.commit('setDaysList', getDateList(this.days, this.start_time))
+        this.store.commit('listenTaskDbClick', this.handleDbClick)
+        this.store.commit('listenTaskChange', this.handleTaskChange)
     },
     methods: {
-        handleClick() {
-            console.log('双击任务')
+        handleMouseWheel(e) {
+            if ((e.wheelDelta && e.ctrlKey) || e.detail) {
+                e.preventDefault()
+                const detail = e.detail || e.wheelDelta
+                let width = this.dayBoxWidth
+                if (detail > 0) {
+                    width += 5
+                } else {
+                    width -= 5
+                }
+
+                this.store.commit('setDayBoxWidth', width <= 10 ? 10 : width)
+            }
         },
-        getData() {
-            console.log('获取数据')
+        handleDbClick(task) {
+            this.$emit('task-dbclick', task)
+        },
+        handleTaskChange(task) {
+            this.$emit('task-change', task)
+        },
+        getData(onlyChanged) {
+            return this.store.getTasks(onlyChanged)
         },
         setDayBoxWidth(width = 90) {
             this.store.commit('setDayBoxWidth', width)
+        },
+        changeTaskItem(task_id, change_obj = {}) {
+            this.store.commit('changeTaskItem', task_id, change_obj)
         }
     },
 }
