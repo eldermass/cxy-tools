@@ -29,11 +29,11 @@ export default Vue.extend({
         // y 轴最大滚动
         maxScrollHeight: 0,
         // 吸附类型:0不吸附,1小时吸附，2按天吸附，不好弄还没做
-        adsorbType: 0,
+        adsorbType: 1,
         // 拖拽辅助线
         assistLine: true,
         assistLineActive: false,
-        assistLineOffset: -1,
+        assistTipTime: '',
         // 双击回调函数
         handleTaskDbClickFn: undefined,
         // 任务改变的回调
@@ -73,13 +73,13 @@ export default Vue.extend({
       this.states.links = links
     },
     // 设置辅助线
-    setAssistLineOffset(x) {
-      this.states.assistLineOffset = x
+    setAssistLineTipTime(timeString) {
+      this.states.assistTipTime = timeString
     },
     setAssistLineActive(type) {
       this.states.assistLineActive = type
       if (!type) {
-        this.setAssistLineOffset(-1)
+        this.setAssistLineTipTime('')
       }
     },
     getTasks(onlyChanged = true) {

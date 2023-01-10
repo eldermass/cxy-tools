@@ -1,8 +1,8 @@
 <template>
     <div class="assist-line" v-if="assistLine && assistLineActive">
-        <div class="line-inner" :style="{ left: assistLineOffset + 'px' }">
+        <div class="line-inner" :style="{ left: offsetLeft + 'px' }">
             <div class="tips">
-                {{ tipString }}
+                {{ assistTipTime.substring(5) }}
             </div>
         </div>
     </div>
@@ -35,17 +35,20 @@ export default {
         }
     },
     computed: {
-        tipString() {
-            const hours = this.assistLineOffset / this.dayBoxWidth * 24
-            const date_string = dayjs(this.nowTime).add(hours, 'hour').format('MM-DD HH:mm:ss')
-            return date_string
+        offsetLeft() {
+            if (!this.assistTipTime) return -1
+
+            const diffTime = dayjs(this.assistTipTime).diff(this.nowTime)
+            const diffDays = (diffTime / 86400000).toFixed(2)
+
+            return diffDays * this.dayBoxWidth
         },
         ...mapStates({
             nowTime: 'nowTime',
             dayBoxWidth: 'dayBoxWidth',
             assistLine: 'assistLine',
-            assistLineOffset: 'assistLineOffset',
-            assistLineActive: 'assistLineActive'
+            assistLineActive: 'assistLineActive',
+            assistTipTime: 'assistTipTime'
         }),
     },
     mounted() {
@@ -83,6 +86,7 @@ export default {
         top: 0;
         width: 150px;
         text-align: left;
+        padding-left: 5px;
     }
 }
 </style>

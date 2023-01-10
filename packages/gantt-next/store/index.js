@@ -16,12 +16,13 @@ Watcher.prototype.mutations = {
     states.maxScrollHeight = maxScrollHeight
   },
 
-  updateTask(states, taskId, startDate, duration) {
+  updateTask(states, taskId, startDate, duration, endDate) {
     const task = states.tasks.find(task => task.task_id === taskId)
     if (!task) return
     task.is_drag_changed = true
     startDate && (task.start_date = startDate)
     duration && (task.duration = duration)
+    endDate && (task.end_date = endDate)
     // 回调通知改变
     if (typeof states.handleTaskChangeFn === 'function') {
       states.handleTaskChangeFn(_.cloneDeep(task))

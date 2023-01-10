@@ -75,22 +75,22 @@ data = [
 
 #### methods
 
-`getData` () => []
+`getData` () => Task[]
 
 ```js
 [
     {
-        id: 1,
-        name: "SMT-A1",
-        items: [
-            {
-                id: 3,
-                title: "M2208018STA-P3",
-                startAt: "2022-08-15",
-                endAt: "2022-08-16",
-                themeType: "cyan",
-            }
-        ]
+        data: {}
+        duration: 4.3
+        end_date: "2023-01-13 06:22:00" // 尾部被拖拽，会根据辅助线生成该值
+        is_drag_changed: true // 被拖拽后的task，会附加该选项
+        is_lock: false
+        is_selected: true
+        row_index: 5
+        start_date: "2023-01-08 22:22:00"
+        task_id: 9
+        text: "999999999999999999"
+        theme: "green"
     }
 ]
 ```

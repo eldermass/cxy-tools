@@ -76,6 +76,7 @@ export default {
         },
         ...mapStates({
             nowTime: 'nowTime',
+            adsorbType: 'adsorbType',
             dayBoxHeight: 'dayBoxHeight',
             dayBoxWidth: 'dayBoxWidth',
             handleTaskDbClickFn: 'handleTaskDbClickFn'
@@ -139,7 +140,15 @@ export default {
             this.pointMove.offsetY = e.clientY - this.pointMove.startY
             // console.log('offset: ', this.pointMove.offsetX, this.pointMove.offsetY)
             // document.addEventListener('mousemove', overArea, false)
-            this.store.setAssistLineOffset(parseFloat(this.itemStyle.left))
+
+            // 调整辅助线
+            const { newStartDate, newDuration, newEndDate } = this.calcNewTime()
+            if (newDuration && newEndDate) {
+                // 拉后不拉前
+                this.store.setAssistLineTipTime(newEndDate, newDuration)
+            } else {
+                this.store.setAssistLineTipTime(newStartDate, newDuration)
+            }
         },
         fnStop() {
             // document.removeEventListener('mousemove', overArea, false)
@@ -149,7 +158,21 @@ export default {
             this.handleTaskChange()
         },
         handleTaskChange() {
-            let newStartDate, newDuration
+            const { newStartDate, newDuration, newEndDate } = this.calcNewTime()
+
+            // 没有移动
+            if (!(this.isContainerDown && !this.pointMove.offsetX)) {
+                this.store.commit('updateTask', this.task.task_id, newStartDate, newDuration, newEndDate)
+            }
+            this.$nextTick(() => {
+                this.isLeftPointDown = false
+                this.isRightPointDown = false
+                this.isContainerDown = false
+                this.store.setAssistLineActive(false)
+            })
+        },
+        calcNewTime() {
+            let newStartDate, newDuration, newEndDate
             // 拖拽主体
             if (this.isContainerDown) {
                 const diffHours = this.pointMove.offsetX / this.dayBoxWidth * 24
@@ -166,18 +189,74 @@ export default {
             if (this.isRightPointDown) {
                 const diffDays = this.pointMove.offsetX / this.dayBoxWidth
                 newDuration = this.task.duration + diffDays
+                newEndDate = dayjs(this.task.start_date).add(newDuration * 24, 'hour').format('YYYY-MM-DD HH:mm:ss')
             }
 
-            // 没有移动
-            if (!(this.isContainerDown && !this.pointMove.offsetX)) {
-                this.store.commit('updateTask', this.task.task_id, newStartDate, newDuration)
+            // 吸附状态 每次吸附需要改变的东西很多，先不慌弄
+            if (this.adsorbType === 2) {// 按天吸附
+                if (this.isContainerDown) {
+                    let startDay = dayjs(newStartDate)
+                    if (startDay.get('hour') >= 12) {
+                        startDay = startDay.add(1, 'day')
+                    }
+
+                    const adsorbTime = startDay.format('YYYY-MM-DD 00:00:00')
+                    newStartDate = adsorbTime
+                }
+                if (this.isLeftPointDown) {
+                    // 拉前面时，newDuration 算得不是很准，因为有很多小数
+                    let startDay = dayjs(newStartDate)
+                    if (startDay.get('hour') >= 12) {
+                        startDay = startDay.add(1, 'day')
+                    }
+
+                    const adsorbTime = startDay.format('YYYY-MM-DD 00:00:00')
+                    newDuration = dayjs(newStartDate).add(newDuration * 24 * 60, 'minute').diff(adsorbTime, 'second') / 24 / 60 / 60
+                    newStartDate = adsorbTime
+                }
+                if (this.isRightPointDown) {
+                    let endDay = dayjs(newEndDate)
+                    if (endDay.get('hour') >= 12) {
+                        endDay = endDay.add(1, 'day')
+                    }
+
+                    const adsorbTime = endDay.format('YYYY-MM-DD 00:00:00')
+                    newEndDate = adsorbTime
+                    newDuration = dayjs(adsorbTime).diff(this.task.start_date, 'hour') / 24
+                }
+            } else if (this.adsorbType === 1) { // 按小时吸附
+                if (this.isContainerDown) {
+                    let startDay = dayjs(newStartDate)
+                    if (startDay.get('minute') >= 30) {
+                        startDay = startDay.add(1, 'hour')
+                    }
+
+                    const adsorbTime = startDay.format('YYYY-MM-DD HH:00:00')
+                    newStartDate = adsorbTime
+                }
+                if (this.isLeftPointDown) {
+                    let startDay = dayjs(newStartDate)
+                    if (startDay.get('minute') >= 30) {
+                        startDay = startDay.add(1, 'hour')
+                    }
+
+                    const adsorbTime = startDay.format('YYYY-MM-DD HH:00:00')
+                    newDuration = dayjs(newStartDate).add(newDuration * 24 * 60, 'minute').diff(adsorbTime, 'second') / 24 / 60 / 60
+                    newStartDate = adsorbTime
+                }
+                if (this.isRightPointDown) {
+                    let endDay = dayjs(newEndDate)
+                    if (endDay.get('minute') >= 30) {
+                        endDay = endDay.add(1, 'hour')
+                    }
+
+                    const adsorbTime = endDay.format('YYYY-MM-DD HH:00:00')
+                    newEndDate = adsorbTime
+                    newDuration = dayjs(adsorbTime).diff(this.task.start_date, 'minute') / 24 / 60
+                }
             }
-            this.$nextTick(() => {
-                this.isLeftPointDown = false
-                this.isRightPointDown = false
-                this.isContainerDown = false
-                this.store.setAssistLineActive(false)
-            })
+
+            return { newStartDate, newDuration, newEndDate }
         }
     }
 }
