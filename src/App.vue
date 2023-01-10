@@ -21,15 +21,23 @@ export default {
     // },
     data() {
         return {
-            rows: mockList,
-            titles: titleGroups,
-            tasks,
-            links
+            rows: mockList.slice(8),
+            titles: titleGroups.slice(2),
+            tasks: tasks.slice(6),
+            links: links.slice(5)
         }
+    },
+    mounted() {
+        setTimeout(() => {
+            this.titles = titleGroups
+            this.rows = mockList
+            this.tasks = tasks
+            this.links = links
+        }, 1000);
     },
     methods: {
         handleTaskClick(data) {
-            console.log('双击任务:  ', data.start_date)
+            console.log('双击任务:  ', data)
         },
         handleTaskChange(task) {
             console.log('改变任务', task)

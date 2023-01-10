@@ -45,7 +45,9 @@ export const tasks = [
         duration: 2.5,
         theme: "gray",
         is_lock: false,
-        data: {},
+        data: {
+            hello: '我是一只鱼'
+        },
     },
     {
         task_id: 2,

@@ -11,6 +11,23 @@ Watcher.prototype.mutations = {
     states.nowTime = nowTime
   },
 
+  setTitleGroups(states, titles) {
+    states.titleGroups = titles
+  },
+
+  setRows(states, rows) {
+    states.rows = rows
+  },
+
+  setTasks(states, tasks) {
+    states.tasks = tasks
+  },
+
+  setLinks(states, links) {
+    states.originLinks = links
+    states.links = []
+  },
+
   setScrollY(states, scrollY, maxScrollHeight) {
     states.scrollY = scrollY
     states.maxScrollHeight = maxScrollHeight

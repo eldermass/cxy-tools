@@ -120,6 +120,20 @@ export default {
             this.store.commit('changeTaskItem', task_id, change_obj)
         }
     },
+    watch: {
+        titles(title_groups) {
+            this.store.commit('setTitleGroups', title_groups)
+        },
+        rows(new_rows) {
+            this.store.commit('setRows', new_rows)
+        },
+        tasks(new_tasks) {
+            this.store.commit('setTasks', new_tasks)
+        },
+        links(new_links) {
+            this.store.commit('setLinks', new_links)
+        }
+    }
 }
 </script>
 
