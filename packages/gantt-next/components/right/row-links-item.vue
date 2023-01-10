@@ -17,7 +17,7 @@
 </template>
 <script>
 import { mapStates } from "../../store/helper"
-const dayjs = require('dayjs')
+import dayjs from 'dayjs'
 
 export default {
     name: "row-links-item",

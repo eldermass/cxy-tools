@@ -16,7 +16,7 @@ import leftPattern from "./components/left/left-pattern.vue"
 import rightPattern from "./components/right/right-pattern.vue"
 import { createStore, mapStates } from "./store/helper"
 import { getDateList } from './helper'
-// const dayjs = require('dayjs')
+// import dayjs from 'dayjs'
 
 export default {
     name: "gantt-next",
@@ -53,6 +53,15 @@ export default {
         start_time: {
             type: String,
             default: '2023-01-01'
+        },
+        adsorbType: {
+            type: Number,
+            default: 0
+        },
+        // 拖拽辅助线
+        assistLine: {
+            type: Boolean,
+            default: true
         }
     },
     data() {
@@ -62,7 +71,9 @@ export default {
             titleGroups: this.titles,
             tasks: this.tasks,
             originLinks: this.links,
-            rows: this.rows
+            rows: this.rows,
+            adsorbType: this.adsorbType,
+            assistLine: this.assistLine
         })
 
         return {}

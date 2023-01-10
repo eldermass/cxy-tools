@@ -19,7 +19,7 @@
 </template>
 <script>
 import { mapStates } from '../../store/helper'
-const dayjs = require('dayjs')
+import dayjs from 'dayjs'
 import _ from 'lodash'
 
 export default {

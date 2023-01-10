@@ -83,6 +83,10 @@ row = {
 }
 ```
 
+`adsorbType`: number 吸附类型: 0不吸附, 1小时吸附，2按天吸附
+
+`assistLine`: boolean 拖拽辅助线
+
 #### events
 
 `task-dbclick` (task) => void

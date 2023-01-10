@@ -7,7 +7,7 @@ export default Vue.extend({
     return {
       states: {
         // 表格开始时间
-        nowTime: Date.now(),
+        nowTime: '2023-01-01',
         // 每个格子的宽度
         dayBoxWidth: 30,
         dayBoxHeight: 40,
@@ -28,8 +28,8 @@ export default Vue.extend({
         scrollY: 0,
         // y 轴最大滚动
         maxScrollHeight: 0,
-        // 吸附类型:0不吸附,1小时吸附，2按天吸附，不好弄还没做
-        adsorbType: 1,
+        // 吸附类型:0不吸附,1小时吸附，2按天吸附
+        adsorbType: 0,
         // 拖拽辅助线
         assistLine: true,
         assistLineActive: false,
