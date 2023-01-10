@@ -9,23 +9,21 @@ Vue.use(Tools)
 
 ## 组件
 
-### 甘特图
+### 甘特图(新)
 
-`gantt-chart`
+`gantt-next`
 
 #### Props
 
-`start_time` 日历列表开始时间
+`start_time` string 日历列表开始时间
 
-`days` 日历列表的时间长度，默认 10
+`days` number 默认 10, 日历列表的总长度
 
-`titles` 资源分组，title 展示名，length 高度
+`oDayBoxHeight` number 40 每一行的高度
 
-`tasks`
+`oDayBoxWidth` nunmber 60 每一天的宽度，18及以下时为周视图
 
-`links`
-
-`rows`
+`titles` obj[] 按行分组，title 展示名，length 行数
 
 ```js
 titles = [
@@ -35,27 +33,23 @@ titles = [
 }]
 ```
 
-`dataList` 展示的数据
-`id` 涉及了拖拽落点的判断，是必选唯一的
-`name` 一列资源的名字
-`items` 一个事件的排期
+`tasks` obj[] 任务贴片
 
 ```js
-data = [
-    {
-        id: 1,
-        name: "SMT-A1",
-        items: [
-            {
-                id: 3,
-                title: "M2208018STA-P3",
-                startAt: "2022-08-15",
-                endAt: "2022-08-16",
-                themeType: "cyan",
-            }
-        ]
-    }
-]
+task = {
+    task_id: 1, // 唯一识别，不可重复
+    text: "1111111111111", // 展示文字
+    row_index: 0, // 第几行
+    start_date: "2023-01-13 12:00:00",
+    duration: 2.5,
+    theme: "gray", // 主题色
+    is_lock: false, // 锁定状态
+    data: {},
+    // 页面操作后产生的值
+    is_selected: true, // 是否选中
+    end_date: "2023-01-13 06:22:00" // 结束事件，拖拽尾部后产生
+    is_drag_changed: true // 是否被拖拽过，拖拽后产生
+}
 
 // themeType 可选的色彩主题
 // (default, #cb717b, #fbc3c4)
@@ -68,29 +62,44 @@ data = [
 // ("orange", #db8000, #fa9b2f)
 ```
 
+`links` 连线
+
+```js
+link = {
+    source_id: 2, // 开始的 task_id 
+    source_point: "end",
+    target_id: 5, // 结束的 task_id
+    target_point: "start",
+    group_id: 1, // 连线分组，激活时同组全部激活
+}
+```
+
+`rows`
+
+```js
+row = {
+    id: 1,
+    name: "SMT-A1"
+}
+```
+
 #### events
 
-`task-dbclick` (data) => void
-`task-change` (from, to) => void
+`task-dbclick` (task) => void
+`task-change` (task) => void
 
 #### methods
 
-`getData` () => Task[]
+`getData` (onlyChanged) => Task[] , onlyChanged 默认true，获取的数组是否为改变过后的数据
 
-```js
-[
-    {
-        data: {}
-        duration: 4.3
-        end_date: "2023-01-13 06:22:00" // 尾部被拖拽，会根据辅助线生成该值
-        is_drag_changed: true // 被拖拽后的task，会附加该选项
-        is_lock: false
-        is_selected: true
-        row_index: 5
-        start_date: "2023-01-08 22:22:00"
-        task_id: 9
-        text: "999999999999999999"
-        theme: "green"
-    }
-]
-```
+`setDayBoxWidth` (width: number) => void 设置每天宽度
+
+`changeTaskItem` (task_id, change_obj) => void
+
+change_obj 为 task 中可改变的 key 值
+
+#### 操作
+
+ctrl + 滚动，缩放每日长度
+alt + 滚动，横向滚动
+ctrl + shift + s 配置页面(没做)
