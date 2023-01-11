@@ -177,6 +177,7 @@ export default {
             if (this.isContainerDown) {
                 const diffHours = this.pointMove.offsetX / this.dayBoxWidth * 24
                 newStartDate = dayjs(this.task.start_date).add(diffHours, 'hour').format('YYYY-MM-DD HH:mm:ss')
+                newEndDate = dayjs(newStartDate).add(this.task.duration * 24 * 60, 'minute').format('YYYY-MM-DD HH:mm:ss')
             }
             // 拖拽左侧
             if (this.isLeftPointDown) {
@@ -202,6 +203,7 @@ export default {
 
                     const adsorbTime = startDay.format('YYYY-MM-DD 00:00:00')
                     newStartDate = adsorbTime
+                    newEndDate = dayjs(newStartDate).add(this.task.duration * 24 * 60, 'minute').format('YYYY-MM-DD 00:00:00')
                 }
                 if (this.isLeftPointDown) {
                     // 拉前面时，newDuration 算得不是很准，因为有很多小数
@@ -233,6 +235,7 @@ export default {
 
                     const adsorbTime = startDay.format('YYYY-MM-DD HH:00:00')
                     newStartDate = adsorbTime
+                    newEndDate = dayjs(newStartDate).add(this.task.duration * 24 * 60, 'minute').format('YYYY-MM-DD HH:00:00')
                 }
                 if (this.isLeftPointDown) {
                     let startDay = dayjs(newStartDate)
