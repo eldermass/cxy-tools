@@ -1,6 +1,6 @@
 {
   "name": "cxy-tools",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "dist/tools.umd.js",
   "scripts": {
     "serve": "vue-cli-service serve",

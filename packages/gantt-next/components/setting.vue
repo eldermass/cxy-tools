@@ -56,7 +56,7 @@ export default {
         return {
             adsorbType: 0,
             dayWidth: 0,
-            isVisible: true,
+            isVisible: false,
             showMask: false,
             showDays: 60
         }
