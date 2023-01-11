@@ -58,6 +58,10 @@ Watcher.prototype.mutations = {
     states.dayBoxWidth = width
   },
 
+  setAdsorbType(states, type) {
+    states.adsorbType = type
+  },
+
   listenTaskDbClick(states, fn) {
     states.handleTaskDbClickFn = fn
   },

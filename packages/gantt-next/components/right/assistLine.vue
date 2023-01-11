@@ -1,7 +1,7 @@
 <template>
     <div class="assist-line" v-if="assistLine && assistLineActive">
         <div class="line-inner" :style="{ left: offsetLeft + 'px' }">
-            <div class="tips">
+            <div class="tips" :style="{ top: scrollY + 'px'}">
                 {{ assistTipTime.substring(5) }}
             </div>
         </div>
@@ -48,7 +48,8 @@ export default {
             dayBoxWidth: 'dayBoxWidth',
             assistLine: 'assistLine',
             assistLineActive: 'assistLineActive',
-            assistTipTime: 'assistTipTime'
+            assistTipTime: 'assistTipTime',
+            scrollY: 'scrollY'
         }),
     },
     mounted() {

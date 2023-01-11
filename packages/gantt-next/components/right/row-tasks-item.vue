@@ -3,7 +3,7 @@
         <div :class="['container', task.theme || 'default', is_selected ? 'selected' : '']"
             :style="{ paddingLeft: task.is_lock ? '20px' : '' }" @mousedown="handlePointMouseDown($event, 'container')">
             <div v-if="task.is_lock" class="icon-container">
-                <i class="el-icon-lock icon-color"></i>
+                <i class="el-icon-lock task-icon-color"></i>
             </div>
             <span :title="task.text">
                 {{ task.text }}
@@ -344,7 +344,7 @@ export default {
             border: 1px solid $bordercolor;
             background: $backcolor;
 
-            .icon-color {
+            .task-icon-color {
                 color: $bordercolor;
             }
 

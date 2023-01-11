@@ -7,20 +7,22 @@
         <div class="right-container" @mousewheel.stop="handleMouseWheel">
             <right-pattern :store="store" />
         </div>
+        <setting-layer ref="setting" :fresh-setting="freshSetting" />
     </div>
 </template>
 
 <script>
-import SlashCell from "./components/slash-cell.vue"
+import slashCell from "./components/slash-cell.vue"
 import leftPattern from "./components/left/left-pattern.vue"
 import rightPattern from "./components/right/right-pattern.vue"
 import { createStore, mapStates } from "./store/helper"
 import { getDateList } from './helper'
+import settingLayer from "./components/setting.vue"
 // import dayjs from 'dayjs'
 
 export default {
     name: "gantt-next",
-    components: { leftPattern, rightPattern, SlashCell },
+    components: { leftPattern, rightPattern, slashCell, settingLayer },
     props: {
         days: {
             type: Number,
@@ -65,14 +67,16 @@ export default {
         }
     },
     data() {
+        const adsorbType = localStorage.getItem('gant_adsorb_type')
+        const dayWidth = localStorage.getItem('gant_day_width')
         this.store = createStore(this, {
-            dayBoxWidth: this.oDayBoxWidth,
+            dayBoxWidth: dayWidth !== null ? Number(dayWidth) : this.oDayBoxWidth,
             dayBoxHeight: this.oDayBoxHeight,
             titleGroups: this.titles,
             tasks: this.tasks,
             originLinks: this.links,
             rows: this.rows,
-            adsorbType: this.adsorbType,
+            adsorbType: adsorbType !== null ? Number(adsorbType) : this.adsorbType,
             assistLine: this.assistLine
         })
 
@@ -87,6 +91,7 @@ export default {
         this.store.commit('setDaysList', getDateList(this.days, this.start_time))
         this.store.commit('listenTaskDbClick', this.handleDbClick)
         this.store.commit('listenTaskChange', this.handleTaskChange)
+        document.addEventListener('keydown', this.handleKeyDown)
     },
     methods: {
         handleMouseWheel(e) {
@@ -116,8 +121,23 @@ export default {
         setDayBoxWidth(width = 90) {
             this.store.commit('setDayBoxWidth', width)
         },
+        setAdsorbType(type) {
+            this.store.commit('setAdsorbType', type)
+        },
         changeTaskItem(task_id, change_obj = {}) {
             this.store.commit('changeTaskItem', task_id, change_obj)
+        },
+        // 设置
+        handleKeyDown(e) {
+            if (e.keyCode === 83 && e.ctrlKey && e.shiftKey) {
+                this.$refs.setting.show()
+            }
+        },
+        freshSetting() {
+            const adsorbType = localStorage.getItem('gant_adsorb_type')
+            const dayWidth = localStorage.getItem('gant_day_width')
+            this.setDayBoxWidth(dayWidth !== null ? Number(dayWidth) : this.oDayBoxWidth)
+            this.setAdsorbType(adsorbType !== null ? Number(adsorbType) : this.adsorbType)
         }
     },
     watch: {
