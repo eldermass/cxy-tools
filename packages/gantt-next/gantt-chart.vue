@@ -88,12 +88,17 @@ export default {
     mounted() {
         // 这个有时区差距，还没解决
         this.store.commit('setTimeNow', this.start_time)
-        this.store.commit('setDaysList', getDateList(this.days, this.start_time))
+        this.setDayList()
         this.store.commit('listenTaskDbClick', this.handleDbClick)
         this.store.commit('listenTaskChange', this.handleTaskChange)
         document.addEventListener('keydown', this.handleKeyDown)
     },
     methods: {
+        setDayList() {
+            const showDays = localStorage.getItem('gant_show_days')
+            const days = showDays !== null ? Number(showDays) : this.days
+            this.store.commit('setDaysList', getDateList(days, this.start_time))
+        },
         handleMouseWheel(e) {
             // 里面一层也有这个函数，但是不影响
             if ((e.wheelDelta && e.ctrlKey) || e.detail) {
@@ -138,6 +143,7 @@ export default {
             const dayWidth = localStorage.getItem('gant_day_width')
             this.setDayBoxWidth(dayWidth !== null ? Number(dayWidth) : this.oDayBoxWidth)
             this.setAdsorbType(adsorbType !== null ? Number(adsorbType) : this.adsorbType)
+            this.setDayList()
         }
     },
     watch: {

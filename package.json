@@ -1,7 +1,7 @@
 {
   "name": "cxy-tools",
-  "version": "1.0.5",
-  "main": "dist/tools.common.js",
+  "version": "1.0.6",
+  "main": "dist/tools.umd.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

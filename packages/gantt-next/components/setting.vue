@@ -10,6 +10,10 @@
                     <input type="radio" name="adsorb" value="2" v-model="adsorbType" />天
                 </div>
                 <div class="setting-row">
+                    时长(天)：
+                    <input class="setting-input" type="number" name="showDays" v-model="showDays" />
+                </div>
+                <div class="setting-row">
                     单日宽度：
                     <input class="setting-input" type="number" name="dayWidth" v-model="dayWidth" />
                 </div>
@@ -52,8 +56,9 @@ export default {
         return {
             adsorbType: 0,
             dayWidth: 0,
-            isVisible: false,
-            showMask: false
+            isVisible: true,
+            showMask: false,
+            showDays: 60
         }
     },
     mounted() {
@@ -63,6 +68,7 @@ export default {
         initData() {
             this.adsorbType = localStorage.getItem('gant_adsorb_type') || 0
             this.dayWidth = localStorage.getItem('gant_day_width') || 60
+            this.showDays = localStorage.getItem('gant_show_days') || 60
         },
         changeViewWidth(width) {
             this.dayWidth = width
@@ -70,11 +76,13 @@ export default {
         save() {
             localStorage.setItem('gant_adsorb_type', this.adsorbType)
             localStorage.setItem('gant_day_width', this.dayWidth)
+            localStorage.setItem('gant_show_days', this.showDays)
             this.hide()
         },
         clear() {
             localStorage.removeItem('gant_adsorb_type')
             localStorage.removeItem('gant_day_width')
+            localStorage.removeItem('gant_show_days')
             this.hide()
         },
         show() {
