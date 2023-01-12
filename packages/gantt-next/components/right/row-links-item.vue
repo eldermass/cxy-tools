@@ -44,7 +44,9 @@ export default {
             // 前前
             let A = this.sourcePostion, B = this.targetPostion
             if (A.top === B.top) {
-                return (this.link.source_point === 'end' && this.link.target_point === 'start') ? 10 : 0
+                return (this.link.source_point === 'end' && this.link.target_point === 'start') && (
+                    A.right <= B.left
+                ) ? 10 : 0
             }
 
             if (this.link.source_point === 'start' && this.link.target_point === 'start') {
@@ -54,7 +56,7 @@ export default {
             // 前后
             else if (this.link.source_point === 'start' && this.link.target_point === 'end') {
                 // 突出相交时
-                if (Math.abs(A.left - B.right) < 27 && A.left > B.right) {
+                if (Math.abs(A.left - B.right) < 27 && A.left >= B.right) {
                     return A.top > B.top ? 6 : 5
                 }
                 if (B.top > A.top && B.right < A.left) {
@@ -70,7 +72,7 @@ export default {
             // 后前
             else if (this.link.source_point === 'end' && this.link.target_point === 'start') {
                 // 突出相交时
-                if (Math.abs(A.right - B.left) < 27 && A.right < B.left) {
+                if (Math.abs(A.right - B.left) < 27 && A.right <= B.left) {
                     return A.top < B.top ? 6 : 5
                 }
 
@@ -88,18 +90,26 @@ export default {
             else if (this.link.source_point === 'end' && this.link.target_point === 'end') {
                 return 4
             }
+            console.log(this.link)
             return 0
         },
         // 两端突出
         sourceItemStyle() {
             // 默认为start
+            let width = 14
             let left = this.sourcePostion.left - 14
             if (this.link.source_point === 'end') {
                 left = this.sourcePostion.right
             }
+            // 同行太近
+            if (this.linkStep === 10 && (this.targetPostion.left - this.sourcePostion.right <= 14)) {
+                width = 0
+            }
+
             return {
                 left: left + 'px',
-                top: this.sourcePostion.top + this.dayBoxHeight / 2 - 1 + 'px'
+                top: this.sourcePostion.top + this.dayBoxHeight / 2 - 1 + 'px',
+                width: width + 'px'
             }
         },
         targetItemStyle() {
@@ -107,6 +117,10 @@ export default {
             let left = this.targetPostion.left - 14
             if (this.link.target_point === 'end') {
                 left = this.targetPostion.right
+            }
+            // 同行太近
+            if (this.linkStep === 10 && (this.targetPostion.left - this.sourcePostion.right <= 14)) {
+                left += (14 - (this.targetPostion.left - this.sourcePostion.right)) / 2
             }
 
             return {
@@ -142,7 +156,7 @@ export default {
         },
         // 1步到达的连线
         oHorizontalLineStyle() {
-            const width = Math.abs(this.targetPostion.left - this.sourcePostion.right)
+            const width = Math.abs(this.targetPostion.left - this.sourcePostion.right > 0 ? this.targetPostion.left - this.sourcePostion.right : 0)
 
             return {
                 top: this.sourcePostion.top + this.dayBoxHeight / 2 - 1 + 'px',

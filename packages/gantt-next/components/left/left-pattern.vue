@@ -80,6 +80,7 @@ export default {
     height: calc(100% - 60px);
     min-height: 400px;
     width: 200px;
+    user-select: none;
 
     // overflow-y: hidden;
     .title-container {

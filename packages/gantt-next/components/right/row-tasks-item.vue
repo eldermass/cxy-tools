@@ -276,6 +276,7 @@ export default {
     text-align: center;
     display: flex;
     align-items: center;
+    user-select: none;
 
     .container {
         position: relative;

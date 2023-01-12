@@ -1,11 +1,12 @@
 {
   "name": "cxy-tools",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "dist/tools.umd.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build:lib": "vue-cli-service build --target lib --name tools src/index.js",
+    "build:demo": "vue-cli-service build --target lib --name tools",
     "dev": "npm run serve",
     "lint": "vue-cli-service lint"
   },

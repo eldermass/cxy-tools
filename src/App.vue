@@ -7,10 +7,17 @@
         <el-button @click="setBoxWidth(15)" type="primary" style="margin-top: 10px;">设置周视图</el-button>
         <el-button @click="setBoxWidth(120)" type="primary" style="margin-top: 10px;">设置日视图</el-button>
         <el-button @click="changeTaskTime" type="primary" style="margin-top: 10px;">改变时间</el-button>
+        <div class="tips">
+            tips:
+            <p>ctrl + shift + s 配置</p>
+            <p>ctrl + 滚轮 缩放</p>
+            <p>alt + 滚轮  横向滚动</p>
+        </div>
     </div>
 </template>
 
 <script>
+import './main.js'
 // import ganttChart from "./components/gantt-chart.vue"
 import mockList, { titleGroups, tasks, links } from "../mocks/gantt-chart"
 
@@ -57,7 +64,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -69,6 +76,10 @@ export default {
     width: 1200px;
     /* height: 100vh;
     width: 100vw; */
+    p {
+        margin: 0;
+        color: #aaa;
+    }
 }
 
 body {

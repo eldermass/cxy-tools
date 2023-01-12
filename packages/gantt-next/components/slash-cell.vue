@@ -43,6 +43,7 @@ export default {
     border: 1px solid #ccc;
     position: relative;
     border-right: none;
+    user-select: none;
 
     &:before {
         content: "";

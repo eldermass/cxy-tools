@@ -181,6 +181,7 @@ export default {
         height: 100%;
         border: 1px solid #ccc;
         border-right: none;
+        z-index: 10;
     }
 
     .right-container {
