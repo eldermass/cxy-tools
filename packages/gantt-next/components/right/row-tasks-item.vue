@@ -1,8 +1,8 @@
 <template>
     <div class="row-tasks-item" :style="itemStyle" @click.stop="handleClick">
         <div :class="['container', task.theme || 'default', is_selected ? 'selected' : '']"
-            :style="{ paddingLeft: task.is_lock ? '20px' : '' }" @mousedown="handlePointMouseDown($event, 'container')">
-            <div v-if="task.is_lock" class="icon-container">
+            :style="{ paddingLeft: showPadding ? task.is_lock ? '20px' : '10px' : '' }" @mousedown="handlePointMouseDown($event, 'container')">
+            <div v-if="task.is_lock && showPadding" class="icon-container">
                 <i class="el-icon-lock task-icon-color"></i>
             </div>
             <span :title="task.text">
@@ -73,6 +73,10 @@ export default {
                 left: timeOffset * this.dayBoxWidth + offsetLeft + 'px',
                 top: this.task.row_index * this.dayBoxHeight + 'px'
             }
+        },
+        showPadding() {
+            const width = parseInt(this.itemStyle.width)
+            return width > 21
         },
         ...mapStates({
             nowTime: 'nowTime',
@@ -282,7 +286,7 @@ export default {
         position: relative;
         width: 100%;
         height: 80%;
-        padding: 0 0 0 10px;
+        padding: 0;
         background: white;
         font-size: 13px;
         white-space: nowrap;
