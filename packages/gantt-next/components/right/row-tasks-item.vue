@@ -147,6 +147,9 @@ export default {
 
             // 调整辅助线
             const { newStartDate, newDuration, newEndDate } = this.calcNewTime()
+            if (newDuration && newDuration < 0) {
+                return 
+            }
             if (newDuration && newEndDate) {
                 // 拉后不拉前
                 this.store.setAssistLineTipTime(newEndDate, newDuration)
@@ -162,7 +165,13 @@ export default {
             this.handleTaskChange()
         },
         handleTaskChange() {
-            const { newStartDate, newDuration, newEndDate } = this.calcNewTime()
+            let { newStartDate, newDuration, newEndDate } = this.calcNewTime()
+            // 把后拉到太前了
+            if (newDuration && newDuration < 0) {
+                newStartDate = undefined
+                newEndDate = undefined
+                newDuration = 0
+            }
 
             // 没有移动
             if (!(this.isContainerDown && !this.pointMove.offsetX)) {

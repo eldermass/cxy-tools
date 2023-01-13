@@ -2,7 +2,7 @@
     <div class="assist-line" v-if="assistLine && assistLineActive">
         <div class="line-inner" :style="{ left: offsetLeft + 'px' }">
             <div class="tips" :style="{ top: scrollY + 'px'}">
-                {{ assistTipTime.substring(5) }}
+                {{ assistTipTime && assistTipTime.substring(5) }}
             </div>
         </div>
     </div>
