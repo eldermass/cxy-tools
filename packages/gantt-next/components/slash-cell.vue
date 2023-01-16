@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="slash-cell">
+        <div class="slash-cell" title="ctrl + shift + s 配置图表">
             <span class="top">{{ top }}</span>
             <span class="bottom">{{ bottom }}</span>
         </div>

@@ -9,6 +9,15 @@
                     <div :class="{ 'date-item': true, 'date-monday': monthShow && date.day === 1, 'date-month-show': monthShow }"
                         v-for="(date, index) in item.dates" :style="{ width: dayBoxWidth + 'px' }" :key="index">
                         {{ !monthShow || date.day === 1 ? date.date : '' }}
+                        <div class="marks-container">
+                            <div class="hours-mark"
+                                v-show="(dayBoxWidth >= 40 && dayBoxWidth <= 150 && t % 6 === 0) || dayBoxWidth > 150"
+                                :style="{
+                                    width: dayBoxWidth / 24 + 'px',
+                                    height: dayBoxWidth <= 150 ? '6px' : t % 6 === 0 ? '10px' : '6px',
+                                    left: dayBoxWidth / 24 * t + 'px'
+                                }" v-for="t in 23" :key="t"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124,6 +133,23 @@ function formatList(list) {
                     border-left: 1px solid #ccc;
                     border-bottom: 1px solid #ccc;
                     text-align: center;
+                    position: relative;
+
+                    .marks-container {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        height: 10px;
+                        width: 100%;
+                        font-size: 0;
+
+                        .hours-mark {
+                            position: absolute;
+                            bottom: 0;
+                            height: 5px;
+                            border-left: 1px solid #ccc;
+                        }
+                    }
                 }
 
                 .date-month-show {
@@ -157,6 +183,7 @@ function formatList(list) {
                 .month {
                     border-right: 1px solid #ccc;
                 }
+
                 .date-cotainner {
                     .date-item {
                         &:last-of-type {

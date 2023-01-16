@@ -1,7 +1,9 @@
 <template>
     <transition name="fade">
         <div class="setting-layer" v-if="isVisible">
-            <div class="setting-header">设置</div>
+            <div class="setting-header">设置
+                <i class="el-icon-close setting-header-close" @click="hide"></i>
+            </div>
             <div class="setting-body">
                 <div class="setting-row">
                     吸附类型：
@@ -26,7 +28,8 @@
                 </div>
 
                 <div class="setting-row" style="font-size: 8px; color: #aaa;">
-                    提示: ctrl + 滚动 可微调视图
+                    提示: ctrl + 滚动 可微调视图<br />
+                    alt + 滚轮 横向滚动
                 </div>
 
 
@@ -89,9 +92,14 @@ export default {
             this.initData()
             this.isVisible = true
         },
-        hide() {
+        hide(e) {
+            if (e) {
+                this.isVisible = false
+                return
+            }
+
             this.showMask = true
-            if (typeof this.freshSetting === 'function') this.freshSetting() 
+            if (typeof this.freshSetting === 'function') this.freshSetting()
             setTimeout(() => {
                 this.showMask = false
                 this.isVisible = false
@@ -120,6 +128,15 @@ export default {
         padding: 18px 20px;
         border-bottom: 1px solid #ebeef5;
         box-sizing: border-box;
+        position: relative;
+
+        .setting-header-close {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 18px;
+            cursor: pointer;
+        }
     }
 
     .setting-body {
