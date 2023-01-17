@@ -84,7 +84,7 @@ export default Vue.extend({
     },
     getTasks(onlyChanged = true) {
       if (onlyChanged) {
-        const tasks = this.states.tasks.filter(task => task.is_drag_changed)
+        const tasks = this.states.tasks.filter(task => task.is_drag_changed || task.is_row_index_changed)
         return _.cloneDeep(tasks)
       }
       return _.cloneDeep(this.states.tasks)
