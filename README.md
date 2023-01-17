@@ -44,22 +44,34 @@ task = {
     duration: 2.5,
     theme: "gray", // 主题色
     is_lock: false, // 锁定状态
-    data: {},
+    data: {}, // 原始数据
     // 页面操作后产生的值
     is_selected: true, // 是否选中
     end_date: "2023-01-13 06:22:00" // 结束事件，拖拽尾部后产生
     is_drag_changed: true // 是否被拖拽过，拖拽后产生
+    is_row_index_changed: true // 是否被拖到其他行
+    row_info: {} // 被拖拽到其他时，新行的行信息
 }
 
 // themeType 可选的色彩主题
-// (default, #cb717b, #fbc3c4)
-// ("green", #6bb42e, #d7eec0)
-// ("purple", #7d78c8, #c5c5f9)
-// ("blue", #afbfe4, #dfebf7)
-// ("red", #eb3626, #f7635c)
-// ("cyan", #3498ff, #a6d7ff)
-// ("yellow", #ffb300, #ffe9c2)
-// ("orange", #db8000, #fa9b2f)
+// ("deepgreen", #179c17, #66cf6d),
+// ("green", #6bb42e, #a5e99d),
+// ("lightgreen", #7cc93d, #d7eec0),
+// ("lightpurple", #b5b1f1, #e7dbff),
+// ("purple", #908ae0, #c5c5f9),
+// ("mediumpurple", #7e78dc, #ba9fff),
+// ("red", #eb3626, #fb9e99),
+// ("pink", #cb717b, #fbc3c4),
+// ("lightpink", #f3b5bc, #ffe6e7),
+// ("blue", #2885e1, #8bc3ff),
+// ("skyblue", #79c2da, #a8e3ff),
+// ("cyan", #afbfe4, #dfebf7),
+// ("yellow", #ffb300, #ffe9c2),
+// ("lightyellow", #ffbf00, #fff5aa),
+// ("greenyellow", #99ff00, #e1fa7f),
+// ("orange", #db8000, #ffb35d),
+// ("lightgray", #cdcdcd, #f5f5f5),
+// ("gray", #bbbbbb, #ededed) 
 ```
 
 `links` 连线

@@ -1,7 +1,8 @@
 <template>
     <div class="row-tasks-item" @mousedown.stop :style="itemStyle" @click.stop="handleClick">
         <div :class="['container', task.theme || 'default', is_selected ? 'selected' : '']"
-            :style="{ paddingLeft: showPadding ? task.is_lock ? '20px' : '10px' : '' }" @mousedown="handlePointMouseDown($event, 'container')">
+            :style="{ paddingLeft: showPadding ? task.is_lock ? '20px' : '10px' : '' }"
+            @mousedown="handlePointMouseDown($event, 'container')">
             <div v-if="task.is_lock && showPadding" class="icon-container">
                 <i class="el-icon-lock task-icon-color"></i>
             </div>
@@ -52,6 +53,10 @@ export default {
         is_selected() {
             return this.task.is_selected
         },
+        offsetRowIndex() {
+            const offsetIndex = this.pointMove.offsetY / this.dayBoxHeight
+            return Math.abs(offsetIndex % 1) < 0.2 ? parseInt(offsetIndex) : offsetIndex
+        },
         itemStyle() {
             const diffTime = dayjs(this.task.start_date).diff(this.nowTime)
             const timeOffset = (diffTime / 86400000).toFixed(2)
@@ -71,7 +76,7 @@ export default {
                 height: this.dayBoxHeight + 'px',
                 lineHeight: this.dayBoxHeight * 0.8 + 'px',
                 left: timeOffset * this.dayBoxWidth + offsetLeft + 'px',
-                top: this.task.row_index * this.dayBoxHeight + 'px'
+                top: (this.task.row_index + this.offsetRowIndex) * this.dayBoxHeight + 'px'
             }
         },
         showPadding() {
@@ -148,7 +153,7 @@ export default {
             // 调整辅助线
             const { newStartDate, newDuration, newEndDate } = this.calcNewTime()
             if (newDuration && newDuration < 0) {
-                return 
+                return
             }
             if (newDuration && newEndDate) {
                 // 拉后不拉前
@@ -173,15 +178,22 @@ export default {
                 newDuration = 0
             }
 
+            let newRowIndex
+            if (this.offsetRowIndex) {
+                newRowIndex = Math.round(this.offsetRowIndex) + this.task.row_index
+            }
+
             // 没有移动
             if (!(this.isContainerDown && !this.pointMove.offsetX)) {
-                this.store.commit('updateTask', this.task.task_id, newStartDate, newDuration, newEndDate)
+                this.store.commit('updateTask', this.task.task_id, newStartDate, newDuration, newEndDate, newRowIndex)
             }
             this.$nextTick(() => {
                 this.isLeftPointDown = false
                 this.isRightPointDown = false
                 this.isContainerDown = false
                 this.store.setAssistLineActive(false)
+                this.pointMove.offsetX = 0
+                this.pointMove.offsetY = 0
             })
         },
         calcNewTime() {
@@ -348,15 +360,25 @@ export default {
 
     @each $type,
     $bordercolor,
-    $backcolor in (default, #cb717b, #fbc3c4),
-    ("green", #6bb42e, #d7eec0),
-    ("purple", #7d78c8, #c5c5f9),
-    ("blue", #afbfe4, #dfebf7),
+    $backcolor in (default, #b5b1f1, #e7dbff),
+    ("deepgreen", #179c17, #66cf6d),
+    ("green", #6bb42e, #a5e99d),
+    ("lightgreen", #7cc93d, #d7eec0),
+    ("lightpurple", #b5b1f1, #e7dbff),
+    ("purple", #908ae0, #c5c5f9),
+    ("mediumpurple", #7e78dc, #ba9fff),
     ("red", #eb3626, #fb9e99),
-    ("cyan", #3498ff, #a6d7ff),
+    ("pink", #cb717b, #fbc3c4),
+    ("lightpink", #f3b5bc, #ffe6e7),
+    ("blue", #2885e1, #8bc3ff),
+    ("skyblue", #79c2da, #a8e3ff),
+    ("cyan", #afbfe4, #dfebf7),
     ("yellow", #ffb300, #ffe9c2),
+    ("lightyellow", #ffbf00, #fff5aa),
+    ("greenyellow", #99ff00, #e1fa7f),
     ("orange", #db8000, #ffb35d),
-    ("gray", #888888, #cccccc) {
+    ("lightgray", #cdcdcd, #f5f5f5),
+    ("gray", #bbbbbb, #ededed) {
         .#{$type} {
             border: 1px solid $bordercolor;
             background: $backcolor;
