@@ -150,7 +150,7 @@ export const tasks = [
         text: "十一1111111",
         row_index: 3,
         start_date: "2023-01-16 00:00:00",
-        duration: 0.4,
+        duration: 40,
         theme: "default",
         is_lock: true,
         data: {},

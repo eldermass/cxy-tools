@@ -2,7 +2,7 @@
     <div style="height: 100%; border-left: 1px solid #ccc" @click="handleEmptyClick">
         <date-list :store="store" ref="dateList" />
         <div class="rows-container" ref="rowsContainer" @scroll="handleScroll" @mousewheel.stop="handleMouseWheel">
-            <div class="content-panel" :style="totalLengthStyle">
+            <div class="content-panel" :style="totalLengthStyle" @mousedown="handlePanelMouseDown">
                 <row-mask :store="store" />
                 <row-tasks :store="store" />
                 <row-links :store="store" />
@@ -34,6 +34,7 @@ export default {
             lastY: 0,
             maxScrollWidth: 0,
             maxScrollHeight: 0,
+            pointMove: {}
         }
     },
     computed: {
@@ -103,6 +104,28 @@ export default {
         },
         handleEmptyClick() {
             this.store.setSelectedTask()
+        },
+        handlePanelMouseDown(e) {
+            this.pointMove.startX = e.clientX + this.$refs.rowsContainer.scrollLeft
+            this.pointMove.startY = e.clientY + this.$refs.rowsContainer.scrollTop
+            this.pointMove.offsetX = 0
+            this.pointMove.offsetY = 0
+            // console.log(this.pointMove)
+
+            document.onmousemove = this.fnMove.bind(this)
+            document.onmouseup = this.fnStop.bind(this)
+        },
+        fnMove(e) {
+            this.pointMove.offsetX = e.clientX - this.pointMove.startX
+            this.pointMove.offsetY = e.clientY - this.pointMove.startY
+            const offset = Math.min(-this.pointMove.offsetX, this.maxScrollWidth || 1)
+            
+            this.$refs.dateList.scrollTo(offset, this.maxScrollWidth)
+            this.$refs.rowsContainer.scrollTo(offset, 0)
+        },
+        fnStop() {
+            document.onmousemove = null
+            document.onmouseup = null
         }
     },
 }
@@ -117,9 +140,11 @@ export default {
     // height: 400px;
     height: calc(100% - 60px);
     overflow: scroll;
+    user-select: none;
 
     .content-panel {
         position: relative;
+        overflow: hidden;
     }
 }
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="row-tasks-item" :style="itemStyle" @click.stop="handleClick">
+    <div class="row-tasks-item" @mousedown.stop :style="itemStyle" @click.stop="handleClick">
         <div :class="['container', task.theme || 'default', is_selected ? 'selected' : '']"
             :style="{ paddingLeft: showPadding ? task.is_lock ? '20px' : '10px' : '' }" @mousedown="handlePointMouseDown($event, 'container')">
             <div v-if="task.is_lock && showPadding" class="icon-container">
