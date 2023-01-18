@@ -136,8 +136,8 @@ export default {
             const diffTime = dayjs(this.sourceTask.start_date).diff(this.nowTime)
             const timeOffsetNow = (diffTime / 86400000)
             return {
-                left: timeOffsetNow.toFixed(2) * this.dayBoxWidth,
-                right: (timeOffsetNow + this.sourceTask.duration).toFixed(2) * this.dayBoxWidth,
+                left: timeOffsetNow * this.dayBoxWidth,
+                right: (timeOffsetNow + this.sourceTask.duration) * this.dayBoxWidth,
                 top: this.sourceTask.row_index * this.dayBoxHeight
             }
         },
@@ -149,8 +149,8 @@ export default {
             const diffTime = dayjs(this.targetTask.start_date).diff(this.nowTime)
             const timeOffsetNow = (diffTime / 86400000)
             return {
-                left: timeOffsetNow.toFixed(2) * this.dayBoxWidth,
-                right: (timeOffsetNow + this.targetTask.duration).toFixed(2) * this.dayBoxWidth,
+                left: timeOffsetNow * this.dayBoxWidth,
+                right: (timeOffsetNow + this.targetTask.duration) * this.dayBoxWidth,
                 top: this.targetTask.row_index * this.dayBoxHeight
             }
         },

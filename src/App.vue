@@ -20,6 +20,7 @@
 import './main.js'
 // import ganttChart from "./components/gantt-chart.vue"
 import mockList, { titleGroups, tasks, links } from "../mocks/gantt-chart"
+import dayjs from 'dayjs'
 
 export default {
     name: "App",
@@ -35,6 +36,7 @@ export default {
         }
     },
     mounted() {
+        window.dayjs = dayjs
         setTimeout(() => {
             this.titles = titleGroups
             this.rows = mockList

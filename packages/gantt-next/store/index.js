@@ -42,7 +42,7 @@ Watcher.prototype.mutations = {
     endDate && (task.end_date = endDate)
 
     // 改变行
-    if (newRowIndex !== undefined && newRowIndex >= -1 && newRowIndex < states.rows.length) {
+    if (newRowIndex !== undefined && newRowIndex > -1 && newRowIndex < states.rows.length) {
       const row_info = states.rows[newRowIndex]
       task.is_row_index_changed = true
       task.row_index = newRowIndex

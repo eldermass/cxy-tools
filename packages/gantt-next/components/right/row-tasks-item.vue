@@ -59,7 +59,7 @@ export default {
         },
         itemStyle() {
             const diffTime = dayjs(this.task.start_date).diff(this.nowTime)
-            const timeOffset = (diffTime / 86400000).toFixed(2)
+            const timeOffset = diffTime / 86400000
             // 拉拽调整
             let offsetWidth = this.isRightPointDown ? this.pointMove.offsetX : 0
             let offsetLeft = 0

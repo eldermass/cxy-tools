@@ -39,7 +39,7 @@ export default {
             if (!this.assistTipTime) return -1
 
             const diffTime = dayjs(this.assistTipTime).diff(this.nowTime)
-            const diffDays = (diffTime / 86400000).toFixed(2)
+            const diffDays = diffTime / 86400000
 
             return diffDays * this.dayBoxWidth
         },
