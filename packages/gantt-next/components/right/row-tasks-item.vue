@@ -334,6 +334,7 @@ export default {
             cursor: pointer;
             box-sizing: border-box;
             position: relative;
+            z-index: 5;
             top: 50%;
             left: 2.5px;
             margin-top: -7.5px;
