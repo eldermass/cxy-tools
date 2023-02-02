@@ -1,5 +1,5 @@
 <template>
-    <div class="container" ref="container">
+    <div class="gant-container" ref="container">
         <div class="left-container">
             <slash-cell />
             <left-pattern :data-list="formattedDataList" ref="leftRef" :titles="titles" />
@@ -199,7 +199,7 @@ export default {
     box-sizing: border-box;
 }
 
-.container {
+.gant-container {
     height: 100%;
     width: 100%;
     position: relative;
