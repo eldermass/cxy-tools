@@ -53,7 +53,9 @@ Watcher.prototype.mutations = {
     const isCross = isTimeCross(task, states.tasks)
     // console.log(isCross ? '相交' : '不相交')
     // 相交时重置改变项
+
     if (isCross) {
+      const to_task = _.cloneDeep(task)
       delete task.is_drag_changed
       delete task.is_row_index_changed
       delete task.row_info
@@ -61,10 +63,15 @@ Watcher.prototype.mutations = {
       task.duration = origin_task.duration
       task.end_date = origin_task.end_date
       task.row_index = origin_task.row_index
+
+      if (typeof states.handleTaskChangeErrorFn === 'function') {
+        states.handleTaskChangeErrorFn(to_task, _.cloneDeep(origin_task), 'task overlap')
+      }
+      return
     }
     // 回调通知改变
     if (typeof states.handleTaskChangeFn === 'function') {
-      states.handleTaskChangeFn(_.cloneDeep(task))
+      states.handleTaskChangeFn(_.cloneDeep(task), _.cloneDeep(origin_task))
     }
   },
 
@@ -90,6 +97,10 @@ Watcher.prototype.mutations = {
 
   listenTaskChange(states, fn) {
     states.handleTaskChangeFn = fn
+  },
+
+  listenTaskChangeError(states, fn) {
+    states.handleTaskChangeErrorFn = fn
   }
 };
 

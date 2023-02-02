@@ -37,7 +37,9 @@ export default Vue.extend({
         // 双击回调函数
         handleTaskDbClickFn: undefined,
         // 任务改变的回调
-        handleTaskChangeFn: undefined
+        handleTaskChangeFn: undefined,
+        // 拖拽错误时的回调
+        handleTaskChangeErrorFn: undefined
       },
     }
   },

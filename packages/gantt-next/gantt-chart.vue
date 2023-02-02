@@ -91,6 +91,7 @@ export default {
         this.setDayList()
         this.store.commit('listenTaskDbClick', this.handleDbClick)
         this.store.commit('listenTaskChange', this.handleTaskChange)
+        this.store.commit('listenTaskChangeError', this.handleChangeError)
         document.addEventListener('keydown', this.handleKeyDown)
     },
     methods: {
@@ -117,8 +118,11 @@ export default {
         handleDbClick(task) {
             this.$emit('task-dbclick', task)
         },
-        handleTaskChange(task) {
-            this.$emit('task-change', task)
+        handleTaskChange(task, origin_task) {
+            this.$emit('task-change', task, origin_task)
+        },
+        handleChangeError(task, origin_task, type) {
+            this.$emit('task-change-error', task, origin_task, type)
         },
         getData(onlyChanged) {
             return this.store.getTasks(onlyChanged)

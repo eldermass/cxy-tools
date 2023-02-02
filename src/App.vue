@@ -2,7 +2,7 @@
     <div id="app">
         <gantt-next ref="gantt" :titles="titles" :tasks="tasks" :links="links" :rows="rows" :days="30"
             :oDayBoxWidth="60" :start_time="'2023-01-04'" @task-dbclick="handleTaskClick"
-            @task-change="handleTaskChange" :adsorbType="1" />
+            @task-change="handleTaskChange" @task-change-error="handleTaskChangeError" :adsorbType="1" />
         <el-button @click="getData" type="primary" style="margin-top: 10px;">获取数据</el-button>
         <el-button @click="setBoxWidth(15)" type="primary" style="margin-top: 10px;">设置周视图</el-button>
         <el-button @click="setBoxWidth(120)" type="primary" style="margin-top: 10px;">设置日视图</el-button>
@@ -48,8 +48,8 @@ export default {
         handleTaskClick(data) {
             console.log('双击任务:  ', data)
         },
-        handleTaskChange(task) {
-            console.log('改变任务', task)
+        handleTaskChange(task, origin_task) {
+            console.log('改变任务', task, origin_task)
         },
         getData() {
             // 默认变化过的
@@ -61,6 +61,9 @@ export default {
         },
         changeTaskTime() {
             this.$refs.gantt.changeTaskItem(this.tasks[5].task_id, { duration: 5 })
+        },
+        handleTaskChangeError(task, origin_task, type) {
+            console.log('error ' + type, task, origin_task)
         }
     },
 }

@@ -102,15 +102,62 @@ row = {
 #### events
 
 `task-dbclick` (task) => void
-`task-change` (task) => void
+
+```js
+// 被点击的任务
+handleTaskClick(task) {
+    console.log('双击任务:  ', task)
+}
+```
+
+`task-change` (task, origin_task) => void
+
+```js
+// 将要改变为，原来的任务item
+handleTaskChange(task, origin_task) {
+    console.log('改变任务', task, origin_task)
+}
+```
+
+`task-change-error` (task, origin_task, type) => void
+
+```js
+// 将要改变为，原来的，错误类型
+handleTaskChangeError(task, origin_task, type) {
+    console.log('error ' + type, task, origin_task)
+}
+```
 
 #### methods
 
 `getData` (onlyChanged) => Task[] , onlyChanged 默认true，获取的数组是否为改变过后的数据
 
+```js
+getData() {
+    // 默认变化过的
+    const data = this.$refs.gantt.getData(true)
+    console.log(data)
+    // data 数据结构为 Task[]
+}
+```
+
 `setDayBoxWidth` (width: number) => void 设置每天宽度
 
+```js
+setBoxWidth(width = 60) {
+    this.$refs.gantt.setDayBoxWidth(width)
+}
+```
+
 `changeTaskItem` (task_id, change_obj) => void
+
+```js
+changeTaskTime() {
+    // task_id: number, task
+    this.$refs.gantt.changeTaskItem(this.tasks[5].task_id, { duration: 5 })
+    // 例子中的 duration 将覆盖为 5
+}
+```
 
 change_obj 为 task 中可改变的 key 值
 
@@ -118,4 +165,10 @@ change_obj 为 task 中可改变的 key 值
 
 ctrl + 滚动，缩放每日长度
 alt + 滚动，横向滚动
-ctrl + shift + s 配置页面(没做)
+ctrl + shift + s 配置页面
+
+``` bash
+吸附类型: 拖拽时，按何种时间点吸附
+时长(天)：需要显示的天数
+单日宽度: 每天的展示宽度
+```

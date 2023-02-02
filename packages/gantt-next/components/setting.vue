@@ -123,6 +123,7 @@ export default {
     border-radius: 4px;
     border: 1px solid #ebeef5;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    text-align: center;
 
     .setting-header {
         padding: 18px 20px;
