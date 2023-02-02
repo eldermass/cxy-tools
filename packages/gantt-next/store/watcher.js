@@ -11,6 +11,7 @@ export default Vue.extend({
         // 每个格子的宽度
         dayBoxWidth: 30,
         dayBoxHeight: 40,
+        rightMenulists: [],
         // 渲染的数据来源
         rows: [],
         // 展示的每个任务

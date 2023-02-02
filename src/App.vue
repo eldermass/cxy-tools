@@ -1,8 +1,9 @@
 <template>
     <div id="app">
         <gantt-next ref="gantt" :titles="titles" :tasks="tasks" :links="links" :rows="rows" :days="30"
-            :oDayBoxWidth="60" :start_time="'2023-01-04'" @task-dbclick="handleTaskClick"
-            @task-change="handleTaskChange" @task-change-error="handleTaskChangeError" :adsorbType="1" />
+            :oDayBoxWidth="60" :start_time="'2023-01-04'" :rightMenulists="rightMenulists"
+            @task-dbclick="handleTaskClick" @task-change="handleTaskChange" @task-change-error="handleTaskChangeError"
+            :adsorbType="1" @menu-insert="hanldeMenuInstert" />
         <el-button @click="getData" type="primary" style="margin-top: 10px;">获取数据</el-button>
         <el-button @click="setBoxWidth(15)" type="primary" style="margin-top: 10px;">设置周视图</el-button>
         <el-button @click="setBoxWidth(120)" type="primary" style="margin-top: 10px;">设置日视图</el-button>
@@ -11,7 +12,7 @@
             tips:
             <p>ctrl + shift + s 配置</p>
             <p>ctrl + 滚轮 缩放</p>
-            <p>alt + 滚轮  横向滚动</p>
+            <p>alt + 滚轮 横向滚动</p>
         </div>
     </div>
 </template>
@@ -32,7 +33,17 @@ export default {
             rows: mockList.slice(8),
             titles: titleGroups.slice(2),
             tasks: tasks.slice(6),
-            links: links.slice(5)
+            links: links.slice(5),
+            rightMenulists: [
+                {
+                    fnName: "insert",
+                    params: {},
+                    icoName: "el-icon-download",
+                    btnName: "插 单",
+                    // divided: true,
+                    // disabled: true,
+                    // children: [],
+                }]
         }
     },
     mounted() {
@@ -64,6 +75,9 @@ export default {
         },
         handleTaskChangeError(task, origin_task, type) {
             console.log('error ' + type, task, origin_task)
+        },
+        hanldeMenuInstert(params) {
+            console.log('insert', params)
         }
     },
 }
@@ -79,6 +93,7 @@ export default {
     margin: 100px 0 0 100px;
     height: 600px;
     width: 1200px;
+
     /* height: 100vh;
     width: 100vw; */
     p {

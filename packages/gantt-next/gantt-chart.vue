@@ -5,7 +5,7 @@
             <left-pattern :store="store" />
         </div>
         <div class="right-container" @mousewheel.stop="handleMouseWheel">
-            <right-pattern :store="store" />
+            <right-pattern :store="store" :on-right-menu-click="listenRightMenu" />
         </div>
         <setting-layer ref="setting" :fresh-setting="freshSetting" />
     </div>
@@ -64,6 +64,10 @@ export default {
         assistLine: {
             type: Boolean,
             default: true
+        },
+        rightMenulists: {
+            type: Array,
+            default: () => []
         }
     },
     data() {
@@ -77,7 +81,8 @@ export default {
             originLinks: this.links,
             rows: this.rows,
             adsorbType: adsorbType !== null ? Number(adsorbType) : this.adsorbType,
-            assistLine: this.assistLine
+            assistLine: this.assistLine,
+            rightMenulists: this.rightMenulists
         })
 
         return {}
@@ -140,6 +145,13 @@ export default {
         handleKeyDown(e) {
             if (e.keyCode === 83 && e.ctrlKey && e.shiftKey) {
                 this.$refs.setting.show()
+            }
+        },
+        listenRightMenu(type, params) {
+            if (type === 'setting') {
+                this.$refs.setting.show()
+            } else {
+                this.$emit(`menu-${type}`, params)
             }
         },
         freshSetting() {

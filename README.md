@@ -99,6 +99,20 @@ row = {
 
 `assistLine`: boolean 拖拽辅助线
 
+`rightMenulists` 右键菜单
+
+```js
+{
+    fnName: "insert", // 注册事件 menu-insert
+    params: {}, // 携带参数
+    icoName: "el-icon-download", // icon
+    btnName: "插 单", // 
+    // divided: true,
+    // disabled: true,
+    // children: [],
+}
+```
+
 #### events
 
 `task-dbclick` (task) => void

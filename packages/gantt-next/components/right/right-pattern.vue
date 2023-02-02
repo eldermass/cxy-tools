@@ -2,13 +2,15 @@
     <div style="height: 100%; border-left: 1px solid #ccc" @click="handleEmptyClick">
         <date-list :store="store" ref="dateList" />
         <div class="rows-container" ref="rowsContainer" @scroll="handleScroll" @mousewheel.stop="handleMouseWheel">
-            <div class="content-panel" :style="totalLengthStyle" @mousedown="handlePanelMouseDown">
+            <div class="content-panel" :style="totalLengthStyle" @mousedown="handlePanelMouseDown"
+                @contextmenu.prevent="handleContextmenu">
                 <row-mask :store="store" />
                 <row-tasks :store="store" />
                 <row-links :store="store" />
                 <assist-line :store="store" />
             </div>
         </div>
+        <right-menu :class-index="0" :rightclickInfo="rightclickInfo" :on-right-menu-click="onRightMenuClick" />
     </div>
 </template>
 
@@ -19,13 +21,17 @@ import rowTasks from './row-tasks.vue'
 import rowLinks from './row-links.vue'
 import assistLine from './assistLine.vue'
 import { mapStates } from "../../store/helper"
+import rightMenu from '../right-menu.vue'
 
 export default {
     name: "right-pattern",
-    components: { dateList, rowMask, rowTasks, rowLinks, assistLine },
+    components: { dateList, rowMask, rowTasks, rowLinks, assistLine, rightMenu },
     props: {
         store: {
             required: true
+        },
+        onRightMenuClick: {
+            type: Function
         }
     },
     data() {
@@ -34,7 +40,8 @@ export default {
             lastY: 0,
             maxScrollWidth: 0,
             maxScrollHeight: 0,
-            pointMove: {}
+            pointMove: {},
+            rightclickInfo: {}
         }
     },
     computed: {
@@ -43,7 +50,8 @@ export default {
                 width: state.daysList.length * state.dayBoxWidth + 'px',
                 height: state.rows.length * state.dayBoxHeight + 'px'
             }),
-            dayBoxWidth: 'dayBoxWidth'
+            dayBoxWidth: 'dayBoxWidth',
+            rightMenulists: 'rightMenulists'
         })
     },
     mounted() {
@@ -119,13 +127,32 @@ export default {
             this.pointMove.offsetX = e.clientX - this.pointMove.startX
             this.pointMove.offsetY = e.clientY - this.pointMove.startY
             const offset = Math.min(-this.pointMove.offsetX, this.maxScrollWidth || 1)
-            
+
             this.$refs.dateList.scrollTo(offset, this.maxScrollWidth)
             this.$refs.rowsContainer.scrollTo(offset, 0)
         },
         fnStop() {
             document.onmousemove = null
             document.onmouseup = null
+        },
+        handleContextmenu(event) {
+            const menulists = this.rightMenulists.concat([{
+                fnName: "setting",
+                params: {},
+                icoName: "el-icon-setting",
+                btnName: "设 置",
+                // divided: true,
+                // disabled: true,
+                // children: [],
+            }])
+            
+            this.rightclickInfo = {
+                position: {
+                    x: event.clientX,
+                    y: event.clientY,
+                },
+                menulists,
+            };
         }
     },
 }
