@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="gantt-container">
         <div class="left-container">
             <slash-cell :store="store" />
             <left-pattern :store="store" />
@@ -185,7 +185,7 @@ export default {
     box-sizing: border-box;
 }
 
-.container {
+.gantt-container {
     height: 100%;
     width: 100%;
     position: relative;
