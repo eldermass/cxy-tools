@@ -137,7 +137,7 @@ export default {
             document.onmouseup = null
         },
         handleContextmenu(event) {
-            const menulists = this.rightMenulists.filter(menu => menu.type === 'default').concat([{
+            const menulists = this.rightMenulists.filter(menu => !menu.type || menu.type === 'default').concat([{
                 fnName: "setting",
                 params: {},
                 icoName: "el-icon-setting",
