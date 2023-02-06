@@ -107,6 +107,7 @@ row = {
     params: {}, // 携带参数
     icoName: "el-icon-download", // icon
     btnName: "插 单", // 
+    type: 'default|clicktask', // 点击task展示不同内容
     // divided: true,
     // disabled: true,
     // children: [],

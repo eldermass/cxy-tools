@@ -1,5 +1,6 @@
 <template>
-    <div class="row-tasks-item" @mousedown.stop :style="itemStyle" @click.stop="handleClick">
+    <div class="row-tasks-item" @contextmenu.prevent.stop="handleContextmenu" @mousedown.stop :style="itemStyle"
+        @click.stop="handleClick">
         <div :class="['container', task.theme || 'default', is_selected ? 'selected' : '']"
             :style="{ paddingLeft: showPadding ? task.is_lock ? '20px' : '10px' : '' }"
             @mousedown="handlePointMouseDown($event, 'container')">
@@ -88,7 +89,8 @@ export default {
             adsorbType: 'adsorbType',
             dayBoxHeight: 'dayBoxHeight',
             dayBoxWidth: 'dayBoxWidth',
-            handleTaskDbClickFn: 'handleTaskDbClickFn'
+            handleTaskDbClickFn: 'handleTaskDbClickFn',
+            rightMenulists: 'rightMenulists'
         })
     },
     methods: {
@@ -125,6 +127,7 @@ export default {
         },
         // 处理拖拽
         handlePointMouseDown(e, type) {
+            if (e.button > 1) return
             if (this.task.is_lock) return
             this.store.setAssistLineActive(true)
 
@@ -285,6 +288,33 @@ export default {
             }
 
             return { newStartDate, newDuration, newEndDate }
+        },
+        // 处理右键点击
+        handleContextmenu(event) {
+            const taskMenuList = this.rightMenulists.filter(menu => ['default', 'clicktask'].indexOf(menu.type) > -1).map(menu => {
+                menu.params = Object.assign({}, menu.params, { task: _.cloneDeep(this.task) })
+                return menu
+            })
+
+            const menulists = taskMenuList.concat([{
+                fnName: "setting",
+                params: {},
+                icoName: "el-icon-setting",
+                btnName: "设 置",
+                // divided: true,
+                // disabled: true,
+                // children: [],
+            }])
+
+            const rightclickInfo = {
+                position: {
+                    x: event.clientX,
+                    y: event.clientY,
+                },
+                menulists,
+            }
+
+            this.store.setRightclickInfo(rightclickInfo)
         }
     }
 }

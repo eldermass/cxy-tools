@@ -3,7 +3,7 @@
         <gantt-next ref="gantt" :titles="titles" :tasks="tasks" :links="links" :rows="rows" :days="30"
             :oDayBoxWidth="60" :start_time="'2023-01-04'" :rightMenulists="rightMenulists"
             @task-dbclick="handleTaskClick" @task-change="handleTaskChange" @task-change-error="handleTaskChangeError"
-            :adsorbType="1" @menu-insert="hanldeMenuInstert" />
+            :adsorbType="1" @menu-insert="hanldeMenuInstert" @menu-lock="hanldeMenuLock"/>
         <el-button @click="getData" type="primary" style="margin-top: 10px;">获取数据</el-button>
         <el-button @click="setBoxWidth(15)" type="primary" style="margin-top: 10px;">设置周视图</el-button>
         <el-button @click="setBoxWidth(120)" type="primary" style="margin-top: 10px;">设置日视图</el-button>
@@ -36,14 +36,26 @@ export default {
             links: links.slice(5),
             rightMenulists: [
                 {
+                    fnName: "lock",
+                    params: {},
+                    icoName: "el-icon-download",
+                    btnName: "锁 定",
+                    type: 'clicktask',
+                    // divided: true,
+                    // disabled: true,
+                    // children: [],
+                },
+                {
                     fnName: "insert",
                     params: {},
                     icoName: "el-icon-download",
                     btnName: "插 单",
+                    type: 'default',
                     // divided: true,
                     // disabled: true,
                     // children: [],
-                }]
+                }
+            ]
         }
     },
     mounted() {
@@ -78,6 +90,9 @@ export default {
         },
         hanldeMenuInstert(params) {
             console.log('insert', params)
+        },
+        hanldeMenuLock(params) {
+            console.log('lock: ', params)
         }
     },
 }

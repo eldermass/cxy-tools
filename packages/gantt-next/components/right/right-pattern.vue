@@ -40,8 +40,7 @@ export default {
             lastY: 0,
             maxScrollWidth: 0,
             maxScrollHeight: 0,
-            pointMove: {},
-            rightclickInfo: {}
+            pointMove: {}
         }
     },
     computed: {
@@ -51,7 +50,8 @@ export default {
                 height: state.rows.length * state.dayBoxHeight + 'px'
             }),
             dayBoxWidth: 'dayBoxWidth',
-            rightMenulists: 'rightMenulists'
+            rightMenulists: 'rightMenulists',
+            rightclickInfo: 'rightclickInfo'
         })
     },
     mounted() {
@@ -129,14 +129,15 @@ export default {
             const offset = Math.min(-this.pointMove.offsetX, this.maxScrollWidth || 1)
 
             this.$refs.dateList.scrollTo(offset, this.maxScrollWidth)
-            this.$refs.rowsContainer.scrollTo(offset, 0)
+            
+            this.$refs.rowsContainer.scrollTo(offset, this.$refs.rowsContainer.scrollTop)
         },
         fnStop() {
             document.onmousemove = null
             document.onmouseup = null
         },
         handleContextmenu(event) {
-            const menulists = this.rightMenulists.concat([{
+            const menulists = this.rightMenulists.filter(menu => menu.type === 'default').concat([{
                 fnName: "setting",
                 params: {},
                 icoName: "el-icon-setting",
@@ -145,14 +146,15 @@ export default {
                 // disabled: true,
                 // children: [],
             }])
-            
-            this.rightclickInfo = {
+
+            const rightclickInfo = {
                 position: {
                     x: event.clientX,
                     y: event.clientY,
                 },
                 menulists,
-            };
+            }
+            this.store.setRightclickInfo(rightclickInfo)
         }
     },
 }

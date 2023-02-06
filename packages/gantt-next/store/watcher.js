@@ -12,6 +12,7 @@ export default Vue.extend({
         dayBoxWidth: 30,
         dayBoxHeight: 40,
         rightMenulists: [],
+        rightclickInfo: {},
         // 渲染的数据来源
         rows: [],
         // 展示的每个任务
@@ -119,5 +120,9 @@ export default Vue.extend({
         this.table.$emit("selection-change", [])
       }
     },
+
+    setRightclickInfo(info) {
+      this.states.rightclickInfo = _.cloneDeep(info)
+    }
   },
 })
