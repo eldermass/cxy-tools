@@ -292,8 +292,9 @@ export default {
         // 处理右键点击
         handleContextmenu(event) {
             const taskMenuList = this.rightMenulists.filter(menu => ['default', 'clicktask'].indexOf(menu.type) > -1).map(menu => {
-                menu.params = Object.assign({}, menu.params, { task: _.cloneDeep(this.task) })
-                return menu
+                const cMenu = _.cloneDeep(menu)
+                cMenu.params = Object.assign({}, menu.params, { task: _.cloneDeep(this.task) })
+                return cMenu
             })
 
             const menulists = taskMenuList.concat([{
