@@ -15,7 +15,9 @@ Vue.use(Tools)
 
 ## 组件
 
-### 甘特图(新)
+### 甘特图
+
+[demo 地址](http://cy285653184.gitee.io/gant-demo/)
 
 `gantt-next`
 
