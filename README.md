@@ -1,4 +1,10 @@
-# aps
+# 工具库
+
+## 安装
+
+```bash
+npm i cxy-tools
+```
 
 ## 用法
 
