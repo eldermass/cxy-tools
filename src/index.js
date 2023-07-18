@@ -1,7 +1,7 @@
-import ganttChart from "../packages/gantt-chart/index"
 import gantNext from "../packages/gantt-next/index"
+import varForm from "../packages/var-form"
 
-const components = [ganttChart, gantNext]
+const components = [gantNext, varForm]
 
 const install = function (Vue) {
     // console.log(opts)
@@ -17,13 +17,12 @@ if (typeof window !== "undefined" && window.Vue) {
 }
 
 console.log(
-    `%c Gantt %c V1.1.1 `,
+    `%c CXY %c V1.1.1 `,
     'padding: 2px 1px; border-radius: 3px 0 0 3px; color: #fff; background: #606060; font-weight: bold;',
     'padding: 2px 1px; border-radius: 0 3px 3px 0; color: #fff; background: #42c02e; font-weight: bold;',
 )
 
 export default {
-    ganttChart,
     gantNext,
     install,
 }
