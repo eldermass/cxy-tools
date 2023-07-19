@@ -11,6 +11,10 @@ npm i cxy-tools
 ```js
 import Tools from "cxy-tools"
 Vue.use(Tools)
+
+// 局部使用
+import { varForm } from "./index"
+Vue.use(varForm)
 ```
 
 ## 组件
@@ -29,16 +33,17 @@ Vue.use(Tools)
 
 `oDayBoxHeight` number 40 每一行的高度
 
-`oDayBoxWidth` nunmber 60 每一天的宽度，18及以下时为周视图
+`oDayBoxWidth` nunmber 60 每一天的宽度，18 及以下时为周视图
 
 `titles` obj[] 按行分组，title 展示名，length 行数
 
 ```js
 titles = [
-{
-    title: "2 号楼 1 楼SMT车间",
-    length: 9
-}]
+    {
+        title: "2 号楼 1 楼SMT车间",
+        length: 9,
+    },
+]
 ```
 
 `tasks` obj[] 任务贴片
@@ -79,14 +84,14 @@ task = {
 // ("greenyellow", #99ff00, #e1fa7f),
 // ("orange", #db8000, #ffb35d),
 // ("lightgray", #cdcdcd, #f5f5f5),
-// ("gray", #bbbbbb, #ededed) 
+// ("gray", #bbbbbb, #ededed)
 ```
 
 `links` 连线
 
 ```js
 link = {
-    source_id: 2, // 开始的 task_id 
+    source_id: 2, // 开始的 task_id
     source_point: "end",
     target_id: 5, // 结束的 task_id
     target_point: "start",
@@ -99,11 +104,11 @@ link = {
 ```js
 row = {
     id: 1,
-    name: "SMT-A1"
+    name: "SMT-A1",
 }
 ```
 
-`adsorbType`: number 吸附类型: 0不吸附, 1小时吸附，2按天吸附
+`adsorbType`: number 吸附类型: 0 不吸附, 1 小时吸附，2 按天吸附
 
 `assistLine`: boolean 拖拽辅助线
 
@@ -114,7 +119,7 @@ row = {
     fnName: "insert", // 注册事件 menu-insert
     params: {}, // 携带参数
     icoName: "el-icon-download", // icon
-    btnName: "插 单", // 
+    btnName: "插 单", //
     type: 'default|clicktask', // 点击task展示不同内容
     // divided: true,
     // disabled: true,
@@ -153,7 +158,7 @@ handleTaskChangeError(task, origin_task, type) {
 
 #### methods
 
-`getData` (onlyChanged) => Task[] , onlyChanged 默认true，获取的数组是否为改变过后的数据
+`getData` (onlyChanged) => Task[] , onlyChanged 默认 true，获取的数组是否为改变过后的数据
 
 ```js
 getData() {
@@ -190,8 +195,271 @@ ctrl + 滚动，缩放每日长度
 alt + 滚动，横向滚动
 ctrl + shift + s 配置页面
 
-``` bash
+```bash
 吸附类型: 拖拽时，按何种时间点吸附
 时长(天)：需要显示的天数
 单日宽度: 每天的展示宽度
+```
+
+### varForm 可变表单
+
+#### 示例
+
+```vue
+<template>
+    <div>
+        <div class="demo-form">
+            <var-form ref="varForm" :form-data="formData" :schema="mockSchema" />
+        </div>
+        <el-button @click="getFormData">获取数据</el-button>
+        <el-button @click="setFormData">设置数据</el-button>
+        <el-button @click="updateFormData">更新数据</el-button>
+        <el-button @click="getDataAndSchema">获取数据和结构</el-button>
+    </div>
+</template>
+
+<script>
+import { mockData, mockSchema } from "../../mocks/var-form"
+
+export default {
+    name: "demo-form",
+    data() {
+        return {
+            formData: mockData,
+            mockSchema,
+        }
+    },
+    mounted() {
+        setTimeout(() => {
+            this.testUpdate()
+        }, 2000)
+    },
+    methods: {
+        getFormData() {
+            console.log(this.$refs.varForm.getFormData())
+        },
+        setFormData() {
+            this.$refs.varForm.setFormData({
+                name1: "李四",
+                name2: "王五",
+            })
+        },
+        updateFormData() {
+            this.$refs.varForm.updateFormData("name1", "张三")
+        },
+        getDataAndSchema() {
+            console.log(this.$refs.varForm.getDataAndSchema())
+        },
+        // 调试更新
+        testUpdate() {
+            const formData = this.$refs.varForm.getFormData()
+            formData.table1.push({
+                date: "2016-05-02",
+                name: "王麻虎",
+                address: "上海市普陀区金沙江路 1518 弄",
+                country: [1],
+            })
+
+            this.$refs.varForm.updateFormData("table1", formData.table1)
+        },
+    },
+}
+</script>
+<style lang="scss" scoped>
+.demo-form {
+    border: 1px solid skyblue;
+}
+</style>
+```
+
+var-form.js 中 mock 的数据
+
+```js
+export const mockData = {
+    name1: "名曰 John",
+    name2: 3,
+    name3: "2023-07-11 00:00:00",
+    name4: [1],
+    // name24: [],
+    table1: [
+        {
+            date: "2016-05-02",
+            name: "王大虎",
+            address: "上海市普陀区金沙江路 1518 弄",
+            country: [],
+        },
+        {
+            date: "2016-05-04",
+            name: "王二虎",
+            address: "上海市普陀区金沙江路 1517 弄",
+        },
+        {
+            date: "2016-05-01",
+            name: "王小虎",
+            address: "上海市普陀区金沙江路 1519 弄",
+        },
+        {
+            date: "2016-05-03",
+            name: "王幼虎",
+            address: "上海市普陀区金沙江路 1516 弄",
+        },
+    ],
+}
+
+export const mockSchema = [
+    {
+        plugin: "form-item",
+        type: "input-textarea", // input input-number input-textarea select date-picker time-picker cascader switch radio checkbox
+        rows: 3, // 仅当 type = textarea 时有效
+        label: "文本",
+        prop: "name1",
+        placeholder: "请输入", // 可选
+        disabled: false, // 可选
+    },
+    [
+        {
+            plugin: "form-item",
+            type: "select",
+            label: "选择",
+            prop: "name4",
+            multiple: true, // 可选,仅当 type = select 时有效, 且对应的值应该是 数组
+            // 仅当 type = select 时有效
+            options: [
+                {
+                    label: "选项1",
+                    value: 1,
+                },
+                {
+                    label: "选项2",
+                    value: 2,
+                },
+            ],
+        },
+        {
+            plugin: "form-item",
+            type: "date-picker",
+            dateType: "date", // 可选,仅当 type = date-picker 时有效, 默认为 date year/month/date/week/datetime/datetimerange/daterange
+            label: "日期",
+            prop: "name3",
+        },
+        {
+            plugin: "form-item",
+            type: "input-number",
+            label: "数字",
+            prop: "name2",
+        },
+    ],
+    [
+        {
+            plugin: "form-item",
+            type: "time-picker",
+            label: "时间",
+            prop: "name21",
+        },
+        {
+            plugin: "form-item",
+            type: "switch",
+            label: "开关",
+            prop: "name22",
+        },
+        {
+            plugin: "form-item",
+            type: "radio",
+            label: "单选框",
+            prop: "name23",
+            // options 仅当 type = radio 时有效
+            options: [
+                {
+                    label: "男",
+                    value: 1,
+                },
+                {
+                    label: "女",
+                    value: 2,
+                },
+            ],
+        },
+        {
+            plugin: "form-item",
+            type: "checkbox",
+            label: "多选框",
+            prop: "name24",
+            // options 仅当 type = checkbox 时有效
+            options: [
+                {
+                    label: "中国",
+                    value: 1,
+                },
+                {
+                    label: "俄罗斯",
+                    value: 2,
+                },
+            ],
+        },
+    ],
+    {
+        plugin: "table",
+        type: "input",
+        prop: "table1",
+        border: true, // 可选
+        tableHeaders: [
+            {
+                label: "名称",
+                prop: "name",
+                width: "150", // 可选
+                align: "center", // 可选
+                type: "text",
+            },
+            {
+                label: "地点",
+                prop: "address",
+                width: "150",
+                align: "center",
+                type: "input",
+            },
+            {
+                label: "状态",
+                prop: "status",
+                type: "switch",
+            },
+            {
+                label: "国家",
+                prop: "country",
+                type: "checkbox",
+                options: [
+                    {
+                        label: "中国",
+                        value: 1,
+                    },
+                    {
+                        label: "俄罗斯",
+                        value: 2,
+                    },
+                ],
+            },
+        ],
+    },
+    [
+        {
+            plugin: "button",
+            type: "primary",
+            label: "按钮1",
+            prop: "button",
+            size: "normal", // 可选
+            // 回调可选
+            callback: (formData, done) => {
+                console.log("click button: ", formData)
+                setTimeout(() => {
+                    done()
+                }, 1000)
+            },
+        },
+        {
+            plugin: "button",
+            type: "normal",
+            label: "按钮2",
+            prop: "button",
+        },
+    ],
+]
 ```
