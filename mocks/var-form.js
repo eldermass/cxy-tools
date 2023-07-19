@@ -1,6 +1,6 @@
 export const mockData = {
-    name1: "名曰 John",
-    name2: 3,
+    name1: "张三",
+    // name2: 3,
     name3: "2023-07-11 00:00:00",
     name4: [1],
     // name24: [],
@@ -9,7 +9,7 @@ export const mockData = {
             date: "2016-05-02",
             name: "王大虎",
             address: "上海市普陀区金沙江路 1518 弄",
-            country: []
+            country: [],
         },
         {
             date: "2016-05-04",
@@ -30,6 +30,16 @@ export const mockData = {
 }
 
 export const mockSchema = [
+    {
+        plugin: "validate-rules",
+        // element-ui 中相同的格式 校验规则
+        rules: {
+            name1: [
+                { required: true, message: "请输入活动名称", trigger: "blur" },
+                { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+            ],
+        },
+    },
     {
         plugin: "form-item",
         type: "input-textarea", // input input-number input-textarea select date-picker time-picker cascader switch radio checkbox
@@ -116,7 +126,7 @@ export const mockSchema = [
                 {
                     label: "俄罗斯",
                     value: 2,
-                }
+                },
             ],
         },
     ],
@@ -157,9 +167,9 @@ export const mockSchema = [
                     {
                         label: "俄罗斯",
                         value: 2,
-                    }
+                    },
                 ],
-            }
+            },
         ],
     },
     [

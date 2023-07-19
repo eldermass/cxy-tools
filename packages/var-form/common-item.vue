@@ -92,8 +92,7 @@ export default {
             if (shouldInits.includes(this.schema.type) && !this.row[this.schema.prop]) {
                 // 非直接表单结构，更新 row 数据
                 if (this.schema.plugin !== 'form-item') {
-                    // eslint-disable-next-line vue/no-mutating-props
-                    this.row[this.schema.prop] = []
+                    this.$set(this.row, this.schema.prop, [])
                     return
                 }
                 // 直接表单结构更新 formData 数据

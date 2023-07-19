@@ -7,6 +7,7 @@
         <el-button @click="setFormData">设置数据</el-button>
         <el-button @click="updateFormData">更新数据</el-button>
         <el-button @click="getDataAndSchema">获取数据和结构</el-button>
+        <el-button @click="validateForm">验证表单数据</el-button>
     </div>
 </template>
 
@@ -27,8 +28,8 @@ export default {
         }, 2000)
     },
     methods: {
-        getFormData() {
-            console.log(this.$refs.varForm.getFormData())
+        async getFormData() {
+            console.log(await this.$refs.varForm.getFormData())
         },
         setFormData() {
             this.$refs.varForm.setFormData({
@@ -53,6 +54,16 @@ export default {
             },)
 
             this.$refs.varForm.updateFormData('table1', formData.table1)
+        },
+        // 验证表单数据
+        async validateForm() {
+            const data = await this.$refs.varForm.getValidateFormData().catch(() => {})
+            if (!data) {
+                console.log('验证失败')
+                return
+            }
+
+            console.log("验证成功，data： ", data)
         }
     },
 }

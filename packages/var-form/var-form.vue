@@ -1,5 +1,5 @@
 <template>
-    <el-form class='var-form' label-width="100px">
+    <el-form ref="varForm" :model="formData" class='var-form' :rules="rules" label-width="100px">
         <!-- 按行的表单项 -->
         <el-row v-for="(schemaItem, index) in schema" :key="index">
             <template v-if="isSchemaArray(schemaItem)">
@@ -34,6 +34,16 @@ export default {
         }
     },
     data() {
+        const schema = _.cloneDeep(this.schema)
+        const ruleIndex = schema.findIndex(item => item.plugin === 'validate-rules')
+        
+        if (ruleIndex > -1) {
+            this.rules = schema[ruleIndex].rules
+            schema.splice(ruleIndex, 1)
+        } else {        
+            this.rules = {}
+        }
+
         this.store = createStore(this, {
             formData: this.formData,
             formSchema: this.schema
@@ -52,21 +62,37 @@ export default {
         getFormData() {
             return _.cloneDeep(this.storeFormData)
         },
+        // 设置表单数据
         setFormData(formData) {
             this.store.setFormData(formData)
         },
+        // 更新表单数据
         updateFormData(key, value) {
             this.store.updateFormData(key, value)
         },
+        // 获取表单结构
         getSchema() {
             return _.cloneDeep(this.storeFormSchema)
         },
+        // 获取表单数据和结构
         getDataAndSchema() {
             return {
                 formData: this.getFormData(),
                 formSchema: this.getSchema()
             }
-        }
+        },
+        // 验证表单
+        getValidateFormData() {
+            return new Promise((resolve, reject) => {
+                this.$refs.varForm.validate((valid) => {
+                    if (valid) {
+                        resolve(this.getFormData())
+                    } else {
+                        reject('failed')
+                    }
+                });
+            })
+        },
     },
 }
 </script>
