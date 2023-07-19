@@ -23,7 +23,8 @@ export default Vue.extend({
             this.states.formData = _.cloneDeep(formData)
         },
         updateFormData(key, value) {
-            this.states.formData[key] = value
+            this.$set(this.states.formData, key, value)
+            // this.states.formData[key] = value
         }
     },
 })

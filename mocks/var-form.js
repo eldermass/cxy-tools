@@ -3,12 +3,13 @@ export const mockData = {
     name2: 3,
     name3: "2023-07-11 00:00:00",
     name4: [1],
-    name24: [],
+    // name24: [],
     table1: [
         {
             date: "2016-05-02",
             name: "王大虎",
             address: "上海市普陀区金沙江路 1518 弄",
+            country: []
         },
         {
             date: "2016-05-04",
@@ -144,6 +145,21 @@ export const mockSchema = [
                 prop: "status",
                 type: "switch",
             },
+            {
+                label: "国家",
+                prop: "country",
+                type: "checkbox",
+                options: [
+                    {
+                        label: "中国",
+                        value: 1,
+                    },
+                    {
+                        label: "俄罗斯",
+                        value: 2,
+                    }
+                ],
+            }
         ],
     },
     [

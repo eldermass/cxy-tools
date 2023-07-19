@@ -83,19 +83,20 @@ export default {
         return {}
     },
     created() {
-        // 自动初始化会导致响应式问题，暂时先不用
-        // this.initFormData()
+        this.initFormData()
     },
     methods: {
         initFormData() {
-            // 不是直接表单的组件，先不管
-            if (this.schema.plugin !== 'form-item') {
-                return
-            }
-
             // 当有些需要绑定数组类型的数据，但是form中又没有定义的时候，需要初始化一下
             const shouldInits = ['checkbox']
             if (shouldInits.includes(this.schema.type) && !this.row[this.schema.prop]) {
+                // 非直接表单结构，更新 row 数据
+                if (this.schema.plugin !== 'form-item') {
+                    // eslint-disable-next-line vue/no-mutating-props
+                    this.row[this.schema.prop] = []
+                    return
+                }
+                // 直接表单结构更新 formData 数据
                 this.store.updateFormData(this.schema.prop, [])
             }
         }

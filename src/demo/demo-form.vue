@@ -21,6 +21,11 @@ export default {
             mockSchema
         }
     },
+    mounted() {
+        setTimeout(() => {
+            this.testUpdate()
+        }, 2000)
+    },
     methods: {
         getFormData() {
             console.log(this.$refs.varForm.getFormData())
@@ -36,6 +41,18 @@ export default {
         },
         getDataAndSchema() {
             console.log(this.$refs.varForm.getDataAndSchema())
+        },
+        // 调试更新
+        testUpdate() {
+            const formData = this.$refs.varForm.getFormData()
+            formData.table1.push({
+                date: "2016-05-02",
+                name: "王麻虎",
+                address: "上海市普陀区金沙江路 1518 弄",
+                country: [1]
+            },)
+
+            this.$refs.varForm.updateFormData('table1', formData.table1)
         }
     },
 }
