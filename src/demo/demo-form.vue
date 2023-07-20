@@ -24,7 +24,7 @@ export default {
     },
     mounted() {
         setTimeout(() => {
-            this.testUpdate()
+            // this.testUpdate()
         }, 2000)
     },
     methods: {
