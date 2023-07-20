@@ -8,6 +8,7 @@ export default Vue.extend({
             states: {
                 formData: {},
                 formSchema: [],
+                externalFuncs: {},
             },
         }
     },
@@ -15,6 +16,10 @@ export default Vue.extend({
     // mixins: [current],
 
     methods: {
+        // 获取外部函数
+        getExternalFuncs() {
+            return this.states.externalFuncs
+        },
         // 获取数据
         getFormData() {
             return _.cloneDeep(this.states.formData)

@@ -276,8 +276,8 @@ var-form.js 中 mock 的数据
 
 ```js
 export const mockData = {
-    name1: "名曰 John",
-    name2: 3,
+    name1: "张三",
+    // name2: 3,
     name3: "2023-07-11 00:00:00",
     name4: [1],
     // name24: [],
@@ -286,6 +286,13 @@ export const mockData = {
             date: "2016-05-02",
             name: "王大虎",
             address: "上海市普陀区金沙江路 1518 弄",
+            // 当前属性，当前值，当前行数据
+            valid_address: `
+            (prop, value, row) => {
+                console.log("valid_name: ", prop, value, row)
+                return value === "上海市普陀区金沙江路 1518 弄"
+            }
+            `,
             country: [],
         },
         {
@@ -308,8 +315,18 @@ export const mockData = {
 
 export const mockSchema = [
     {
+        plugin: "validate-rules",
+        // element-ui 中相同的格式 校验规则
+        rules: {
+            name1: [
+                { required: true, message: "请输入活动名称", trigger: "blur" },
+                { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+            ],
+        },
+    },
+    {
         plugin: "form-item",
-        type: "input-textarea", // input input-number input-textarea select date-picker time-picker cascader switch radio checkbox
+        type: "input-textarea", // input input-number input-textarea select date-picker time-picker switch radio checkbox
         rows: 3, // 仅当 type = textarea 时有效
         label: "文本",
         prop: "name1",
@@ -447,19 +464,27 @@ export const mockSchema = [
             prop: "button",
             size: "normal", // 可选
             // 回调可选
-            callback: (formData, done) => {
-                console.log("click button: ", formData)
+            callback: `(data, funcs,  done) => {
+                console.log("click button: ", data, funcs.getValidateForm())
                 setTimeout(() => {
                     done()
                 }, 1000)
-            },
+            }`,
         },
         {
             plugin: "button",
             type: "normal",
             label: "按钮2",
             prop: "button",
+            size: "normal", // 可选
+            callback: (data, funcs, done) => {
+                console.log("click button: ", data)
+                setTimeout(() => {
+                    done()
+                }, 1000)
+            }
         },
     ],
 ]
+
 ```

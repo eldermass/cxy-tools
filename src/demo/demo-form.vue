@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="demo-form">
-            <var-form ref="varForm" :form-data="formData" :schema="mockSchema" />
+            <var-form ref="varForm" :form-data="formData" :schema="mockSchema" :external-funcs="externalFuncs" />
         </div>
         <el-button @click="getFormData">获取数据</el-button>
         <el-button @click="setFormData">设置数据</el-button>
@@ -19,7 +19,10 @@ export default {
     data() {
         return {
             formData: mockData,
-            mockSchema
+            mockSchema,
+            externalFuncs: {
+                getValidateForm: this.validateForm
+            }
         }
     },
     mounted() {
@@ -57,7 +60,7 @@ export default {
         },
         // 验证表单数据
         async validateForm() {
-            const data = await this.$refs.varForm.getValidateFormData().catch(() => {})
+            const data = await this.$refs.varForm.getValidateFormData().catch(() => { })
             if (!data) {
                 console.log('验证失败')
                 return

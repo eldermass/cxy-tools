@@ -1,3 +1,8 @@
+/**
+ * 1. data 中的属性名必须和 schema 中的 prop 相同
+ * 2. valid_prop 需要是一个函数且有返回值，(prop, value, row) => Boolean
+ */
+
 export const mockData = {
     name1: "张三",
     // name2: 3,
@@ -5,34 +10,41 @@ export const mockData = {
     name4: [1],
     // name24: [],
     table1: [
-        // {
-        //     date: "2016-05-02",
-        //     name: "王大虎",
-        //     address: "上海市普陀区金沙江路 1518 弄",
-        //     country: [],
-        // },
-        // {
-        //     date: "2016-05-04",
-        //     name: "王二虎",
-        //     address: "上海市普陀区金沙江路 1517 弄",
-        // },
-        // {
-        //     date: "2016-05-01",
-        //     name: "王小虎",
-        //     address: "上海市普陀区金沙江路 1519 弄",
-        // },
-        // {
-        //     date: "2016-05-03",
-        //     name: "王幼虎",
-        //     address: "上海市普陀区金沙江路 1516 弄",
-        // },
+        {
+            date: "2016-05-02",
+            name: "王大虎",
+            address: "上海市普陀区金沙江路 1518 弄",
+            // 验证字段，返回为当前属性，当前值，当前行数据
+            valid_address: `
+            (prop, value, row) => {
+                console.log("valid_name: ", prop, value, row)
+                return value === "上海市普陀区金沙江路 1518 弄"
+            }
+            `,
+            country: [],
+        },
+        {
+            date: "2016-05-04",
+            name: "王二虎",
+            address: "上海市普陀区金沙江路 1517 弄",
+        },
+        {
+            date: "2016-05-01",
+            name: "王小虎",
+            address: "上海市普陀区金沙江路 1519 弄",
+        },
+        {
+            date: "2016-05-03",
+            name: "王幼虎",
+            address: "上海市普陀区金沙江路 1516 弄",
+        },
     ],
 }
 
 export const mockSchema = [
     {
-        plugin: "validate-rules",
-        // element-ui 中相同的格式 校验规则
+        plugin: "validate-rules", // validate-rules form-item table button
+        // 表单部分校验，同的 el-form 校验规则
         rules: {
             name1: [
                 { required: true, message: "请输入活动名称", trigger: "blur" },
@@ -42,7 +54,7 @@ export const mockSchema = [
     },
     {
         plugin: "form-item",
-        type: "input-textarea", // input input-number input-textarea select date-picker time-picker cascader switch radio checkbox
+        type: "input-textarea", // input input-number input-textarea select date-picker time-picker switch radio checkbox
         rows: 3, // 仅当 type = textarea 时有效
         label: "文本",
         prop: "name1",
@@ -175,23 +187,30 @@ export const mockSchema = [
     [
         {
             plugin: "button",
-            type: "primary",
+            type: "primary", // 可选，同 el-button type
             label: "按钮1",
             prop: "button",
-            size: "normal", // 可选
-            // 回调可选
-            callback: (formData, done) => {
-                console.log("click button: ", formData)
+            size: "normal", // 可选，同 el-button size
+            // 点击回调 (表单数据，默认函数Map，完成回调) => {}
+            callback: `(data, funcs,  done) => {
+                console.log("click button: ", data, funcs.getValidateForm())
                 setTimeout(() => {
                     done()
                 }, 1000)
-            },
+            }`,
         },
         {
             plugin: "button",
             type: "normal",
             label: "按钮2",
             prop: "button",
+            size: "normal", // 可选
+            callback: (data, funcs, done) => {
+                console.log("click button: ", data)
+                setTimeout(() => {
+                    done()
+                }, 1000)
+            }
         },
     ],
 ]

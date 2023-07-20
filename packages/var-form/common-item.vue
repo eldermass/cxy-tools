@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-    <div class="custom-item">
+    <div :class="['custom-item', errorClass]" @input="handleInput">
         <!-- input 框 -->
         <template v-if="schema.type === 'input'">
             <el-input v-model="row[schema.prop]" :disabled="schema.disabled" :placeholder="schema.placeholder" />
@@ -80,7 +80,9 @@ export default {
         }
     },
     data() {
-        return {}
+        return {
+            errorClass: ''
+        }
     },
     created() {
         this.initFormData()
@@ -98,7 +100,40 @@ export default {
                 // 直接表单结构更新 formData 数据
                 this.store.updateFormData(this.schema.prop, [])
             }
+        },
+        handleInput(event) {
+            // name 需要检验时，就会传入 valid_name 的字段，没有的话就不需要验证
+            if (!Object.keys(this.row).includes("valid_" + this.schema.prop))
+                // Object.keys直接用传入数据，能优化性能
+                return
+
+            // console.log(`需要验证${this.schema.prop}字段`)
+            const valid_func = this.row["valid_" + this.schema.prop]
+            if (typeof valid_func === 'string') {
+                try {
+                    const callback = eval(`(${valid_func})`)
+                    // 当前属性，当前值，当前行数据
+                    const result = callback(this.schema.prop, event.target.value, this.row)
+                    console.log("验证结果：", result)
+                    if (result) {
+                        this.errorClass = ''
+                    } else {
+                        this.errorClass = 'customer-error'
+                    }
+                } catch (error) {
+                    console.error(`验证函数解析失败，请检查 ${this.schema.prop} 的验证函数！`);
+                }
+            }
         }
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.customer-error :deep(.el-input__inner) {
+    border: 1px solid red!important;
+    &::focus {
+        border-color: red!important;
+    }
+}
+</style>

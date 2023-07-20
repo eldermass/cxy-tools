@@ -23,11 +23,26 @@ export default {
     },
     methods: {
         handleClick() {
-            if (this.schema.callback) {
+            if (!this.schema.callback) return
+            // 如果传递的是函数，则直接执行
+            if (typeof this.schema.callback === 'function') {
                 this.clicking = true
-                this.schema.callback(this.store.getFormData(), () => {
+                this.schema.callback(this.store.getFormData(), this.store.getExternalFuncs(), () => {
                     this.clicking = false
                 })
+            }
+
+            // 如果传递的是字符串，则eval执行
+            if (typeof this.schema.callback === 'string') {
+                try {
+                    const callback = eval(`(${this.schema.callback})`)
+                    this.clicking = true
+                    callback(this.store.getFormData(), this.store.getExternalFuncs(), () => {
+                        this.clicking = false
+                    })
+                } catch (error) {
+                    console.error("按钮 callback 函数解析失败，请检查函数！");
+                }
             }
         }
     },

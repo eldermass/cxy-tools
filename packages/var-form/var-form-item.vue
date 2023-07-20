@@ -1,5 +1,5 @@
 <template>
-    <el-col v-if="schema.prop" class="var-form-itemm" v-bind="$attrs">
+    <el-col v-if="schema.prop" class="var-form-item" v-bind="$attrs">
         <!-- 表单 item -->
         <template v-if="schema.plugin === 'form-item'">
             <plugin-form-item :schema="schema" :store="store" />
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.var-form-itemm {
-    margin-top: 10px;
+.var-form-item {
+    margin-top: 10px!important;
 }
 </style>

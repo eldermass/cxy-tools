@@ -31,6 +31,11 @@ export default {
         schema: {
             type: [Object, Array],
             default: () => ({})
+        },
+        // 外部函数队列
+        externalFuncs: {
+            type: Object,
+            default: () => ({})
         }
     },
     data() {
@@ -46,7 +51,8 @@ export default {
 
         this.store = createStore(this, {
             formData: this.formData,
-            formSchema: this.schema
+            formSchema: this.schema,
+            externalFuncs: this.externalFuncs
         })
         return {}
     },
