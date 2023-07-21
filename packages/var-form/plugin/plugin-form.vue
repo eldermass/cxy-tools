@@ -1,5 +1,5 @@
 <template>
-    <el-form :model="storeFormData[schema.prop]" label-width="100px">
+    <el-form :model="storeFormData[schema.prop]" :rules="schema.valid_rules || {}" label-width="100px">
         <el-row v-for="(attrSchema, index) in schema.attributes" :key="index">
             <template v-if="isSchemaArray(attrSchema)">
                 <el-col  v-for="(spiltSchema, index) in attrSchema" :key="index"

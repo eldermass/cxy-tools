@@ -2,6 +2,7 @@
     <div id="app">
         <gant-demo v-if="showName === 'gant'"></gant-demo>
         <demo-form v-if="showName === 'form'"></demo-form>
+        <demo-form-editor v-if="showName === 'form-editor'"></demo-form-editor>
     </div>
 </template>
 
@@ -9,16 +10,18 @@
 import './main.js'
 import GantDemo from './demo/gant.vue'
 import DemoForm from './demo/demo-form.vue'
+import DemoFormEditor from './demo/form-editor.vue'
 
 export default {
     name: "App",
     components: {
-        GantDemo, DemoForm
+        GantDemo, DemoForm, DemoFormEditor
     },
     data() {
         return {
             // showName: 'gant'
-            showName: 'form'
+            // showName: 'form'
+            showName: 'form-editor'
         }
     },
 

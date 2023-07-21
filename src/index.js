@@ -1,7 +1,8 @@
 import gantNext from "../packages/gantt-next/index"
 import varForm from "../packages/var-form/index"
+import varFormEditor from "../packages/var-form-editor"
 
-const components = [gantNext, varForm]
+const components = [gantNext, varForm, varFormEditor]
 
 const install = function (Vue) {
     // console.log(opts)
@@ -23,10 +24,11 @@ console.log(
     "background: #ffffff; padding: 2px 0;"
 )
 
-export { varForm, gantNext }
+export { varForm, gantNext, varFormEditor }
 
 export default {
     gantNext,
     varForm,
+    varFormEditor,
     install,
 }

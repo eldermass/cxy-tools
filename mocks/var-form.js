@@ -31,17 +31,7 @@ export const mockData = {
             date: "2016-05-04",
             name: "王二虎",
             address: "上海市普陀区金沙江路 1517 弄",
-        },
-        {
-            date: "2016-05-01",
-            name: "王小虎",
-            address: "上海市普陀区金沙江路 1519 弄",
-        },
-        {
-            date: "2016-05-03",
-            name: "王幼虎",
-            address: "上海市普陀区金沙江路 1516 弄",
-        },
+        }
     ],
 }
 
@@ -188,38 +178,15 @@ export const mockSchema = [
             },
         ],
     },
-    [
-        {
-            plugin: "button",
-            type: "primary", // 可选，同 el-button type
-            label: "按钮1",
-            prop: "button",
-            size: "normal", // 可选，同 el-button size
-            // 点击回调 (表单数据，默认函数Map，完成回调) => {}
-            callback: `(data, funcs,  done) => {
-                console.log("click button: ", data, funcs.getValidateForm())
-                setTimeout(() => {
-                    done()
-                }, 1000)
-            }`,
-        },
-        {
-            plugin: "button",
-            type: "normal",
-            label: "按钮2",
-            prop: "button",
-            size: "normal", // 可选
-            callback: (data, funcs, done) => {
-                console.log("click button: ", data)
-                setTimeout(() => {
-                    done()
-                }, 1000)
-            }
-        },
-    ],
     {
         plugin: "form",
         prop: "form1",
+        valid_rules: {
+            name1: [
+                { required: true, message: "请输入活动名称", trigger: "blur" },
+                { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+            ],
+        },
         attributes: [
             {
                 plugin: "form-item",
@@ -265,4 +232,33 @@ export const mockSchema = [
             ],
         ]
     },
+    [
+        {
+            plugin: "button",
+            type: "primary", // 可选，同 el-button type
+            label: "按钮1",
+            prop: "button",
+            size: "normal", // 可选，同 el-button size
+            // 点击回调 (表单数据，默认函数Map，完成回调) => {}
+            callback: `(data, funcs,  done) => {
+                console.log("click button: ", data, funcs.getValidateForm())
+                setTimeout(() => {
+                    done()
+                }, 1000)
+            }`,
+        },
+        {
+            plugin: "button",
+            type: "normal",
+            label: "按钮2",
+            prop: "button",
+            size: "normal", // 可选
+            callback: (data, funcs, done) => {
+                console.log("click button: ", data)
+                setTimeout(() => {
+                    done()
+                }, 1000)
+            }
+        },
+    ],
 ]
