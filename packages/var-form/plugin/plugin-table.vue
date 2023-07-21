@@ -56,7 +56,7 @@ export default {
             }
         },
         deleteRow(index) {
-            console.log(index);
+            // console.log(index);
             if (Array.isArray(this.storeFormData[this.schema.prop])) {
                 this.storeFormData[this.schema.prop].splice(index, 1)
             }

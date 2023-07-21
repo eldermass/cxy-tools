@@ -9,12 +9,16 @@ export const mockData = {
     name3: "2023-07-11 00:00:00",
     name4: [1],
     // name24: [],
+    form1: {
+        // name1: "狗蛋",
+    },
     table1: [
         {
             date: "2016-05-02",
             name: "王大虎",
             address: "上海市普陀区金沙江路 1518 弄",
-            // 验证字段，返回为当前属性，当前值，当前行数据
+            // 验证字段，返回为当前属性，当前值，当前行数据 
+            // (prop: string, value: string, row: { prop: value... }) => Boolean
             valid_address: `
             (prop, value, row) => {
                 console.log("valid_name: ", prop, value, row)
@@ -213,4 +217,52 @@ export const mockSchema = [
             }
         },
     ],
+    {
+        plugin: "form",
+        prop: "form1",
+        attributes: [
+            {
+                plugin: "form-item",
+                type: "input-textarea", // input input-number input-textarea select date-picker time-picker switch radio checkbox
+                rows: 3, // 仅当 type = textarea 时有效
+                label: "文本",
+                prop: "name1",
+                placeholder: "请输入", // 可选
+                disabled: false, // 可选
+            },
+            [
+                {
+                    plugin: "form-item",
+                    type: "select",
+                    label: "选择",
+                    prop: "name4",
+                    multiple: true, // 可选,仅当 type = select 时有效, 且对应的值应该是 数组
+                    // 仅当 type = select 时有效
+                    options: [
+                        {
+                            label: "选项1",
+                            value: 1,
+                        },
+                        {
+                            label: "选项2",
+                            value: 2,
+                        },
+                    ],
+                },
+                {
+                    plugin: "form-item",
+                    type: "date-picker",
+                    dateType: "date", // 可选,仅当 type = date-picker 时有效, 默认为 date year/month/date/week/datetime/datetimerange/daterange
+                    label: "日期",
+                    prop: "name3",
+                },
+                {
+                    plugin: "form-item",
+                    type: "input-number",
+                    label: "数字",
+                    prop: "name2",
+                },
+            ],
+        ]
+    },
 ]

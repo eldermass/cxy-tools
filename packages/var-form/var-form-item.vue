@@ -5,6 +5,11 @@
             <plugin-form-item :schema="schema" :store="store" />
         </template>
 
+        <!-- 表单 -->
+        <template v-else-if="schema.plugin === 'form'">
+            <plugin-form :schema="schema" :store="store" />
+        </template>
+
         <!-- 表格 -->
         <template v-else-if="schema.plugin === 'table'">
             <plugin-table :schema="schema" :store="store" />
@@ -28,13 +33,15 @@
 import pluginFormItem from './plugin/plugin-form-item.vue';
 import pluginTable from './plugin/plugin-table.vue'
 import pluginButton from './plugin/plugin-button.vue'
+import pluginForm from './plugin/plugin-form.vue';
 
 export default {
     name: 'var-form-item',
     components: {
         pluginFormItem,
         pluginTable,
-        pluginButton
+        pluginButton,
+        pluginForm
     },
     props: {
         store: {
