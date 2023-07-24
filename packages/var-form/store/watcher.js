@@ -9,6 +9,7 @@ export default Vue.extend({
                 formData: {},
                 formSchema: [],
                 externalFuncs: {},
+                storeOptions: [] // url, req
             },
         }
     },
@@ -30,6 +31,20 @@ export default Vue.extend({
         updateFormData(key, value) {
             this.$set(this.states.formData, key, value)
             // this.states.formData[key] = value
+        },
+        // 设置并获取 storeOptions
+        getStoreOptionsa(url) {
+            const storedOption = this.states.storeOptions.find(item => item.url === url)
+            let newOption
+
+            if (!storedOption) {
+                newOption = {
+                    url,
+                    req: fetch(url).then(res => res.json())
+                }
+                this.states.storeOptions.push(newOption)
+            }
+            return storedOption ? storedOption.req : newOption.req
         }
     },
 })

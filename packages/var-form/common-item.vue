@@ -86,6 +86,7 @@ export default {
     },
     created() {
         this.initFormData()
+        this.initOptionsData()
     },
     methods: {
         initFormData() {
@@ -100,6 +101,26 @@ export default {
                 // 直接表单结构更新 formData 数据
                 this.store.updateFormData(this.schema.prop, [])
             }
+        },
+        // 初始化选择数据
+        initOptionsData() {
+            // http://10.10.2.201:8881/api/modalinfo/1/
+            // 不属于选项类型的，直接返回
+            const shouldReq = ['select', 'radio', 'checkbox']
+            if (!shouldReq.includes(this.schema.type)) return
+            if (this.schema.options) return
+
+            // 有配置源时请求
+            if (this.schema.optionSource) {
+                // 从缓存中获取，避免重复请求
+                const optionReq = this.store.getStoreOptionsa(this.schema.optionSource)
+                optionReq.then(res => {
+                    // console.log(res)
+                    this.$set(this.schema, 'options', res.data)
+                    this.$forceUpdate()
+                })
+            }
+
         },
         handleInput(event) {
             // name 需要检验时，就会传入 valid_name 的字段，没有的话就不需要验证
@@ -131,9 +152,10 @@ export default {
 
 <style lang="scss" scoped>
 .customer-error :deep(.el-input__inner) {
-    border: 1px solid red!important;
+    border: 1px solid red !important;
+
     &::focus {
-        border-color: red!important;
+        border-color: red !important;
     }
 }
 </style>

@@ -2,7 +2,7 @@
     <div>
         <slot />
         <ul class="plugin-list">
-            <li v-for="plugin in plugins" :key="plugin.name" draggable @dragstart="handleDragStart($event, plugin.name)"
+            <li v-for="plugin in plugins" :key="plugin.name" draggable @dragstart="handleDragStart($event, plugin.id)"
                 @dragend="handleDragEnd">
                 {{ plugin.name }}
             </li>
@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
-import { plugins } from "./plugins.js"
+import { plugins } from "../plugins.js"
 
 export default {
     name: "plugins-panel",
@@ -25,14 +25,12 @@ export default {
         };
     },
     methods: {
-        handleDragStart(e, name) {
-            e.dataTransfer.setData('plugin-name', name)
-            console.log('drag start: ', e);
+        handleDragStart(e, id) {
+            e.dataTransfer.setData('plugin-id', id)
+            // console.log('drag start: ', e);
         },
-        handleDragEnd(e) {
-            // e.preventDefault();
-            const name = e.dataTransfer.getData('plugin-name')
-            console.log('drag end: ', name,  e);
+        handleDragEnd() {
+            // console.log('drag end: ',  e);
         }
     },
 }

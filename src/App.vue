@@ -1,5 +1,10 @@
 <template>
     <div id="app">
+        <el-button-group style="margin-bottom: 5px;">
+            <el-button size="mini" @click="changeDemo(1)" type="primary">gant chart</el-button>
+            <el-button size="mini" @click="changeDemo(2)" type="primary">var Form</el-button>
+            <el-button size="mini" @click="changeDemo(3)" type="primary">form Editor</el-button>
+        </el-button-group>
         <gant-demo v-if="showName === 'gant'"></gant-demo>
         <demo-form v-if="showName === 'form'"></demo-form>
         <demo-form-editor v-if="showName === 'form-editor'"></demo-form-editor>
@@ -24,6 +29,31 @@ export default {
             showName: 'form-editor'
         }
     },
+    mounted() {
+        this.showByLocationSearch()
+    },
+    methods: {
+        changeDemo(id) {
+            window.location.search = `?id=${id}`
+        },
+        showByLocationSearch() {
+            const search = window.location.search
+
+            switch (search) {
+                case '?id=1':
+                    this.showName = 'gant'
+                    break;
+                case '?id=2':
+                    this.showName = 'form'
+                    break;
+                case '?id=3':
+                    this.showName = 'form-editor'
+                    break;
+                default:
+                    break;
+            }
+        }
+    },
 
 }
 </script>
@@ -35,9 +65,9 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin: 100px 0 0 100px;
-    height: 600px;
-    width: 1200px;
+    margin: 80px 0 0 100px;
+    height: 700px;
+    width: 1400px;
 
     /* height: 100vh;
     width: 100vw; */

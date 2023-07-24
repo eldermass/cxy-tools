@@ -7,7 +7,7 @@ export const mockData = {
     name1: "张三",
     // name2: 3,
     name3: "2023-07-11 00:00:00",
-    name4: [1],
+    name4: ["1"],
     // name24: [],
     form1: {
         // name1: "狗蛋",
@@ -62,17 +62,18 @@ export const mockSchema = [
             label: "选择",
             prop: "name4",
             multiple: true, // 可选,仅当 type = select 时有效, 且对应的值应该是 数组
-            // 仅当 type = select 时有效
-            options: [
-                {
-                    label: "选项1",
-                    value: 1,
-                },
-                {
-                    label: "选项2",
-                    value: 2,
-                },
-            ],
+            // 仅当 type = select 时有效, options 数据的优先级高于 optionSource
+            optionSource: "http://10.10.2.201:8881/api/modalinfo/1/" // get 请求, 返回结构 { data: [{ label: "选项1", value: 1 }] }
+            // options: [
+            //     {
+            //         label: "选项1",
+            //         value: 1,
+            //     },
+            //     {
+            //         label: "选项2",
+            //         value: 2,
+            //     },
+            // ],
         },
         {
             plugin: "form-item",
