@@ -1,5 +1,5 @@
 <template>
-    <el-button :type="schema.type" :size="schema.size || 'mini'" v-loading="clicking"  @click="handleClick">
+    <el-button :type="schema.colorType" :size="schema.size || 'mini'" v-loading="clicking"  @click="handleClick">
         {{ schema.label }}
     </el-button>
 </template>

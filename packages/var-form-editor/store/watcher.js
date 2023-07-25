@@ -13,15 +13,46 @@ export default Vue.extend({
         }
     },
     methods: {
-        // 添加面板结构
+        // 添加 pluginsSchema 结构
         addPluginSchema(pluginSchema, index) {
             index = index || this.states.pluginsSchema.length
-            this.states.pluginsSchema.splice(index, 0, pluginSchema)
+            this.states.pluginsSchema.splice(index, 0, _.cloneDeep(pluginSchema))
         },
+        // 添加 pluginsSchema 结构到某一行
         addPluginSchemaToLine(pluginSchema, lineIndex) {
-            this.states.pluginsSchema[lineIndex].push(pluginSchema)
+            this.states.pluginsSchema[lineIndex].push(_.cloneDeep(pluginSchema))
         },
-        // 根据 pluginsSchema 生成提交结构
+        // 获取 pluginsSchema 中的某一行某列
+        getPluginSchema(index, childIndex) {
+            let returnSchema
+            if (childIndex !== undefined) {
+                returnSchema = this.states.pluginsSchema[index][childIndex]
+            } else {
+                returnSchema = this.states.pluginsSchema[index]
+            }
+            return _.cloneDeep(returnSchema)
+        },
+        // 更新 pluginsSchema 中的某一行某列
+        updatePluginSchema(pluginSchema, index, childIndex) {
+            // eslint-disable-next-line no-debugger
+            // debugger
+            if (childIndex !== undefined) {
+                this.$set(this.states.pluginsSchema[index], childIndex, _.cloneDeep(pluginSchema))
+                // this.states.pluginsSchema[index][childIndex] = _.cloneDeep(pluginSchema)
+            } else {
+                this.$set(this.states.pluginsSchema, index, _.cloneDeep(pluginSchema))
+                // this.states.pluginsSchema[index] = _.cloneDeep(pluginSchema)
+            }
+        },
+        // 删除 pluginsSchema
+        deletePluginSchema(index, childIndex) {
+            if (childIndex !== undefined) {
+                this.states.pluginsSchema[index].splice(childIndex, 1)
+            } else {
+                this.states.pluginsSchema.splice(index, 1)
+            }
+        },
+        // 根据 pluginsSchema 生成 formSchema
         generateFormSchema() {
             this.states.index = 0
             this.states.formSchema = []
@@ -44,9 +75,9 @@ export default Vue.extend({
             })
             this.generateFormData()
         },
-        // check plugin schema repeat 并 获取新的 plugin schema
+        // 去重并生成 plugin 放到 formSchema 中
         checkPluginSchemaRepeat(formSchemas, pluginSchema) {
-            const schemas = _.cloneDeep(formSchemas).flat()
+            const schemas = _.cloneDeep(formSchemas).flat().filter(Boolean)
             const plugin = _.cloneDeep(pluginSchema)
 
             schemas.forEach((schema) => {
@@ -57,11 +88,12 @@ export default Vue.extend({
             })
             return plugin
         },
-        // 根据 formSchema 生成默认数据表单
+        // 根据 formSchema 生成 formData
         generateFormData() {
             this.states.formData = {}
             const formSchema = _.cloneDeep(this.states.formSchema)
             formSchema.forEach((item) => {
+                if (!item) return
                 // 只有一行行多个时是数组
                 if (Array.isArray(item)) {
                     item.forEach((childItem) => {
@@ -72,7 +104,7 @@ export default Vue.extend({
                 }
             })
         },
-        // set form data
+        // 设置 formData
         setFormData(dataObject, schemaItem) {
             // 某些插件不需要设置默认值
             if (["button"].includes(schemaItem.plugin)) {

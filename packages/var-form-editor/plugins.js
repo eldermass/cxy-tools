@@ -28,6 +28,8 @@ export const plugins = [
             type: "input-number",
             label: "数字",
             prop: "propNumber",
+            defaultValue: undefined, // 可选
+            disabled: false, // 可选
         },
     },
     {
@@ -41,6 +43,7 @@ export const plugins = [
             label: "文本",
             prop: "propTextarea",
             placeholder: "请输入", // 可选
+            defaultValue: undefined, // 可选
             disabled: false, // 可选
         },
     },
@@ -54,19 +57,21 @@ export const plugins = [
             label: "选择",
             prop: "propSelect",
             defaultValue: "",
+            placeholder: "请选择", // 可选
+            disabled: false, // 可选
             multiple: true, // 可选,仅当 type = select 时有效, 且对应的值应该是 数组
             // 仅当 type = select 时有效, options 数据的优先级高于 optionSource
-            optionSource: "http://10.10.2.201:8881/api/modalinfo/1/", // get 请求, 返回结构 { data: [{ label: "选项1", value: 1 }] }
-            // options: [
-            //     {
-            //         label: "选项1",
-            //         value: 1,
-            //     },
-            //     {
-            //         label: "选项2",
-            //         value: 2,
-            //     },
-            // ],
+            optionSource: "", // get 请求, 返回结构 { data: [{ label: "选项1", value: 1 }] }
+            options: [
+                {
+                    label: "选项1",
+                    value: "1",
+                },
+                {
+                    label: "选项2",
+                    value: "2",
+                },
+            ],
         },
     },
     {
@@ -78,7 +83,10 @@ export const plugins = [
             type: "date-picker",
             dateType: "date", // 可选,仅当 type = date-picker 时有效, 默认为 date year/month/date/week/datetime/datetimerange/daterange
             label: "日期",
+            placeholder: "yyyy-mm-dd HH:ii:ss 格式", // 可选
             prop: "propDate",
+            defaultValue: "",
+            disabled: false, // 可选
         },
     },
     {
@@ -90,6 +98,9 @@ export const plugins = [
             type: "time-picker",
             label: "时间",
             prop: "propTime",
+            defaultValue: "", // 可选
+            disabled: false, // 可选
+            placeholder: "HH:ii:ss 格式", // 可选
         },
     },
     {
@@ -101,6 +112,8 @@ export const plugins = [
             type: "switch",
             label: "开关",
             prop: "propSwitch",
+            defaultValue: "false", // 可选
+            disabled: false, // 可选
         },
     },
     {
@@ -112,15 +125,18 @@ export const plugins = [
             type: "radio",
             label: "单选框",
             prop: "propRadio",
+            defaultValue: "",
+            disabled: false, // 可选
+            optionSource: "", 
             // options 仅当 type = radio 时有效
             options: [
                 {
                     label: "男",
-                    value: 1,
+                    value: "1",
                 },
                 {
                     label: "女",
-                    value: 2,
+                    value: "2",
                 },
             ],
         },
@@ -134,15 +150,18 @@ export const plugins = [
             type: "checkbox",
             label: "多选框",
             prop: "propCheckbox",
+            defaultValue: "",
+            disabled: false, // 可选
+            optionSource: "",
             // options 仅当 type = checkbox 时有效
             options: [
                 {
                     label: "中国",
-                    value: 1,
+                    value: "1",
                 },
                 {
                     label: "俄罗斯",
-                    value: 2,
+                    value: "2",
                 },
             ],
         },
@@ -195,79 +214,80 @@ export const plugins = [
             ],
         },
     },
-    {
-        id: 12,
-        name: "表单",
-        plugin: "form",
-        construct: {
-            plugin: "form",
-            prop: "propForm",
-            defaultValue: {},
-            valid_rules: {
-                name1: [
-                    { required: true, message: "请输入活动名称", trigger: "blur" },
-                    { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
-                ],
-            },
-            attributes: [
-                {
-                    plugin: "form-item",
-                    type: "input-textarea", // input input-number input-textarea select date-picker time-picker switch radio checkbox
-                    rows: 3, // 仅当 type = textarea 时有效
-                    label: "文本",
-                    prop: "name1",
-                    placeholder: "请输入", // 可选
-                    disabled: false, // 可选
-                },
-                [
-                    {
-                        plugin: "form-item",
-                        type: "select",
-                        label: "选择",
-                        prop: "name4",
-                        multiple: true, // 可选,仅当 type = select 时有效, 且对应的值应该是 数组
-                        // 仅当 type = select 时有效
-                        options: [
-                            {
-                                label: "选项1",
-                                value: 1,
-                            },
-                            {
-                                label: "选项2",
-                                value: 2,
-                            },
-                        ],
-                    },
-                    {
-                        plugin: "form-item",
-                        type: "date-picker",
-                        dateType: "date", // 可选,仅当 type = date-picker 时有效, 默认为 date year/month/date/week/datetime/datetimerange/daterange
-                        label: "日期",
-                        prop: "name3",
-                    },
-                    {
-                        plugin: "form-item",
-                        type: "input-number",
-                        label: "数字",
-                        prop: "name2",
-                    },
-                ],
-            ],
-        },
-    },
+    // 没时间弄表单处理
+    // {
+    //     id: 12,
+    //     name: "表单",
+    //     plugin: "form",
+    //     construct: {
+    //         plugin: "form",
+    //         prop: "propForm",
+    //         defaultValue: {},
+    //         valid_rules: {
+    //             name1: [
+    //                 { required: true, message: "请输入活动名称", trigger: "blur" },
+    //                 { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+    //             ],
+    //         },
+    //         attributes: [
+    //             {
+    //                 plugin: "form-item",
+    //                 type: "input-textarea", // input input-number input-textarea select date-picker time-picker switch radio checkbox
+    //                 rows: 3, // 仅当 type = textarea 时有效
+    //                 label: "文本",
+    //                 prop: "name1",
+    //                 placeholder: "请输入", // 可选
+    //                 disabled: false, // 可选
+    //             },
+    //             [
+    //                 {
+    //                     plugin: "form-item",
+    //                     type: "select",
+    //                     label: "选择",
+    //                     prop: "name4",
+    //                     multiple: true, // 可选,仅当 type = select 时有效, 且对应的值应该是 数组
+    //                     // 仅当 type = select 时有效
+    //                     options: [
+    //                         {
+    //                             label: "选项1",
+    //                             value: 1,
+    //                         },
+    //                         {
+    //                             label: "选项2",
+    //                             value: 2,
+    //                         },
+    //                     ],
+    //                 },
+    //                 {
+    //                     plugin: "form-item",
+    //                     type: "date-picker",
+    //                     dateType: "date", // 可选,仅当 type = date-picker 时有效, 默认为 date year/month/date/week/datetime/datetimerange/daterange
+    //                     label: "日期",
+    //                     prop: "name3",
+    //                 },
+    //                 {
+    //                     plugin: "form-item",
+    //                     type: "input-number",
+    //                     label: "数字",
+    //                     prop: "name2",
+    //                 },
+    //             ],
+    //         ],
+    //     },
+    // },
     {
         id: 13,
         name: "按钮",
         plugin: "button",
         construct: {
             plugin: "button",
-            type: "primary", // 可选，同 el-button type
+            colorType: "primary", // 可选，同 el-button type
             label: "按钮1",
             prop: "propButton",
             size: "normal", // 可选，同 el-button size
             // 点击回调 (表单数据，默认函数Map，完成回调) => {}
             callback: `(data, funcs,  done) => {
-                console.log("click button: ", data, funcs.getValidateForm())
+                console.log("click button: ", data, funcs)
                 setTimeout(() => {
                     done()
                 }, 1000)
