@@ -30,7 +30,7 @@ export default {
                 this.store.generateFormSchema();
                 // 重新渲染预览页
                 this.$nextTick(() => {
-                    this.$refs.varForm?.setFormData(this.formData);
+                    this.$refs.varForm && this.$refs.varForm.setFormData(this.formData);
                 })
             },
             deep: true
@@ -40,7 +40,7 @@ export default {
         this.store.generateFormSchema();
         // 重新渲染预览页
         this.$nextTick(() => {
-            this.$refs.varForm?.setFormData(this.formData);
+            this.$refs.varForm && this.$refs.varForm.setFormData(this.formData);
         })
     },
     methods: {},

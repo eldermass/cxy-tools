@@ -1,6 +1,7 @@
 /**
  * 1. data 中的属性名必须和 schema 中的 prop 相同
- * 2. valid_prop 需要是一个函数且有返回值，(prop, value, row) => Boolean
+ * 2. 验证字段 valid_prop 需要是一个函数且有返回值，(prop, value, row) => Boolean
+ * 3. callback 函数是 (data, funcs,  done) => void, data 是当前数据，funcs 是外部，done 是关闭loading的回调
  */
 
 export const mockData = {
@@ -17,7 +18,7 @@ export const mockData = {
             date: "2016-05-02",
             name: "王大虎",
             address: "上海市普陀区金沙江路 1518 弄",
-            // 验证字段，返回为当前属性，当前值，当前行数据 
+            // 验证字段，返回为当前属性，当前值，当前行数据
             // (prop: string, value: string, row: { prop: value... }) => Boolean
             valid_address: `
             (prop, value, row) => {
@@ -31,7 +32,7 @@ export const mockData = {
             date: "2016-05-04",
             name: "王二虎",
             address: "上海市普陀区金沙江路 1517 弄",
-        }
+        },
     ],
 }
 
@@ -63,7 +64,7 @@ export const mockSchema = [
             prop: "name4",
             multiple: true, // 可选,仅当 type = select 时有效, 且对应的值应该是 数组
             // 仅当 type = select 时有效, options 数据的优先级高于 optionSource
-            optionSource: "http://10.10.2.201:8881/api/modalinfo/1/" // get 请求, 返回结构 { data: [{ label: "选项1", value: 1 }] }
+            optionSource: "http://10.10.2.201:8881/api/modalinfo/1/", // get 请求, 返回结构 { data: [{ label: "选项1", value: 1 }] }
             // options: [
             //     {
             //         label: "选项1",
@@ -231,7 +232,7 @@ export const mockSchema = [
                     prop: "name2",
                 },
             ],
-        ]
+        ],
     },
     [
         {
@@ -259,7 +260,7 @@ export const mockSchema = [
                 setTimeout(() => {
                     done()
                 }, 1000)
-            }
+            },
         },
     ],
 ]

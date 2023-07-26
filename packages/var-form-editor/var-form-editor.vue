@@ -22,6 +22,7 @@ import pluginsPanel from "./plugins-panel/index.vue";
 import propsPanel from "./props-panel/index.vue";
 import previewPanel from "./preview-panel/index.vue";
 import _ from "lodash";
+import { plugins } from "./plugins.js";
 
 export default {
     name: "var-form-editor",
@@ -29,18 +30,35 @@ export default {
         pluginsPanel, propsPanel, previewPanel
     },
     props: {
-        pluginsSchema: {
+        formSchema: {
             type: Array,
             default: () => []
-        }
+        },
     },
     data() {
         this.store = createStore(this, {
-            pluginsSchema: this.pluginsSchema
+            pluginsSchema: this.formSchemaToPluginSchema(this.formSchema)
         })
         return {};
     },
     methods: {
+        formSchemaToPluginSchema(formSchema) {
+            if (!formSchema.length) return [];
+
+            const pluginSchema = formSchema.map(schema => {
+                const plugin = plugins.find(plugin => {
+                    return plugin.plugin === schema.plugin && plugin.construct.type === schema.type
+                })
+
+                return plugin
+            }).filter(Boolean)
+
+            return _.cloneDeep(pluginSchema)
+        },
+        // 默认数据
+        getFormData() {
+            return _.cloneDeep(this.store.states.formData)
+        },
         getFormSchema() {
             return _.cloneDeep(this.store.states.formSchema)
         },

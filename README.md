@@ -201,7 +201,34 @@ ctrl + shift + s 配置页面
 单日宽度: 每天的展示宽度
 ```
 
+### varFormEditor 可变表单编辑器
+
+#### varFormEditor 的 Props
+
+`formSchema` 原始结构，用于编辑
+
+#### varFormEditor 的 methods
+
+`getFormData` () => formData 获取默认表单数据
+`getFormSchema` () => formSchema 获取当前表单结构  
+`getTypeData` () => typeData 获取当前表单类型数据
+
 ### varForm 可变表单
+
+#### varForm 的 Props
+
+`formData` 渲染页面数据，由后端生成  
+`schema` 渲染页面结构，编辑生成  
+`externalFuncs` 扩展函数，可在表单中调用，比如按钮的 callback 属性中返回的 funcs，就来至于此。结构为，{ funcName: funcBody... }
+
+#### varForm 的 methods
+
+`getFormData` () => formData 获取当前表单数据  
+`setFormData` (data) => void 设置表单数据  
+`updateFormData` (prop, value) => void 更新表单数据  
+`getDataAndSchema` () => { formData, schema } 获取当前表单数据和结构  
+`getSchema` () => schema 获取当前表单结构  
+`getValidateFormData` () => Promise\<formData\> 获取当前表单数据，且进行校验
 
 #### 示例
 
@@ -482,9 +509,8 @@ export const mockSchema = [
                 setTimeout(() => {
                     done()
                 }, 1000)
-            }
+            },
         },
     ],
 ]
-
 ```
