@@ -150,7 +150,7 @@ export const plugins = [
             type: "checkbox",
             label: "多选框",
             prop: "propCheckbox",
-            defaultValue: "",
+            defaultValue: [],
             disabled: false, // 可选
             optionSource: "",
             // options 仅当 type = checkbox 时有效
@@ -174,8 +174,10 @@ export const plugins = [
             plugin: "table",
             type: "input",
             prop: "propTable",
-            defaultValue: [],
+            apiSource: "", // 可选
+            refreshSource: "", // 可选
             border: true, // 可选
+            defaultValue: [],
             tableHeaders: [
                 {
                     label: "名称",
@@ -187,9 +189,14 @@ export const plugins = [
                 {
                     label: "地点",
                     prop: "address",
+                    type: "select",
+                    defaultValue: "",
+                    placeholder: "请选择", 
+                    disabled: false,
+                    multiple: true,
                     width: "150",
                     align: "center",
-                    type: "input",
+                    optionSource: "",
                 },
                 {
                     label: "状态",
@@ -203,11 +210,11 @@ export const plugins = [
                     options: [
                         {
                             label: "中国",
-                            value: 1,
+                            value: "1",
                         },
                         {
                             label: "俄罗斯",
-                            value: 2,
+                            value: "2",
                         },
                     ],
                 },

@@ -114,5 +114,75 @@ export default Vue.extend({
             const prop = schemaItem.prop
             dataObject[prop] = schemaItem.defaultValue
         },
+        // 根据 formSchema 生成 typeData，给后端用
+        generateTypeData() {
+            const formSchema = _.cloneDeep(this.states.formSchema)
+            const typeData = []
+            formSchema.forEach((item) => {
+                if (!item) return
+                // 只有一行行多个时是数组
+                if (Array.isArray(item)) {
+                    item.forEach((childItem) => {
+                        this.setTypeData(typeData, childItem)
+                    })
+                } else {
+                    this.setTypeData(typeData, item)
+                }
+            })
+            return typeData
+        },
+        // 设置 typeData
+        setTypeData(typeData, schemaItem) {
+            // 某些插件不需要设置解析结构
+            if (["button"].includes(schemaItem.plugin)) {
+                return
+            }
+
+            const typeItem = {}
+            // 设置的默认值
+            typeItem.prop = schemaItem.prop
+            typeItem.dataType = getDataType(schemaItem)
+
+            // 有子表
+            if (schemaItem.plugin === "table") {
+                typeItem.dataType = "table"
+                typeItem.apiSource = schemaItem.apiSource
+                typeItem.refreshSource = schemaItem.refreshSource
+                typeItem.children = schemaItem.tableHeaders.map((header) => {
+                    return {
+                        prop: header.prop,
+                        dataType: getDataType(header),
+                    }
+                })
+            }
+
+            typeData.push(typeItem)
+        },
     },
 })
+
+function getDataType(schemaItem) {
+    // 先赋予 字符串
+    let dataType = "string"
+    // input-number 是数字
+    if (schemaItem.type === "input-number") {
+        dataType = "int"
+    }
+    // datatime 是时间
+    if (schemaItem.type === "date-picker" || schemaItem.type === "time-picker") {
+        dataType = "datetime"
+    }
+    // switch 是布尔值
+    if (schemaItem.type === "switch") {
+        dataType = "boolean"
+    }
+    // checkbox 是数组
+    if (schemaItem.type === "checkbox") {
+        dataType = "array:string"
+    }
+    // select 且 multiple 是数组
+    if (schemaItem.type === "select" && schemaItem.multiple) {
+        dataType = "array:string"
+    }
+    return dataType
+}

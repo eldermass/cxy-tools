@@ -107,5 +107,6 @@ export default {
 .var-form {
     padding: 10px;
     box-sizing: border-box;
+    text-align: left;
 }
 </style>

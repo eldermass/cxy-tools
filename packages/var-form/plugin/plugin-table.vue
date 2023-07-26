@@ -1,7 +1,7 @@
 <template>
     <el-table :data="storeFormData[schema.prop]" style="width: 100%" :border="schema.border">
         <template v-for="(item, index) in schema.tableHeaders">
-            <el-table-column :key="index" :align="item.align || 'center'" :label="item.label" :min-width="item.width || 100"
+            <el-table-column :key="index" :align="item.align || 'center'" :label="item.label" :width="item.width || 'auto'"
                 :prop="item.prop" show-overflow-tooltip header-align="center">
                 <template v-slot="scope">
                     <common-item :row="scope.row" :store="store" :schema="item" />

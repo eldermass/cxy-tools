@@ -30,8 +30,8 @@
                 <el-form-item v-if="couldEditProp(`colorType`)" label="颜色类型">
                     <el-input v-model="construct.colorType" placeholder="同 el-button 的type" />
                 </el-form-item>
-                <el-form-item v-if="couldEditProp(`defaultValue`)" label="默认值">
-                    <el-input v-model="construct.defaultValue" />
+                <el-form-item v-if="couldEditProp(`defaultValue`) && construct.plugin !== `table`" label="默认值">
+                    <el-input v-model="construct.defaultValue" placeholder="多选用,分隔"/>
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`placeholder`)" label="占位符">
                     <el-input v-model="construct.placeholder" />
@@ -48,7 +48,7 @@
                 <el-form-item v-if="couldEditProp(`callback`)" label="回调函数">
                     <el-input v-model="construct.callback" type="textarea" :rows="5" />
                 </el-form-item>
-                <el-form-item v-if="couldEditProp(`optionSource`)" label="数据源">
+                <el-form-item v-if="couldEditProp(`optionSource`)" label="选项数据源">
                     <el-input v-model="construct.optionSource" placeholder="当填写该项时，选项组将无效" />
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`options`)" label="选项组">
@@ -78,6 +78,14 @@
                             </div>
                         </template>
                     </el-table>
+                </el-form-item>
+
+                <el-form-item v-if="couldEditProp(`apiSource`)" label="表格数据源">
+                    <el-input v-model="construct.apiSource" />
+                </el-form-item>
+
+                <el-form-item v-if="couldEditProp(`refreshSource`)" label="内容刷新源">
+                    <el-input v-model="construct.refreshSource" />
                 </el-form-item>
 
                 <el-form-item v-if="couldEditProp(`tableHeaders`)" label="表格头">
@@ -121,6 +129,8 @@
                         <el-table-column label="操作">
                             <template v-slot="scope">
                                 <el-button @click="handleAddTableHeader" type="text" size="small">添加</el-button>
+                                <el-button @click="handleEditTableHeaderProp(scope.row)" type="text"
+                                    style="color: rgb(50, 205, 107)" size="small">编辑</el-button>
                                 <el-button @click="handleDelTableHeader(scope.$index)" type="text" style="color: red"
                                     size="small">删除</el-button>
                             </template>
@@ -141,15 +151,18 @@
                 </el-form-item>
             </el-form>
             <i class="el-icon-close" @click="hide"></i>
+            <table-prop-editor ref="tablePropEditor" />
         </div>
     </transition>
 </template>
 
 <script>
 import _ from 'lodash'
+import tablePropEditor from './table-prop-editor.vue';
 
 export default {
     name: "props-editor",
+    components: { tablePropEditor },
     props: {
         store: {
             required: true
@@ -172,6 +185,10 @@ export default {
             this.rowIndex = rowIndex;
             this.colIndex = colIndex;
             this.construct = _.cloneDeep(plugin.construct);
+            // 如果默认值是数组，需要转换成字符串
+            if (this.construct.defaultValue && Array.isArray(this.construct.defaultValue)) {
+                this.construct.defaultValue = this.construct.defaultValue.join(',')
+            }
         },
         hide() {
             this.editorVisible = false;
@@ -202,14 +219,16 @@ export default {
             }
             // radio 的 defaultValue 需要根据 options 生成,
             // 约定值都是字符串
-            
+
             // checkbox 的 defaultValue 需要根据 options 生成
             if (construct.type === 'checkbox') {
                 construct.defaultValue = construct.defaultValue.split(',')
             }
-            console.log('save 时，需要额外处理');
             // table 里 defaultValue 需要根据 tableHeaders 生成，table 中的选项或源数据
-
+            if (construct.plugin === 'table') {
+                construct.defaultValue = this.getDefaultTableHeader(construct)
+            }
+            console.log('save 时，需要额外处理默认值', construct);
             // 函数里实现了深度克隆
             plguin.construct = construct
             this.store.updatePluginSchema(plguin, this.rowIndex, this.colIndex)
@@ -226,6 +245,42 @@ export default {
         },
         handleAddTableHeader() {
             this.construct.tableHeaders.push({ label: '', prop: '', width: '', align: '', type: '' })
+        },
+        handleEditTableHeaderProp(row) {
+            this.$refs.tablePropEditor.show(row)
+        },
+        handleUpdateTableHeader() {
+            console.log('handleUpdateTableHeader');
+            // this.construct.tableHeaders.splice(index, 1)
+        },
+        getDefaultTableHeader(construct) {
+            const defaultArray = []
+            const rowOne = {}
+            // 遍历 headers 并赋予默认值
+            construct.tableHeaders.forEach(item => {
+                // 先赋予 字符串
+                rowOne[item.prop] = ""
+                // input-number 是数字
+                if (item.type === 'input-number') {
+                    rowOne[item.prop] = 0
+                }
+                // switch 是布尔值
+                if (item.type === 'switch') {
+                    rowOne[item.prop] = false
+                }
+                // checkbox 是数组
+                if (item.type === 'checkbox') {
+                    rowOne[item.prop] = []
+                }
+                // select 且 multiple 是数组
+                if (item.type === 'select' && item.multiple) {
+                    rowOne[item.prop] = []
+                }
+
+            })
+            
+            defaultArray.push(rowOne)
+            return _.cloneDeep(defaultArray)
         }
     },
 }
@@ -235,7 +290,7 @@ export default {
     position: absolute;
     top: 0;
     right: 201px;
-    width: 650px;
+    width: 750px;
     height: 100%;
     padding: 15px;
     z-index: 1000;
@@ -283,6 +338,5 @@ export default {
 
 ::v-deep(.el-table__header) {
     line-height: 16px !important;
-    ;
 }
 </style>

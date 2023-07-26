@@ -1,6 +1,6 @@
 // json 编辑器 https://www.npmjs.com/package/vue-json-editor
 
-const typeConstruct = {
+export const typeConstruct = {
     prop: "主表名",
     dataType: "form",
     children: [
@@ -27,6 +27,8 @@ const typeConstruct = {
         {
             prop: "子表名",
             dataType: "table",
+            apiSource: "",
+            refreshSource: "",
             children: [
                 {
                     prop: "name1",
