@@ -1,5 +1,5 @@
 <template>
-    <el-form-item :label="schema.label" :prop="schema.prop">
+    <el-form-item v-if="!schema.hide" :label="schema.label" :prop="schema.prop">
         <common-item :schema="schema" :store="store" :row="storeFormData" />
     </el-form-item>
 </template>

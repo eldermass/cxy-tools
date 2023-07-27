@@ -4,7 +4,12 @@
             <div class="title">
                 列：{{ row.label }} --- {{ row.prop }}
             </div>
+
             <el-form ref="formRef" :model="row" label-width="100px">
+                <el-form-item v-if="row.prop.startsWith(`valid_`)" label="验证函数">
+                    <el-input v-model="row.defaultValue" type="textarea" :rows="9"
+                        placeholder="(prop: string, value: string, row: { prop: value... }) => Boolean" />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`optionSource`)" label="选项数据源">
                     <el-input v-model="row.optionSource" />
                 </el-form-item>
@@ -68,9 +73,13 @@ export default {
     methods: {
         show(row) {
             const shouldShows = ["checkbox", "radio", "select"]
-            if (!shouldShows.includes(row.type)) {
+            if (!shouldShows.includes(row.type) && !row.prop.startsWith("valid_")) {
                 this.$message.warning("该类型不支持编辑")
                 return
+            }
+
+            if (row.prop.startsWith("valid_")) {
+                row.defaultValue = row.defaultValue || ""
             }
 
             if (shouldShows.includes(row.type)) {

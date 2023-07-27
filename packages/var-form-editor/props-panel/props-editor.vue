@@ -31,10 +31,13 @@
                     <el-input v-model="construct.colorType" placeholder="同 el-button 的type" />
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`defaultValue`) && construct.plugin !== `table`" label="默认值">
-                    <el-input v-model="construct.defaultValue" placeholder="多选用,分隔"/>
+                    <el-input v-model="construct.defaultValue" placeholder="多选用,分隔" />
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`placeholder`)" label="占位符">
                     <el-input v-model="construct.placeholder" />
+                </el-form-item>
+                <el-form-item v-if="couldEditProp(`hide`)" label="隐藏">
+                    <el-switch v-model="construct.hide" active-color="#13ce66" inactive-color="#ff4949" />
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`disabled`)" label="是否禁用">
                     <el-switch v-model="construct.disabled" active-color="#13ce66" inactive-color="#ff4949" />
@@ -93,19 +96,25 @@
 
                 <el-form-item v-if="couldEditProp(`tableHeaders`)" label="表格头">
                     <el-table border :data="construct.tableHeaders" style="width: 100%">
-                        <el-table-column prop="label" label="标签" width="auto">
+                        <el-table-column prop="label" label="标签" width="100">
                             <template v-slot="scope">
                                 <el-input size="mini" v-model="scope.row.label" />
                             </template>
                         </el-table-column>
-                        <el-table-column prop="prop" label="属性" width="auto">
+                        <el-table-column prop="prop" label="属性" width="100">
                             <template v-slot="scope">
                                 <el-input size="mini" v-model="scope.row.prop" />
                             </template>
                         </el-table-column>
-                        <el-table-column prop="width" label="宽度" width="auto">
+                        <el-table-column prop="width" label="宽度" width="80">
                             <template v-slot="scope">
                                 <el-input size="mini" v-model="scope.row.width" />
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="hide" label="隐藏" width="65">
+                            <template v-slot="scope">
+                                <el-switch v-model="scope.row.hide" size="mini" active-color="#13ce66"
+                                    inactive-color="#ff4949" />
                             </template>
                         </el-table-column>
                         <!-- <el-table-column prop="align" label="对其" width="auto">
@@ -262,7 +271,7 @@ export default {
             // 遍历 headers 并赋予默认值
             construct.tableHeaders.forEach(item => {
                 // 先赋予 字符串
-                rowOne[item.prop] = ""
+                rowOne[item.prop] = ''
                 // input-number 是数字
                 if (item.type === 'input-number') {
                     rowOne[item.prop] = 0
@@ -279,9 +288,12 @@ export default {
                 if (item.type === 'select' && item.multiple) {
                     rowOne[item.prop] = []
                 }
-
+                // valid_ 开头的是验证
+                if (item.prop.startsWith('valid_')) {
+                    rowOne[item.prop] = item.defaultValue
+                }
             })
-            
+
             defaultArray.push(rowOne)
             return _.cloneDeep(defaultArray)
         }

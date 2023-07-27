@@ -46,9 +46,15 @@ export default {
             if (!formSchema.length) return [];
 
             const pluginSchema = formSchema.map(schema => {
-                const plugin = plugins.find(plugin => {
+                let plugin = plugins.find(plugin => {
                     return plugin.plugin === schema.plugin && plugin.construct.type === schema.type
                 })
+
+                // 把已有的页面结构 转换成 插件的结构
+                if (plugin) {
+                    plugin = _.cloneDeep(plugin)
+                    schema && (plugin.construct = schema)
+                }
 
                 return plugin
             }).filter(Boolean)

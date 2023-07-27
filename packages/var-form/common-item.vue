@@ -130,12 +130,12 @@ export default {
 
             // console.log(`需要验证${this.schema.prop}字段`)
             const valid_func = this.row["valid_" + this.schema.prop]
-            if (typeof valid_func === 'string') {
+            if (valid_func && typeof valid_func === 'string') {
                 try {
                     const callback = eval(`(${valid_func})`)
                     // 当前属性，当前值，当前行数据
                     const result = callback(this.schema.prop, event.target.value, this.row)
-                    console.log("验证结果：", result)
+                    console.log("valid_ 验证结果：", result)
                     if (result) {
                         this.errorClass = ''
                     } else {

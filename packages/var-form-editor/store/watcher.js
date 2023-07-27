@@ -21,6 +21,8 @@ export default Vue.extend({
                     this.$message.warning("表单验证只能有一个")
                     return
                 }
+                this.states.pluginsSchema.unshift(_.cloneDeep(pluginSchema))
+                return
             }
 
             index = index || this.states.pluginsSchema.length

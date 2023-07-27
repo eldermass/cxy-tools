@@ -6,13 +6,37 @@ export const plugins = [
         construct: [],
     },
     {
+        id: 14,
+        name: "表单验证",
+        plugin: "validate-rules",
+        construct: {
+            plugin: "validate-rules", // validate-rules form-item table button
+            // 表单部分校验，同的 el-form 校验规则
+            rules: '{"propInput":[{"required":true,"message":"请输入活动名称","trigger":"blur"},{"min":3,"max":5,"message":"长度在 3 到 5 个字符","trigger":"blur"}]}',
+        },
+    },
+    {
+        id: 101,
+        name: "纯文本",
+        plugin: "form-item",
+        construct: {
+            plugin: "form-item",
+            type: "text",
+            label: "纯文本",
+            hide: false,
+            prop: "propText",
+            defaultValue: "",
+        },
+    },
+    {
         id: 2,
         name: "输入框",
         plugin: "form-item",
         construct: {
             plugin: "form-item",
             type: "input",
-            label: "文本",
+            label: "输入框",
+            hide: false,
             prop: "propInput",
             defaultValue: "",
             placeholder: "请输入", // 可选
@@ -204,6 +228,17 @@ export const plugins = [
                     type: "switch",
                 },
                 {
+                    label: "验证国家",
+                    prop: "valid_country",
+                    hide: true,
+                    type: "input",
+                    defaultValue: `
+                    (prop, value, row) => {
+                        console.log("valid_name: ", prop, value, row)
+                        return value === "上海市普陀区金沙江路 1518 弄"
+                    }`,
+                },
+                {
                     label: "国家",
                     prop: "country",
                     type: "checkbox",
@@ -299,16 +334,6 @@ export const plugins = [
                     done()
                 }, 1000)
             }`,
-        },
-    },
-    {
-        id: 14,
-        name: "表单验证",
-        plugin: "validate-rules",
-        construct: {
-            plugin: "validate-rules", // validate-rules form-item table button
-            // 表单部分校验，同的 el-form 校验规则
-            rules: '{"propInput":[{"required":true,"message":"请输入活动名称","trigger":"blur"},{"min":3,"max":5,"message":"长度在 3 到 5 个字符","trigger":"blur"}]}',
         },
     },
 ]
