@@ -2,7 +2,9 @@
     <div droppable @dragover="handlerContainerDragover" @drop="handleContainerDrop">
         <slot />
         <ul class="plugin-list">
-            <template v-for="(plugin, index) in pluginsSchema">
+            <div v-for="(plugin, index) in pluginsSchema" :key="index" draggable
+                @dragstart="handleLineDragStart($event, index)" @dragover.stop="handleLineDragOver"
+                @drop.stop="handleLineDrop($event, index)">
                 <!-- 一行里有多个 -->
                 <li v-if="isSchemaArray(plugin)" :key="index" style="padding: 0;" droppable
                     @dragover.stop="handleItemDragover" @dragleave="handleItemDragLeave"
@@ -28,7 +30,7 @@
                     {{ plugin.name }}
                     <i class="el-icon-delete" @click.stop="handleDelete(index)"></i>
                 </li>
-            </template>
+            </div>
         </ul>
         <props-editor ref="editor" :store="store" />
     </div>
@@ -123,6 +125,25 @@ export default {
             const pluginSchema = this.store.getPluginSchema(rowIndex, colIndex)
             // console.log('edit props: ', rowIndex, colIndex, pluginSchema);
             this.$refs.editor.show(pluginSchema, rowIndex, colIndex)
+        },
+        // 开始拖动，调换顺序
+        handleLineDragStart(e, index) {
+            e.dataTransfer.setData('start-index', index)
+        },
+        handleLineDragOver(e) {
+            e.preventDefault()
+        },
+        handleLineDrop(e, index) {
+            const startIndex = Number(e.dataTransfer.getData('start-index'))
+            console.log('drag from : ', startIndex, " to ", index);
+
+            // 没有移动
+            if (index === startIndex || index === undefined || Number.isNaN(startIndex)) {
+                console.log('没有移动');
+                return
+            }
+
+            this.store.movePluginSchema(startIndex, index)
         }
     },
 }

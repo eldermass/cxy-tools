@@ -54,6 +54,10 @@ export default Vue.extend({
                 // this.states.pluginsSchema[index] = _.cloneDeep(pluginSchema)
             }
         },
+        // 移动 pluginsSchema 中的顺序
+        movePluginSchema(startIndex, index) {
+            this.states.pluginsSchema.splice(index, 0, this.states.pluginsSchema.splice(startIndex, 1)[0])
+        },
         // 删除 pluginsSchema
         deletePluginSchema(index, childIndex) {
             if (childIndex !== undefined) {
