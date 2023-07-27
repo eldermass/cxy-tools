@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="varForm" :model="formData" class='var-form' :rules="rules" label-width="100px">
+    <el-form ref="varForm" :model="storeFormData" class='var-form' :rules="rules" label-width="100px">
         <!-- 按行的表单项 -->
         <el-row v-for="(schemaItem, index) in schema" :key="index">
             <template v-if="isSchemaArray(schemaItem)">
@@ -43,20 +43,31 @@ export default {
         const ruleIndex = schema.findIndex(item => item.plugin === 'validate-rules')
         
         if (ruleIndex > -1) {
-            this.rules = schema[ruleIndex].rules
             schema.splice(ruleIndex, 1)
-        } else {        
-            this.rules = {}
         }
 
         this.store = createStore(this, {
-            formData: this.formData,
-            formSchema: this.schema,
+            formData: _.cloneDeep(this.formData),
+            formSchema: schema,
             externalFuncs: this.externalFuncs
         })
         return {}
     },
     computed: {
+        rules() {
+            const schema = this.schema
+            const ruleIndex = schema.findIndex(item => item.plugin === 'validate-rules')
+
+            if (ruleIndex > -1) {
+                try {
+                    return JSON.parse(schema[ruleIndex].rules)
+                } catch (error) {
+                    console.error("validate-rules 格式错误, 请检查是否为标准JSON string格式！");
+                }
+            }
+
+            return {}
+        },
         ...mapStates({ storeFormData: 'formData', storeFormSchema: 'formSchema' })
     },
     methods: {

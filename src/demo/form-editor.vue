@@ -10,6 +10,11 @@
 <script>
 const mockFormSchema = [
     {
+        plugin: "validate-rules", // validate-rules form-item table button
+        // 表单部分校验，同的 el-form 校验规则
+        rules: '{"propInput":[{"required":true,"message":"请输入活动名称","trigger":"blur"},{"min":3,"max":5,"message":"长度在 3 到 5 个字符","trigger":"blur"}]}',
+    },
+    {
         "plugin": "form-item",
         "type": "input",
         "label": "文本",

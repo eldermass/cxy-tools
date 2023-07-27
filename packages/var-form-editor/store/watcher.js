@@ -15,6 +15,14 @@ export default Vue.extend({
     methods: {
         // 添加 pluginsSchema 结构
         addPluginSchema(pluginSchema, index) {
+            if (pluginSchema.plugin === "validate-rules") {
+                const find = this.states.pluginsSchema.find((item) => item.plugin === "validate-rules")
+                if (find) {
+                    this.$message.warning("表单验证只能有一个")
+                    return
+                }
+            }
+
             index = index || this.states.pluginsSchema.length
             this.states.pluginsSchema.splice(index, 0, _.cloneDeep(pluginSchema))
         },
@@ -107,7 +115,7 @@ export default Vue.extend({
         // 设置 formData
         setFormData(dataObject, schemaItem) {
             // 某些插件不需要设置默认值
-            if (["button"].includes(schemaItem.plugin)) {
+            if (["button", "validate-rules"].includes(schemaItem.plugin)) {
                 return
             }
             // 设置的默认值
@@ -134,7 +142,7 @@ export default Vue.extend({
         // 设置 typeData
         setTypeData(typeData, schemaItem) {
             // 某些插件不需要设置解析结构
-            if (["button"].includes(schemaItem.plugin)) {
+            if (["button", "validate-rules"].includes(schemaItem.plugin)) {
                 return
             }
 

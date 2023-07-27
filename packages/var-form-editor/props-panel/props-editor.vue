@@ -48,6 +48,9 @@
                 <el-form-item v-if="couldEditProp(`callback`)" label="回调函数">
                     <el-input v-model="construct.callback" type="textarea" :rows="5" />
                 </el-form-item>
+                <el-form-item v-if="couldEditProp(`rules`)" label="验证规则">
+                    <el-input v-model="construct.rules" type="textarea" :rows="9" />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`optionSource`)" label="选项数据源">
                     <el-input v-model="construct.optionSource" placeholder="当填写该项时，选项组将无效" />
                 </el-form-item>

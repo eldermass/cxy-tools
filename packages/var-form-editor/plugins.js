@@ -127,7 +127,7 @@ export const plugins = [
             prop: "propRadio",
             defaultValue: "",
             disabled: false, // 可选
-            optionSource: "", 
+            optionSource: "",
             // options 仅当 type = radio 时有效
             options: [
                 {
@@ -191,7 +191,7 @@ export const plugins = [
                     prop: "address",
                     type: "select",
                     defaultValue: "",
-                    placeholder: "请选择", 
+                    placeholder: "请选择",
                     disabled: false,
                     multiple: true,
                     width: "150",
@@ -299,6 +299,16 @@ export const plugins = [
                     done()
                 }, 1000)
             }`,
+        },
+    },
+    {
+        id: 14,
+        name: "表单验证",
+        plugin: "validate-rules",
+        construct: {
+            plugin: "validate-rules", // validate-rules form-item table button
+            // 表单部分校验，同的 el-form 校验规则
+            rules: '{"propInput":[{"required":true,"message":"请输入活动名称","trigger":"blur"},{"min":3,"max":5,"message":"长度在 3 到 5 个字符","trigger":"blur"}]}',
         },
     },
 ]

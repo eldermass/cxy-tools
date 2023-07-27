@@ -106,6 +106,12 @@ export default {
                 this.$message.error('空行不能放在行内')
                 return
             }
+            // 空行里不能放rules
+            if (plugin.plugin === 'validate-rules') {
+                this.$message.error('空行里不能放表单验证')
+                return
+            }
+
             this.store.addPluginSchemaToLine(plugin, index)
         },
         // 删除行
