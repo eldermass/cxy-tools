@@ -18,11 +18,24 @@ export const plugins = [
     {
         id: 101,
         name: "纯文本",
+        plugin: "prue-text",
+        construct: {
+            plugin: "prue-text",
+            type: "text",
+            prop: "propPrueText",
+            defaultValue: "",
+            fixedValue: "",
+            style: ""
+        },
+    },
+    {
+        id: 102,
+        name: "标签文本",
         plugin: "form-item",
         construct: {
             plugin: "form-item",
             type: "text",
-            label: "纯文本",
+            label: "标签文本",
             hide: false,
             prop: "propText",
             defaultValue: "",

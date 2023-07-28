@@ -13,6 +13,7 @@ export const mockData = {
     form1: {
         // name1: "狗蛋",
     },
+    // propPrueText: "纯文本hh",
     table1: [
         {
             date: "2016-05-02",
@@ -41,6 +42,14 @@ export const mockSchema = [
         plugin: "validate-rules", // validate-rules form-item table button
         // 表单部分校验，同的 el-form 校验规则
         rules: '{"name1":[{"required":true,"message":"请输入活动名称","trigger":"blur"},{"min":3,"max":5,"message":"长度在 3 到 5 个字符","trigger":"blur"}]}',
+    },
+    {
+        plugin: "prue-text",
+        type: "text",
+        prop: "propPrueText",
+        defaultValue: "",
+        fixedValue: "固定值",
+        style: ""
     },
     {
         plugin: "form-item",

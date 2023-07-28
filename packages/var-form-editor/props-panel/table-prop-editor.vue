@@ -11,7 +11,7 @@
                         placeholder="(prop: string, value: string, row: { prop: value... }) => Boolean" />
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`optionSource`)" label="选项数据源">
-                    <el-input v-model="row.optionSource" />
+                    <el-input v-model="row.optionSource" placeholder="{ data: [{ label: '选项1', value: 1 }] }" />
                 </el-form-item>
 
                 <el-form-item v-if="couldEditProp(`options`)" label="选项组">

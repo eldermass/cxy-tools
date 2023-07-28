@@ -36,6 +36,13 @@
                 <el-form-item v-if="couldEditProp(`placeholder`)" label="占位符">
                     <el-input v-model="construct.placeholder" />
                 </el-form-item>
+                <el-form-item v-if="couldEditProp(`fixedValue`)" label="固定值">
+                    <el-input v-model="construct.fixedValue" placeholder="没有从表单中读到值时默认展示" />
+                </el-form-item>
+                <el-form-item v-if="couldEditProp(`style`)" label="CSS样式">
+                    <el-input v-model="construct.style" type="textarea" placeholder="color: black; text-align: left;"
+                        :rows="9" />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`hide`)" label="隐藏">
                     <el-switch v-model="construct.hide" active-color="#13ce66" inactive-color="#ff4949" />
                 </el-form-item>
@@ -55,7 +62,8 @@
                     <el-input v-model="construct.rules" type="textarea" :rows="9" />
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`optionSource`)" label="选项数据源">
-                    <el-input v-model="construct.optionSource" placeholder="当填写该项时，选项组将无效" />
+                    <el-input v-model="construct.optionSource"
+                        placeholder="当填写该项时，选项组将无效。 { data: [{ label: '选项1', value: 1 }] }" />
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`options`)" label="选项组">
                     <el-table border :data="construct.options" style="width: 100%">
