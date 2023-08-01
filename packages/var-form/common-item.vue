@@ -51,12 +51,15 @@
         </template>
         <!-- html -->
         <template v-else-if="schema.type === 'html'">
-            <div v-html="row[schema.prop] || schema.fixedValue" />
+            <!-- editMode -->
+            <el-input v-if="editMode" v-model="row[schema.prop]" placeholder="HTML 当前处于编辑模式，该值将挂到属性上"/>
+            <div v-else v-html="row[schema.prop] || schema.fixedValue" />
         </template>
 
         <!-- 显示文本 -->
         <template v-else-if="schema.type === 'text'">
-            <span>{{ row[schema.prop] }}</span>
+            <el-input v-if="editMode" v-model="row[schema.prop]" placeholder="Text 当前处于编辑模式，该值将挂到属性上"/>
+            <span v-else>{{ row[schema.prop] }}</span>
         </template>
 
         <template v-else>
@@ -68,6 +71,8 @@
 </template>
 
 <script>
+import { mapStates } from './store/helper'
+
 export default {
     name: 'common-item',
     props: {
@@ -87,6 +92,9 @@ export default {
         return {
             errorClass: ''
         }
+    },
+    computed: {
+        ...mapStates({ editMode: 'editMode' })
     },
     created() {
         this.initFormData()

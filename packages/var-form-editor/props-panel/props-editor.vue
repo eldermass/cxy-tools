@@ -275,11 +275,13 @@ export default {
             console.log('handleUpdateTableHeader');
             // this.construct.tableHeaders.splice(index, 1)
         },
+        // 设置默认的 table 单行默认数据
         getDefaultTableHeader(construct) {
             const defaultArray = []
             const rowOne = {}
             // 遍历 headers 并赋予默认值
             construct.tableHeaders.forEach(item => {
+                if (!item.prop) return
                 // 先赋予 字符串
                 rowOne[item.prop] = ''
                 // input-number 是数字

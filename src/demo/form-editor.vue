@@ -4,6 +4,7 @@
         <el-button @click="getFormSchema">页面结构</el-button>
         <el-button @click="getTypeData">数据结构</el-button>
         <el-button @click="getFormData">默认数据</el-button>
+        <el-button @click="getEditFormData">编辑数据</el-button>
     </div>
 </template>
 
@@ -26,6 +27,9 @@ export default {
         },
         getFormSchema() {
             console.log(this.$refs.formEditor.getFormSchema())
+        },
+        getEditFormData() {
+            console.log(this.$refs.formEditor.getEditFormData())
         }
     },
 }

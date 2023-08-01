@@ -1,5 +1,5 @@
 <template>
-    <el-col v-if="schema.prop" class="var-form-item" v-bind="$attrs">
+    <el-col v-if="schema.prop" :class="['var-form-item', border ? 'var-form-border' : '']" v-bind="$attrs">
         <!-- 表单 item -->
         <template v-if="schema.plugin === 'form-item'">
             <plugin-form-item :schema="schema" :store="store" />
@@ -56,6 +56,10 @@ export default {
         schema: {
             type: Object,
             default: () => ({})
+        },
+        border: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -66,6 +70,12 @@ export default {
 
 <style lang="scss" scoped>
 .var-form-item {
-    margin-top: 10px!important;
+    padding-top: 10px;
+}
+.var-form-border {
+    border-left: 1px solid #DCDFE6;
+    &:first-child {
+        border-left: none;
+    }
 }
 </style>

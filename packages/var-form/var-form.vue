@@ -1,13 +1,14 @@
 <template>
-    <el-form ref="varForm" :model="storeFormData" class='var-form' :rules="rules" label-width="100px">
+    <el-form ref="varForm" :model="storeFormData" class='var-form' :rules="varFormProp.rules" label-width="100px">
         <!-- 按行的表单项 -->
-        <el-row v-for="(schemaItem, index) in schema" :key="index">
+        <el-row v-for="(schemaItem, index) in schemas" :key="index" :class="{ 'row-border': varFormProp.border }">
             <template v-if="isSchemaArray(schemaItem)">
                 <var-form-item v-for="(spiltSchema, index) in schemaItem" :key="index"
-                    :span="Math.floor(24 / schemaItem.length)" :schema="spiltSchema" :store="store" />
+                    :span="Math.floor(24 / schemaItem.length)" :schema="spiltSchema" :store="store"
+                    :border="varFormProp.border" />
             </template>
             <template v-else>
-                <var-form-item :schema="schemaItem" :store="store" />
+                <var-form-item :schema="schemaItem" :store="store" :border="varFormProp.border" />
             </template>
         </el-row>
     </el-form>
@@ -36,12 +37,17 @@ export default {
         externalFuncs: {
             type: Object,
             default: () => ({})
+        },
+        // 编辑模式
+        editMode: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
         const schema = _.cloneDeep(this.schema)
         const ruleIndex = schema.findIndex(item => item.plugin === 'validate-rules')
-        
+
         if (ruleIndex > -1) {
             schema.splice(ruleIndex, 1)
         }
@@ -49,24 +55,39 @@ export default {
         this.store = createStore(this, {
             formData: _.cloneDeep(this.formData),
             formSchema: schema,
-            externalFuncs: this.externalFuncs
+            externalFuncs: this.externalFuncs,
+            editMode: this.editMode
         })
         return {}
     },
     computed: {
-        rules() {
-            const schema = this.schema
+        // 使用处理过后的 schema
+        schemas() {
+            const schema = _.cloneDeep(this.schema)
             const ruleIndex = schema.findIndex(item => item.plugin === 'validate-rules')
 
             if (ruleIndex > -1) {
+                schema.splice(ruleIndex, 1)
+            }
+            return schema
+        },
+        // 表单属性
+        varFormProp() {
+            const schema = this.schema
+            const ruleIndex = schema.findIndex(item => item.plugin === 'validate-rules')
+            let ret = {}
+
+            if (ruleIndex > -1) {
+                ret = _.cloneDeep(schema[ruleIndex])
                 try {
-                    return JSON.parse(schema[ruleIndex].rules)
+                    ret.rules = JSON.parse(ret.rules)
                 } catch (error) {
+                    ret.rules = {}
                     console.error("validate-rules 格式错误, 请检查是否为标准JSON string格式！");
                 }
             }
 
-            return {}
+            return ret
         },
         ...mapStates({ storeFormData: 'formData', storeFormSchema: 'formSchema' })
     },
@@ -119,5 +140,13 @@ export default {
     padding: 10px;
     box-sizing: border-box;
     text-align: left;
+}
+
+.row-border {
+    border: 1px solid #DCDFE6;
+
+    &:not(:last-child) {
+        border-bottom: none;
+    }
 }
 </style>

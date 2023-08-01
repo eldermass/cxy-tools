@@ -1,6 +1,6 @@
 <template>
     <div class="preview-panel">
-        <var-form ref="varForm" :form-data="formData" :schema="formSchema" />
+        <var-form ref="varForm" :form-data="formData" :schema="formSchema" :edit-mode="true" />
     </div>
 </template>
 
@@ -43,7 +43,11 @@ export default {
             this.$refs.varForm && this.$refs.varForm.setFormData(this.formData);
         })
     },
-    methods: {},
+    methods: {
+        getEditFormData() {
+            return this.$refs.varForm.getFormData()
+        }
+    },
 }
 </script>
 

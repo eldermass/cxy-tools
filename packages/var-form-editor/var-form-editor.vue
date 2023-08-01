@@ -6,7 +6,7 @@
             </span>
         </plugins-panel>
         <div class="form-preview">
-            <preview-panel :store="store" />
+            <preview-panel ref="preview" :store="store" />
         </div>
         <props-panel class="props-panel" :store="store">
             <span class="panel-title">
@@ -70,7 +70,11 @@ export default {
         },
         getTypeData() {
             return this.store.generateTypeData()
-        }
+        },
+        // 编辑数据
+        getEditFormData() {
+            return this.$refs.preview.getEditFormData()
+        },
     },
 }
 </script>

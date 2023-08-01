@@ -9,7 +9,8 @@ export default Vue.extend({
                 formData: {},
                 formSchema: [],
                 externalFuncs: {},
-                storeOptions: [] // url, req
+                storeOptions: [], // url, req
+                editMode: false,
             },
         }
     },

@@ -7,12 +7,13 @@ export const plugins = [
     },
     {
         id: 14,
-        name: "表单验证",
+        name: "表单属性",
         plugin: "validate-rules",
         construct: {
             plugin: "validate-rules", // validate-rules form-item table button
             // 表单部分校验，同的 el-form 校验规则
             rules: '{"propInput":[{"required":true,"message":"请输入活动名称","trigger":"blur"},{"min":3,"max":5,"message":"长度在 3 到 5 个字符","trigger":"blur"}]}',
+            border: false, // 可选
         },
     },
     {
