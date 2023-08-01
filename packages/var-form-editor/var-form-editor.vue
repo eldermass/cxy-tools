@@ -34,10 +34,18 @@ export default {
             type: Array,
             default: () => []
         },
+        formData: {
+            type: Object,
+            default: () => ({})
+        }
     },
     data() {
         this.store = createStore(this, {
-            pluginsSchema: this.formSchemaToPluginSchema(this.formSchema)
+            pluginsSchema: this.formSchemaToPluginSchema(this.formSchema),
+            originData: _.cloneDeep(this.formData),
+            outterFuncs: {
+                getEditFormData: this.getEditFormData
+            }
         })
         return {};
     },

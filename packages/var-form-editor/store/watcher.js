@@ -6,15 +6,23 @@ export default Vue.extend({
         return {
             states: {
                 formData: {}, // 表单的默认数据
+                originData: {}, // 表单的原始数据
                 formSchema: [], // 预览和提交时需要的结构
                 pluginsSchema: [], // 面板上的结构
                 index: 0,
+                outterFuncs: {}, // 外部方法
             },
         }
     },
     methods: {
+        // 将编辑数据作为上一次 originData
+        setOriginData() {
+            const formData = this.states.outterFuncs.getEditFormData()
+            this.states.originData = formData
+        },
         // 添加 pluginsSchema 结构
         addPluginSchema(pluginSchema, index) {
+            this.setOriginData()
             if (pluginSchema.plugin === "validate-rules") {
                 const find = this.states.pluginsSchema.find((item) => item.plugin === "validate-rules")
                 if (find) {
@@ -30,6 +38,7 @@ export default Vue.extend({
         },
         // 添加 pluginsSchema 结构到某一行
         addPluginSchemaToLine(pluginSchema, lineIndex) {
+            this.setOriginData()
             this.states.pluginsSchema[lineIndex].push(_.cloneDeep(pluginSchema))
         },
         // 获取 pluginsSchema 中的某一行某列
@@ -44,8 +53,7 @@ export default Vue.extend({
         },
         // 更新 pluginsSchema 中的某一行某列
         updatePluginSchema(pluginSchema, index, childIndex) {
-            // eslint-disable-next-line no-debugger
-            // debugger
+            this.setOriginData()
             if (childIndex !== undefined) {
                 this.$set(this.states.pluginsSchema[index], childIndex, _.cloneDeep(pluginSchema))
                 // this.states.pluginsSchema[index][childIndex] = _.cloneDeep(pluginSchema)
@@ -56,10 +64,12 @@ export default Vue.extend({
         },
         // 移动 pluginsSchema 中的顺序
         movePluginSchema(startIndex, index) {
+            this.setOriginData()
             this.states.pluginsSchema.splice(index, 0, this.states.pluginsSchema.splice(startIndex, 1)[0])
         },
         // 删除 pluginsSchema
         deletePluginSchema(index, childIndex) {
+            this.setOriginData()
             if (childIndex !== undefined) {
                 this.states.pluginsSchema[index].splice(childIndex, 1)
             } else {
@@ -115,6 +125,12 @@ export default Vue.extend({
                     })
                 } else {
                     this.setFormData(this.states.formData, item)
+                }
+            })
+            // 在这里将原始数据逐一赋值给 formData
+            Object.keys(this.states.originData).forEach((key) => {
+                if (Object.keys(this.states.formData).includes(key)) {
+                    this.states.formData[key] = this.states.originData[key]
                 }
             })
         },
@@ -176,7 +192,7 @@ export default Vue.extend({
 
             typeData.push(typeItem)
         },
-    },
+    }
 })
 
 function getDataType(schemaItem) {
