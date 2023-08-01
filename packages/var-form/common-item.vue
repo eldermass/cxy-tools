@@ -49,6 +49,10 @@
                 }}</el-checkbox>
             </el-checkbox-group>
         </template>
+        <!-- html -->
+        <template v-else-if="schema.type === 'html'">
+            <div v-html="row[schema.prop] || schema.fixedValue" />
+        </template>
 
         <!-- 显示文本 -->
         <template v-else-if="schema.type === 'text'">

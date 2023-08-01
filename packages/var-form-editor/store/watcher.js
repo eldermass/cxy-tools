@@ -120,6 +120,8 @@ export default Vue.extend({
         },
         // 设置 formData
         setFormData(dataObject, schemaItem) {
+            // 没有 prop 的不需要设置
+            if (!schemaItem.prop) return
             // 某些插件不需要设置默认值
             if (["button", "validate-rules"].includes(schemaItem.plugin)) {
                 return
@@ -147,6 +149,8 @@ export default Vue.extend({
         },
         // 设置 typeData
         setTypeData(typeData, schemaItem) {
+            // 没有 prop 的不需要设置
+            if (!schemaItem.prop) return
             // 某些插件不需要设置解析结构
             if (["button", "validate-rules"].includes(schemaItem.plugin)) {
                 return
@@ -163,11 +167,11 @@ export default Vue.extend({
                 typeItem.apiSource = schemaItem.apiSource
                 typeItem.refreshSource = schemaItem.refreshSource
                 typeItem.children = schemaItem.tableHeaders.map((header) => {
-                    return {
+                    return header.prop && {
                         prop: header.prop,
                         dataType: getDataType(header),
                     }
-                })
+                }).filter(Boolean)
             }
 
             typeData.push(typeItem)

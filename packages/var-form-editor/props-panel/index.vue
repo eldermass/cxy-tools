@@ -32,7 +32,8 @@
                 </li>
             </div>
         </ul>
-        <props-editor ref="editor" :store="store" />
+        <props-editor ref="editor" :store="store" @editor-table="handleEditTableHeaderProp" />
+        <table-prop-editor ref="tablePropEditor" />
     </div>
 </template>
 <script>
@@ -40,10 +41,11 @@ import { mapStates } from '../store/helper';
 import { plugins } from "../plugins.js"
 import _ from 'lodash'
 import propsEditor from './props-editor.vue'
+import tablePropEditor from './table-prop-editor.vue';
 
 export default {
     name: "props-panel",
-    components: { propsEditor },
+    components: { propsEditor, tablePropEditor },
     props: {
         store: {
             required: true
@@ -125,6 +127,10 @@ export default {
             const pluginSchema = this.store.getPluginSchema(rowIndex, colIndex)
             // console.log('edit props: ', rowIndex, colIndex, pluginSchema);
             this.$refs.editor.show(pluginSchema, rowIndex, colIndex)
+        },
+        // 编辑表格属性
+        handleEditTableHeaderProp(row) {
+            this.$refs.tablePropEditor.show(row)
         },
         // 开始拖动，调换顺序
         handleLineDragStart(e, index) {

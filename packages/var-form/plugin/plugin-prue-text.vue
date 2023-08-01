@@ -1,6 +1,6 @@
 <template>
     <div v-if="showValue" class="plugin-prue-text" :style="schema.style || {}">
-        <span>{{ showValue }}</span>
+        <span v-html="showValue"></span>
     </div>
 </template>
 

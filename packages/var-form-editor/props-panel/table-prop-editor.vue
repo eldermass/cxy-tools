@@ -14,6 +14,10 @@
                     <el-input v-model="row.optionSource" placeholder="{ data: [{ label: '选项1', value: 1 }] }" />
                 </el-form-item>
 
+                <el-form-item v-if="couldEditProp(`fixedValue`)" label="HTML固定值">
+                    <el-input v-model="row.fixedValue" placeholder="html 超文本" />
+                </el-form-item>
+
                 <el-form-item v-if="couldEditProp(`options`)" label="选项组">
                     <el-table border :data="row.options" style="width: 100%">
                         <el-table-column prop="label" label="标签" width="auto">
@@ -72,19 +76,25 @@ export default {
     },
     methods: {
         show(row) {
+            // 判断是否可编辑，并设置响应式属性
             const shouldShows = ["checkbox", "radio", "select"]
-            if (!shouldShows.includes(row.type) && !row.prop.startsWith("valid_")) {
+            const shouldShows2 = ["html"]
+            if (!shouldShows.concat(shouldShows2).includes(row.type) && !row.prop.startsWith("valid_")) {
                 this.$message.warning("该类型不支持编辑")
                 return
             }
 
             if (row.prop.startsWith("valid_")) {
-                row.defaultValue = row.defaultValue || ""
+                this.$set(row, "defaultValue", row.defaultValue || "")
+            }
+
+            if (row.type === "html") {
+                this.$set(row, "fixedValue", row.fixedValue || "")
             }
 
             if (shouldShows.includes(row.type)) {
-                row.optionSource = row.optionSource || ""
-                row.options = row.options || []
+                this.$set(row, "optionSource", row.optionSource || "")
+                this.$set(row, "options", row.options || [])
             }
 
             this.tableEditorVisible = true;
@@ -117,7 +127,7 @@ export default {
 .table-prop-editor {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 201px;
     width: 650px;
     height: 100%;
     padding: 15px;

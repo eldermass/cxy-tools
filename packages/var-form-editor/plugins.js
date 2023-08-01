@@ -22,7 +22,7 @@ export const plugins = [
         construct: {
             plugin: "prue-text",
             type: "text",
-            prop: "propPrueText",
+            prop: "propPureText",
             defaultValue: "",
             fixedValue: "",
             style: ""
@@ -39,6 +39,18 @@ export const plugins = [
             hide: false,
             prop: "propText",
             defaultValue: "",
+        },
+    },
+    {
+        id: 103,
+        name: "HTML",
+        plugin: "form-item",
+        construct: {
+            plugin: "form-item",
+            type: "html",
+            label: "HTML",
+            prop: "propHTML",
+            fixedValue: "",
         },
     },
     {
@@ -216,56 +228,56 @@ export const plugins = [
             border: true, // 可选
             defaultValue: [],
             tableHeaders: [
-                {
-                    label: "名称",
-                    prop: "name",
-                    width: "150", // 可选
-                    align: "center", // 可选
-                    type: "text",
-                },
-                {
-                    label: "地点",
-                    prop: "address",
-                    type: "select",
-                    defaultValue: "",
-                    placeholder: "请选择",
-                    disabled: false,
-                    multiple: true,
-                    width: "150",
-                    align: "center",
-                    optionSource: "",
-                },
-                {
-                    label: "状态",
-                    prop: "status",
-                    type: "switch",
-                },
-                {
-                    label: "验证国家",
-                    prop: "valid_country",
-                    hide: true,
-                    type: "input",
-                    defaultValue: `
-                    (prop, value, row) => {
-                        console.log("valid_name: ", prop, value, row)
-                        return value === "上海市普陀区金沙江路 1518 弄"
-                    }`,
-                },
-                {
-                    label: "国家",
-                    prop: "country",
-                    type: "checkbox",
-                    options: [
-                        {
-                            label: "中国",
-                            value: "1",
-                        },
-                        {
-                            label: "俄罗斯",
-                            value: "2",
-                        },
-                    ],
-                },
+                // {
+                //     label: "名称",
+                //     prop: "name",
+                //     width: "150", // 可选
+                //     align: "center", // 可选
+                //     type: "text",
+                // },
+                // {
+                //     label: "地点",
+                //     prop: "address",
+                //     type: "select",
+                //     defaultValue: "",
+                //     placeholder: "请选择",
+                //     disabled: false,
+                //     multiple: true,
+                //     width: "150",
+                //     align: "center",
+                //     optionSource: "",
+                // },
+                // {
+                //     label: "状态",
+                //     prop: "status",
+                //     type: "switch",
+                // },
+                // {
+                //     label: "验证国家",
+                //     prop: "valid_country",
+                //     hide: true,
+                //     type: "input",
+                //     defaultValue: `
+                //     (prop, value, row) => {
+                //         console.log("valid_name: ", prop, value, row)
+                //         return value === "上海市普陀区金沙江路 1518 弄"
+                //     }`,
+                // },
+                // {
+                //     label: "国家",
+                //     prop: "country",
+                //     type: "checkbox",
+                //     options: [
+                //         {
+                //             label: "中国",
+                //             value: "1",
+                //         },
+                //         {
+                //             label: "俄罗斯",
+                //             value: "2",
+                //         },
+                //     ],
+                // },
             ],
         },
     },

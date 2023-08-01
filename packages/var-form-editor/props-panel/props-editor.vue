@@ -31,13 +31,13 @@
                     <el-input v-model="construct.colorType" placeholder="同 el-button 的type" />
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`defaultValue`) && construct.plugin !== `table`" label="默认值">
-                    <el-input v-model="construct.defaultValue" placeholder="多选用,分隔" />
+                    <el-input v-model="construct.defaultValue" placeholder="默认值用于生成默认data，并不会存储到结构中。多选时,分隔" />
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`placeholder`)" label="占位符">
                     <el-input v-model="construct.placeholder" />
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`fixedValue`)" label="固定值">
-                    <el-input v-model="construct.fixedValue" placeholder="没有从表单中读到值时默认展示" />
+                    <el-input v-model="construct.fixedValue" type="textarea" :rows="3" placeholder="数据无值时展示，支持html解析" />
                 </el-form-item>
                 <el-form-item v-if="couldEditProp(`style`)" label="CSS样式">
                     <el-input v-model="construct.style" type="textarea" placeholder="color: black; text-align: left;"
@@ -135,6 +135,7 @@
                                 <!-- <el-input size="mini" v-model="scope.row.type" /> -->
                                 <el-select size="mini" v-model="scope.row.type" placeholder="请选择">
                                     <el-option label="文本" value="text"></el-option>
+                                    <el-option label="HTML" value="html"></el-option>
                                     <el-option label="输入框" value="input"></el-option>
                                     <el-option label="数字" value="input-number"></el-option>
                                     <el-option label="下拉框" value="select"></el-option>
@@ -171,18 +172,18 @@
                 </el-form-item>
             </el-form>
             <i class="el-icon-close" @click="hide"></i>
-            <table-prop-editor ref="tablePropEditor" />
+            <!-- <table-prop-editor ref="tablePropEditor" /> -->
         </div>
     </transition>
 </template>
 
 <script>
 import _ from 'lodash'
-import tablePropEditor from './table-prop-editor.vue';
+// import tablePropEditor from './table-prop-editor.vue';
 
 export default {
     name: "props-editor",
-    components: { tablePropEditor },
+    // components: { tablePropEditor },
     props: {
         store: {
             required: true
@@ -267,7 +268,8 @@ export default {
             this.construct.tableHeaders.push({ label: '', prop: '', width: '', align: '', type: '' })
         },
         handleEditTableHeaderProp(row) {
-            this.$refs.tablePropEditor.show(row)
+            // this.$refs.tablePropEditor.show(row)
+            this.$emit('editor-table', row)
         },
         handleUpdateTableHeader() {
             console.log('handleUpdateTableHeader');
