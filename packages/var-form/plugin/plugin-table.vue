@@ -26,7 +26,7 @@
 <script>
 import commonItem from '../common-item.vue';
 import { mapStates } from '../store/helper';
-import _ from 'lodash';
+// import _ from 'lodash';
 
 export default {
     name: 'plugin-table',
@@ -49,10 +49,10 @@ export default {
         ...mapStates({ storeFormData: 'formData' })
     },
     methods: {
-        addRow(row) {
+        addRow() {
             // console.log(row)
             if (Array.isArray(this.storeFormData[this.schema.prop])) {
-                this.storeFormData[this.schema.prop].push(_.cloneDeep(row))
+                this.storeFormData[this.schema.prop].push({})
             }
         },
         deleteRow(index) {
