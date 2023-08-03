@@ -125,6 +125,12 @@
                                     inactive-color="#ff4949" />
                             </template>
                         </el-table-column>
+                        <el-table-column prop="autocomplete" label="自动填充" width="78">
+                            <template v-slot="scope">
+                                <el-switch v-model="scope.row.autocomplete" size="mini" active-color="#13ce66"
+                                    inactive-color="#ff4949" />
+                            </template>
+                        </el-table-column>
                         <!-- <el-table-column prop="align" label="对其" width="auto">
                             <template v-slot="scope">
                                 <el-input size="mini" v-model="scope.row.align" />
@@ -265,7 +271,7 @@ export default {
             this.construct.tableHeaders.splice(index, 1)
         },
         handleAddTableHeader() {
-            this.construct.tableHeaders.push({ label: '', prop: '', width: '', align: '', type: '' })
+            this.construct.tableHeaders.push({ label: '', prop: '', width: '', align: '', type: '', autocomplete: false })
         },
         handleEditTableHeaderProp(row) {
             // this.$refs.tablePropEditor.show(row)
@@ -317,7 +323,7 @@ export default {
     position: absolute;
     top: 0;
     right: 201px;
-    width: 750px;
+    width: 800px;
     height: 100%;
     padding: 15px;
     z-index: 1000;
