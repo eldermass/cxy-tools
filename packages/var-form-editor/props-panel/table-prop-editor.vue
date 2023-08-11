@@ -18,6 +18,14 @@
                     <el-input v-model="row.fixedValue" placeholder="html 超文本" />
                 </el-form-item>
 
+                <el-form-item v-if="couldEditProp(`autocomputed`)" label="自动计算">
+                    <el-input v-model="row.autocomputed" type="textarea" rows="9" placeholder="可参照下三个示例
+(row, fn) => { fn.add('a', 'b') }; // a+b=当前格
+(row, fn) => { fn.min('a', 'b', 'e') }; // a-b=e,e可不填
+(row) => { this.$set(row, 'd', Number(row.a) * Number(row.b)) };
+                    " />
+                </el-form-item>
+
                 <el-form-item v-if="couldEditProp(`options`)" label="选项组">
                     <el-table border :data="row.options" style="width: 100%">
                         <el-table-column prop="label" label="标签" width="auto">
@@ -78,7 +86,7 @@ export default {
         show(row) {
             // 判断是否可编辑，并设置响应式属性
             const shouldShows = ["checkbox", "radio", "select"]
-            const shouldShows2 = ["html"]
+            const shouldShows2 = ["html", "input"]
             if (!shouldShows.concat(shouldShows2).includes(row.type) && !row.prop.startsWith("valid_")) {
                 this.$message.warning("该类型不支持编辑")
                 return
@@ -90,6 +98,13 @@ export default {
 
             if (row.type === "html") {
                 this.$set(row, "fixedValue", row.fixedValue || "")
+            }
+
+            // 如果是 input 类型，需要设置 autocomputed
+            if (row.type === "input") {
+                this.$set(row, "autocomputed", row.autocomputed || "")
+            } else {
+                delete row.autocomputed
             }
 
             if (shouldShows.includes(row.type)) {

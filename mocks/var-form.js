@@ -161,6 +161,7 @@ export const mockSchema = [
                 width: "150",
                 align: "center",
                 type: "input",
+                autocomputed: "() => console.log('sssssss')"
             },
             {
                 label: "状态",

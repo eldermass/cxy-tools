@@ -1,6 +1,6 @@
 <template>
     <div class="preview-panel">
-        <var-form ref="varForm" :form-data="formData" :schema="formSchema" :edit-mode="true" />
+        <var-form ref="varForm" v-if="showForm" :form-data="formData" :schema="formSchema" :edit-mode="true" />
     </div>
 </template>
 
@@ -19,7 +19,9 @@ export default {
         }
     },
     data() {
-        return {};
+        return {
+            showForm: true
+        };
     },
     computed: {
         ...mapStates({ formSchema: "formSchema", formData: "formData", pluginsSchema: "pluginsSchema" })
@@ -28,9 +30,11 @@ export default {
         pluginsSchema: {
             handler() {
                 this.store.generateFormSchema();
+                this.showForm = false
                 // 重新渲染预览页
                 this.$nextTick(() => {
-                    this.$refs.varForm && this.$refs.varForm.setFormData(this.formData);
+                    this.showForm = true
+                    // this.$refs.varForm && this.$refs.varForm.setFormData(this.formData);
                 })
             },
             deep: true

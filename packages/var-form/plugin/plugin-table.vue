@@ -4,7 +4,7 @@
             <el-table-column v-if="!item.hide" :key="index" :align="item.align || 'center'" :label="item.label"
                 :width="item.width || 'auto'" :prop="item.prop" show-overflow-tooltip header-align="center">
                 <template v-slot="scope">
-                    <common-item :row="scope.row" :store="store" :schema="item" />
+                    <common-item :group="schema.prop" :row-index="scope.$index" :row="scope.row" :store="store" :schema="item" />
                 </template>
             </el-table-column>
         </template>

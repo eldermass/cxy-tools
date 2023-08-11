@@ -11,6 +11,7 @@ export default Vue.extend({
                 externalFuncs: {},
                 storeOptions: [], // url, req
                 editMode: false,
+                autoComputedFuncs: []
             },
         }
     },
@@ -46,6 +47,19 @@ export default Vue.extend({
                 this.states.storeOptions.push(newOption)
             }
             return storedOption ? storedOption.req : newOption.req
+        },
+        addAutoComputedFunc(func) {
+            const findIndex = this.states.autoComputedFuncs.findIndex(item => item.key === func.key)
+            // console.log(findIndex, func.key)
+            if (findIndex > -1) {
+                this.states.autoComputedFuncs.splice(findIndex, 1, func)
+            } else {
+                this.states.autoComputedFuncs.push(func)
+            }
+        },
+        invokeAutoComputedFuncs() {
+            // console.log(this.states.autoComputedFuncs)
+            this.states.autoComputedFuncs.forEach(func => func())
         }
     },
 })

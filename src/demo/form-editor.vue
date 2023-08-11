@@ -1,6 +1,6 @@
 <template>
     <div class="demo-form-editor">
-        <var-form-editor ref="formEditor" :form-schema="mockFormSchema" :form-data="mockFormData"/>
+        <var-form-editor v-if="mockFormSchema.length" ref="formEditor" :form-schema="mockFormSchema" :form-data="mockFormData"/>
         <el-button @click="getFormSchema">页面结构</el-button>
         <el-button @click="getTypeData">数据结构</el-button>
         <el-button @click="getFormData">默认数据</el-button>
@@ -66,9 +66,40 @@ const mockFormSchema = [
                 "prop": "a",
                 "width": "",
                 "align": "",
-                "type": "html",
-                "fixedValue": "asd"
-            }
+                "type": "input",
+            },
+            {
+                "label": "b",
+                "prop": "b",
+                "width": "",
+                "align": "",
+                "type": "input"
+            },
+            {
+                "label": "c=a+b",
+                "prop": "c",
+                "width": "",
+                "align": "",
+                "type": "input",
+                autocomputed: "(row, fn) => { fn.add('a', 'b') }"
+            },
+            {
+                "label": "d=a*b",
+                "prop": "d",
+                "width": "",
+                "align": "",
+                "type": "input",
+                autocomputed: "(row) => { this.$set(row, 'd', Number(row.a) * Number(row.b)) }"
+            },
+            {
+                "label": "e=a-b",
+                "prop": "e",
+                "width": "",
+                "align": "",
+                "type": "input",
+                // 第三个参数可选，默认当前 prop
+                autocomputed: "(row, fn) => { fn.min('a', 'b', 'e') }"
+            },
         ]
     }
 ]
@@ -81,7 +112,8 @@ const mockFormData = {
     ],
     "propTable": [
         {
-            "a": "asdsd"
+            "a": 1,
+            "b": 2
         }
     ]
 }
@@ -90,9 +122,14 @@ export default {
     name: 'demo-form-edito',
     data() {
         return {
-            mockFormSchema,
+            mockFormSchema: [],
             mockFormData
         }
+    },
+    mounted() {
+        setTimeout(() => {
+            this.mockFormSchema = mockFormSchema
+        }, 100)
     },
     methods: {
         getFormData() {

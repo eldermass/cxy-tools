@@ -86,6 +86,12 @@ export default {
         row: {
             type: Object,
             default: () => ({})
+        },
+        group: {
+            type: String
+        },
+        rowIndex: {
+            type: Number
         }
     },
     data() {
@@ -98,7 +104,7 @@ export default {
     },
     created() {
         this.initFormData()
-        this.initOptionsData()
+        this.initOptionsData()                                                                                                    
     },
     methods: {
         initFormData() {
@@ -134,7 +140,37 @@ export default {
             }
 
         },
+        // 自动计算值
+        initAutoComputed() {
+            if (this.schema.autocomputed) {
+                const key = `${this.group}_${this.rowIndex}_${this.schema.prop}`
+                // console.log("自动计算", key)
+                try {
+                    const func = eval(`(${this.schema.autocomputed})`)
+
+                    const buildInFunc = {
+                        add: this.buildInAdd,
+                        min: this.buindInMin
+                    }
+
+                    const funcWithData = func.bind(this, this.row, buildInFunc)
+                    funcWithData.key = key
+                    this.store.addAutoComputedFunc(funcWithData)
+                } catch (error) {
+                    console.warn(this.schema.type, "自动计算函数错误", error)
+                }
+            }
+        },
+        buildInAdd(a, b, c = this.schema.prop) {
+            this.$set(this.row, c, Number(this.row[a]) + Number(this.row[b]))
+        },
+        buindInMin(a, b, c = this.schema.prop) {
+            this.$set(this.row, c, Number(this.row[a]) - Number(this.row[b]))
+        },
         handleInput(event) {
+            // 分发全部自动填充
+            this.store.invokeAutoComputedFuncs()
+
             // name 需要检验时，就会传入 valid_name 的字段，没有的话就不需要验证
             if (!Object.keys(this.row).includes("valid_" + this.schema.prop))
                 // Object.keys直接用传入数据，能优化性能
@@ -157,6 +193,17 @@ export default {
                     console.error(`验证函数解析失败，请检查 ${this.schema.prop} 的验证函数！`);
                 }
             }
+        }
+    },
+    mounted() {
+        this.initAutoComputed()
+    },
+    watch: {
+        schema: {
+            handler() {
+                this.initAutoComputed()
+            },
+            deep: true
         }
     }
 }
