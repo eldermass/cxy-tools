@@ -1,5 +1,5 @@
 <template>
-    <el-table :data="storeFormData[schema.prop]" style="width: 100%" :border="schema.border">
+    <el-table :data="storeFormData[schema.prop]" style="width: 100%" :height="schema.height || 350" :border="schema.border">
         <template v-for="(item, index) in schema.tableHeaders">
             <el-table-column v-if="!item.hide" :key="index" :align="item.align || 'center'" :label="item.label"
                 :width="item.width || 'auto'" :prop="item.prop" show-overflow-tooltip header-align="center">

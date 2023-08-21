@@ -14,6 +14,9 @@
                 <el-form-item v-if="couldEditProp(`size`)" label="尺寸">
                     <el-input v-model="construct.size" />
                 </el-form-item>
+                <el-form-item v-if="couldEditProp(`height`)" label="高度">
+                    <el-input v-model="construct.height" />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`dateType`)" label="日期类型">
                     <!-- <el-input v-model="construct.dateType" /> -->
                     <el-select v-model="construct.dateType" placeholder="请选择">
