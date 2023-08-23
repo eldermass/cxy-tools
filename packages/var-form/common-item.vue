@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-    <div :class="['custom-item', errorClass]" @input="handleInput">
+    <div :class="['custom-item', errorClass]" @input="handleInput" @dblclick="handleDbClick">
         <!-- input 框 -->
         <template v-if="schema.type === 'input'">
             <el-input v-model="row[schema.prop]" :disabled="schema.disabled" :placeholder="schema.placeholder" />
@@ -52,13 +52,13 @@
         <!-- html -->
         <template v-else-if="schema.type === 'html'">
             <!-- editMode -->
-            <el-input v-if="editMode" v-model="row[schema.prop]" placeholder="HTML 当前处于编辑模式，该值将挂到属性上"/>
+            <el-input v-if="editMode" v-model="row[schema.prop]" placeholder="HTML 当前处于编辑模式，该值将挂到属性上" />
             <div v-else v-html="row[schema.prop] || schema.fixedValue" />
         </template>
 
         <!-- 显示文本 -->
         <template v-else-if="schema.type === 'text'">
-            <el-input v-if="editMode" v-model="row[schema.prop]" placeholder="Text 当前处于编辑模式，该值将挂到属性上"/>
+            <el-input v-if="editMode" v-model="row[schema.prop]" placeholder="Text 当前处于编辑模式，该值将挂到属性上" />
             <span v-else>{{ row[schema.prop] }}</span>
         </template>
 
@@ -104,7 +104,7 @@ export default {
     },
     created() {
         this.initFormData()
-        this.initOptionsData()                                                                                                    
+        this.initOptionsData()
     },
     methods: {
         initFormData() {
@@ -192,6 +192,16 @@ export default {
                 } catch (error) {
                     console.error(`验证函数解析失败，请检查 ${this.schema.prop} 的验证函数！`);
                 }
+            }
+        },
+        handleDbClick() {
+            try {
+                const callback = eval(`(${this.schema.onDblClick})`)
+                // 当前属性，当前值，外部函数
+                callback.call(this, this.row, this.store.getExternalFuncs())
+
+            } catch (error) {
+                console.error(`双击事件解析失败，请检查 ${this.schema.prop} 的双击事件！`);
             }
         }
     },

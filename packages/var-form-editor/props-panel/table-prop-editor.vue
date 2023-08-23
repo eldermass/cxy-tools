@@ -10,6 +10,13 @@
                     <el-input v-model="row.defaultValue" type="textarea" :rows="9"
                         placeholder="(prop: string, value: string, row: { prop: value... }) => Boolean" />
                 </el-form-item>
+                <el-form-item label="双击事件">
+                    <el-input v-model="row.onDblClick" type="textarea" rows="6"
+                        placeholder="async (row, exFuncs) => { 
+    const name = await exFuncs.getUserName()
+    this.$set(row, 'a', name)
+}" />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`optionSource`)" label="选项数据源">
                     <el-input v-model="row.optionSource" placeholder="{ data: [{ label: '选项1', value: 1 }] }" />
                 </el-form-item>
@@ -84,6 +91,7 @@ export default {
     },
     methods: {
         show(row) {
+            this.$set(row, "onDblClick", row.onDblClick || "")
             // 判断是否可编辑，并设置响应式属性
             const shouldShows = ["checkbox", "radio", "select"]
             const shouldShows2 = ["html", "input"]

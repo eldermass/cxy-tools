@@ -1,6 +1,7 @@
 <template>
     <div class="preview-panel">
-        <var-form ref="varForm" v-if="showForm" :form-data="formData" :schema="formSchema" :edit-mode="true" />
+        <var-form ref="varForm" v-if="showForm" :form-data="formData" :schema="formSchema" :external-funcs="externalFuncs"
+            :edit-mode="true" />
     </div>
 </template>
 
@@ -20,7 +21,16 @@ export default {
     },
     data() {
         return {
-            showForm: true
+            showForm: true,
+            externalFuncs: {
+                getUserName: () => {
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            resolve('张三')
+                        }, 1000)
+                    })
+                }
+            }
         };
     },
     computed: {
