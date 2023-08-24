@@ -68,6 +68,23 @@
                     <el-input v-model="construct.optionSource"
                         placeholder="当填写该项时，选项组将无效。 { data: [{ label: '选项1', value: 1 }] }" />
                 </el-form-item>
+                <el-form-item v-if="couldEditProp(`onDblClick`)" label="双击事件">
+                    <el-input v-model="construct.onDblClick" type="textarea" rows="6"
+                        placeholder="async (row, exFuncs) => { 
+    const name = await exFuncs.getUserName()
+    this.$set(row, 'a', name)
+}" />
+                </el-form-item>
+                <el-form-item v-if="couldEditProp(`modalSearch`)" label="弹窗查询">
+                    <el-input v-model="construct.modalSearch" type="textarea" rows="6"
+                        placeholder="async (row, funcs) => { 
+    console.log('search-input: ', row, funcs)
+    let res = await funcs.openDialog('requestUrl')
+    console.log('res: ', res)
+    this.$set(row, 'searchInput', res.address)
+    this.$set(row, 'name1', res.name)
+}" />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`options`)" label="选项组">
                     <el-table border :data="construct.options" style="width: 100%">
                         <el-table-column prop="label" label="标签" width="auto">

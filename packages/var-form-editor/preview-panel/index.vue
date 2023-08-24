@@ -17,20 +17,16 @@ export default {
     props: {
         store: {
             required: true
-        }
+        },
+        // 外部函数队列
+        externalFuncs: {
+            type: Object,
+            default: () => ({})
+        },
     },
     data() {
         return {
-            showForm: true,
-            externalFuncs: {
-                getUserName: () => {
-                    return new Promise((resolve) => {
-                        setTimeout(() => {
-                            resolve('张三')
-                        }, 1000)
-                    })
-                }
-            }
+            showForm: true
         };
     },
     computed: {

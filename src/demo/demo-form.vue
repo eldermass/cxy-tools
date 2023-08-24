@@ -8,20 +8,26 @@
         <el-button @click="updateFormData">更新数据</el-button>
         <el-button @click="getDataAndSchema">获取数据和结构</el-button>
         <el-button @click="validateForm">验证表单数据</el-button>
+        <dialog-table ref="dialogTable" />
     </div>
 </template>
 
 <script>
 import { mockData, mockSchema } from '../../mocks/var-form'
+import dialogTable from './dialog-table.vue'
 
 export default {
     name: 'demo-form',
+    components: {
+        dialogTable
+    },
     data() {
         return {
             formData: mockData,
             mockSchema,
             externalFuncs: {
-                getValidateForm: this.validateForm
+                getValidateForm: this.validateForm,
+                openDialog: this.openDialog
             }
         }
     },
@@ -67,6 +73,12 @@ export default {
             }
 
             console.log("验证成功，data： ", data)
+        },
+        // 弹窗收索
+        async openDialog(url) {
+            return new Promise((resolve) => {
+                this.$refs.dialogTable.show(resolve, url)
+            })
         }
     },
 }

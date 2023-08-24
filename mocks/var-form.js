@@ -51,15 +51,33 @@ export const mockSchema = [
         fixedValue: "固定值",
         style: ""
     },
-    {
-        plugin: "form-item",
-        type: "input-textarea", // input input-number input-textarea select date-picker time-picker switch radio checkbox
-        rows: 3, // 仅当 type = textarea 时有效
-        label: "文本",
-        prop: "name1",
-        placeholder: "请输入", // 可选
-        disabled: false, // 可选
-    },
+    [
+        
+        {
+            plugin: "form-item",
+            type: "input", // input input-number input-textarea select date-picker time-picker switch radio checkbox
+            label: "文本",
+            prop: "searchInput",
+            placeholder: "请输入", // 可选
+            disabled: false, // 可选
+            modalSearch: `async (row, funcs) => {
+                console.log("search-input: ", row, funcs)
+                let res = await funcs.openDialog('requestUrl')
+                console.log("res: ", res)
+                this.$set(row, 'searchInput', res.address)
+                this.$set(row, 'name1', res.name)
+            }`
+        },
+        {
+            plugin: "form-item",
+            type: "input", // input input-number input-textarea select date-picker time-picker switch radio checkbox
+            rows: 3, // 仅当 type = textarea 时有效
+            label: "文本",
+            prop: "name1",
+            placeholder: "请输入", // 可选
+            disabled: false, // 可选
+        }
+    ],
     [
         {
             plugin: "form-item",
@@ -68,17 +86,17 @@ export const mockSchema = [
             prop: "name4",
             multiple: true, // 可选,仅当 type = select 时有效, 且对应的值应该是 数组
             // 仅当 type = select 时有效, options 数据的优先级高于 optionSource
-            optionSource: "http://10.10.2.201:8881/api/modalinfo/1/", // get 请求, 返回结构 { data: [{ label: "选项1", value: 1 }] }
-            // options: [
-            //     {
-            //         label: "选项1",
-            //         value: 1,
-            //     },
-            //     {
-            //         label: "选项2",
-            //         value: 2,
-            //     },
-            // ],
+            // optionSource: "http://10.10.2.201:8881/api/modalinfo/1/", // get 请求, 返回结构 { data: [{ label: "选项1", value: 1 }] }
+            options: [
+                {
+                    label: "选项1",
+                    value: 1,
+                },
+                {
+                    label: "选项2",
+                    value: 2,
+                },
+            ],
         },
         {
             plugin: "form-item",

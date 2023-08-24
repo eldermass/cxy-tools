@@ -3,7 +3,10 @@
     <div :class="['custom-item', errorClass]" @input="handleInput" @dblclick="handleDbClick">
         <!-- input 框 -->
         <template v-if="schema.type === 'input'">
-            <el-input v-model="row[schema.prop]" :disabled="schema.disabled" :placeholder="schema.placeholder" />
+            <el-input v-model="row[schema.prop]" :disabled="schema.disabled" :placeholder="schema.placeholder">
+                <i v-if="schema.modalSearch" slot="suffix" class="el-input__icon el-icon-search" style="cursor: pointer;"
+                    @click="handleModalSearch"></i>
+            </el-input>
         </template>
         <!-- textarea 框 -->
         <template v-else-if="schema.type === 'input-textarea'">
@@ -158,6 +161,7 @@ export default {
                     this.store.addAutoComputedFunc(funcWithData)
                 } catch (error) {
                     console.warn(this.schema.type, "自动计算函数错误", error)
+                    console.error(error)
                 }
             }
         },
@@ -190,18 +194,35 @@ export default {
                         this.errorClass = 'customer-error'
                     }
                 } catch (error) {
-                    console.error(`验证函数解析失败，请检查 ${this.schema.prop} 的验证函数！`);
+                    console.error(`验证函数解析失败，请检查 ${this.schema.prop} 的验证函数！`)
+                    console.error(error)
                 }
             }
         },
+        // 双击事件
         handleDbClick() {
+            if (!this.schema.onDblClick) return
             try {
                 const callback = eval(`(${this.schema.onDblClick})`)
                 // 当前属性，当前值，外部函数
                 callback.call(this, this.row, this.store.getExternalFuncs())
 
             } catch (error) {
-                console.error(`双击事件解析失败，请检查 ${this.schema.prop} 的双击事件！`);
+                console.error(`双击事件解析失败，请检查 ${this.schema.prop} 的双击事件！`)
+                console.error(error)
+            }
+        },
+        // input 弹窗搜索
+        handleModalSearch(){
+            if (!this.schema.modalSearch) return
+            try {
+                const callback = eval(`(${this.schema.modalSearch})`)
+                // 当前属性，当前值，外部函数
+                callback.call(this, this.row, this.store.getExternalFuncs())
+
+            } catch (error) {
+                console.error(`弹窗搜索解析失败，请检查 ${this.schema.prop} 的弹窗搜索！`)
+                console.error(error)
             }
         }
     },

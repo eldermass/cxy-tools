@@ -1,14 +1,18 @@
 <template>
     <div class="demo-form-editor">
-        <var-form-editor v-if="mockFormSchema.length" ref="formEditor" :form-schema="mockFormSchema" :form-data="mockFormData"/>
+        <var-form-editor v-if="mockFormSchema.length" ref="formEditor" :external-funcs="externalFuncs"
+            :form-schema="mockFormSchema" :form-data="mockFormData" />
         <el-button @click="getFormSchema">页面结构</el-button>
         <el-button @click="getTypeData">数据结构</el-button>
         <el-button @click="getFormData">默认数据</el-button>
         <el-button @click="getEditFormData">编辑数据</el-button>
+        <dialog-table ref="dialogTable" />
     </div>
 </template>
 
 <script>
+import dialogTable from './dialog-table.vue'
+
 const mockFormSchema = [
     {
         "plugin": "form-item",
@@ -120,10 +124,23 @@ const mockFormData = {
 
 export default {
     name: 'demo-form-edito',
+    components: {
+        dialogTable
+    },
     data() {
         return {
             mockFormSchema: [],
-            mockFormData
+            mockFormData,
+            externalFuncs: {
+                getUserName: () => {
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            resolve('张三')
+                        }, 1000)
+                    })
+                },
+                openDialog: this.openDialog
+            }
         }
     },
     mounted() {
@@ -143,6 +160,12 @@ export default {
         },
         getEditFormData() {
             console.log(this.$refs.formEditor.getEditFormData())
+        },
+        // 弹窗收索
+        async openDialog(url) {
+            return new Promise((resolve) => {
+                this.$refs.dialogTable.show(resolve, url)
+            })
         }
     },
 }

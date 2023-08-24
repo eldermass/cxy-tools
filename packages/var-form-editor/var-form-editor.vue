@@ -6,7 +6,7 @@
             </span>
         </plugins-panel>
         <div class="form-preview">
-            <preview-panel ref="preview" :store="store" />
+            <preview-panel ref="preview" :external-funcs="externalFuncs" :store="store" />
         </div>
         <props-panel class="props-panel" :store="store">
             <span class="panel-title">
@@ -37,7 +37,12 @@ export default {
         formData: {
             type: Object,
             default: () => ({})
-        }
+        },
+        // 外部函数队列
+        externalFuncs: {
+            type: Object,
+            default: () => ({})
+        },
     },
     data() {
         this.store = createStore(this, {

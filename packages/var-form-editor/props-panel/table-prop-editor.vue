@@ -17,6 +17,16 @@
     this.$set(row, 'a', name)
 }" />
                 </el-form-item>
+                <el-form-item v-if="couldEditProp(`modalSearch`)" label="弹窗查询">
+                    <el-input v-model="row.modalSearch" type="textarea" rows="6"
+                        placeholder="async (row, funcs) => { 
+    console.log('search-input: ', row, funcs)
+    let res = await funcs.openDialog('requestUrl')
+    console.log('res: ', res)
+    this.$set(row, 'searchInput', res.address)
+    this.$set(row, 'name1', res.name)
+}" />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`optionSource`)" label="选项数据源">
                     <el-input v-model="row.optionSource" placeholder="{ data: [{ label: '选项1', value: 1 }] }" />
                 </el-form-item>
@@ -111,6 +121,7 @@ export default {
             // 如果是 input 类型，需要设置 autocomputed
             if (row.type === "input") {
                 this.$set(row, "autocomputed", row.autocomputed || "")
+                this.$set(row, "modalSearch", row.modalSearch || "")
             } else {
                 delete row.autocomputed
             }
