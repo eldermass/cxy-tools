@@ -153,7 +153,8 @@ export default {
 
                     const buildInFunc = {
                         add: this.buildInAdd,
-                        min: this.buindInMin
+                        min: this.buindInMin,
+                        exFuncs: this.store.getExternalFuncs()
                     }
 
                     const funcWithData = func.bind(this, this.row, buildInFunc)
@@ -228,6 +229,10 @@ export default {
     },
     mounted() {
         this.initAutoComputed()
+        // 当前格有自动计算时，分发全部自动填充
+        if (this.schema.autocomputed) {
+            this.store.invokeAutoComputedFuncs()
+        }
     },
     watch: {
         schema: {

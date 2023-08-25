@@ -102,7 +102,7 @@ const mockFormSchema = [
                 "align": "",
                 "type": "input",
                 // 第三个参数可选，默认当前 prop
-                autocomputed: "(row, fn) => { fn.min('a', 'b', 'e') }"
+                autocomputed: "async (row, fn) => { let user = await fn.exFuncs.getUserName(); console.log(user); this.$set(row, 'e', user) }"
             },
         ]
     }

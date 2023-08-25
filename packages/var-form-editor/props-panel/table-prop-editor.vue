@@ -36,10 +36,11 @@
                 </el-form-item>
 
                 <el-form-item v-if="couldEditProp(`autocomputed`)" label="自动计算">
-                    <el-input v-model="row.autocomputed" type="textarea" rows="9" placeholder="可参照下三个示例
-(row, fn) => { fn.add('a', 'b') }; // a+b=当前格
-(row, fn) => { fn.min('a', 'b', 'e') }; // a-b=e,e可不填
-(row) => { this.$set(row, 'd', Number(row.a) * Number(row.b)) };
+                    <el-input v-model="row.autocomputed" type="textarea" rows="9" placeholder="挂载时执行，可参照下三个示例
+(row, fn) => { fn.add('a', 'b') } // a+b=当前格
+(row, fn) => { fn.min('a', 'b', 'e') } // a-b=e,e可不填
+async (row, fn) => { let user = await fn.exFuncs.getUserName(); console.log(user); }
+(row) => { this.$set(row, 'd', Number(row.a) * Number(row.b)) }
                     " />
                 </el-form-item>
 
