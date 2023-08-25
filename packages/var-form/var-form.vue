@@ -1,7 +1,8 @@
 <template>
     <el-form ref="varForm" :model="storeFormData" class='var-form' :rules="varFormProp.rules" label-width="100px">
         <!-- 按行的表单项 -->
-        <el-row v-for="(schemaItem, index) in schemas" :key="index" :class="{ 'row-border': varFormProp.border }">
+        <el-row v-for="(schemaItem, index) in schemas" :key="index" :class="{ 'row-border': varFormProp.border }"
+            :style="{ '--border-color': varFormProp.borderColor }">
             <template v-if="isSchemaArray(schemaItem)">
                 <var-form-item v-for="(spiltSchema, index) in schemaItem" :key="index"
                     :span="Math.floor(24 / schemaItem.length)" :schema="spiltSchema" :store="store"
@@ -143,7 +144,8 @@ export default {
 }
 
 .row-border {
-    border: 1px solid #DCDFE6;
+    --border-color: #DCDFE6;
+    border: 1px solid var(--border-color);
 
     &:not(:last-child) {
         border-bottom: none;

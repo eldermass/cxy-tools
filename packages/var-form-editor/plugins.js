@@ -14,6 +14,7 @@ export const plugins = [
             // 表单部分校验，同的 el-form 校验规则
             rules: '{"propInput":[{"required":true,"message":"请输入活动名称","trigger":"blur"},{"min":3,"max":5,"message":"长度在 3 到 5 个字符","trigger":"blur"}]}',
             border: false, // 可选
+            borderColor: "#DCDFE6", // 可选
         },
     },
     {

@@ -20,7 +20,7 @@
         </template>
         <!-- select 下拉框 -->
         <template v-else-if="schema.type === 'select'">
-            <el-select v-model="row[schema.prop]" :multiple="schema.multiple" :disabled="schema.disabled"
+            <el-select v-model="row[schema.prop]" :multiple="schema.multiple" filterable :disabled="schema.disabled"
                 :placeholder="schema.placeholder">
                 <el-option v-for="item in schema.options" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>

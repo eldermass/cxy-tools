@@ -58,6 +58,9 @@
                 <el-form-item v-if="couldEditProp(`border`)" label="显示边框">
                     <el-switch v-model="construct.border" active-color="#13ce66" inactive-color="#ff4949" />
                 </el-form-item>
+                <el-form-item v-if="couldEditProp(`borderColor`)" label="边框颜色">
+                    <el-input v-model="construct.borderColor" />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`callback`)" label="回调函数">
                     <el-input v-model="construct.callback" type="textarea" :rows="5" />
                 </el-form-item>
