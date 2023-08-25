@@ -41,9 +41,12 @@ export default Vue.extend({
             let newOption
 
             if (!storedOption) {
+                const findToken = document.cookie.split(';').map(item => item.split('=')).find(arr => arr[0] === ' Admin-Token')
+                const Authorization = findToken ?  "Bearer " + findToken[1] : ''
+                
                 newOption = {
                     url,
-                    req: fetch(url).then(res => res.json())
+                    req: fetch(url, { headers: { Authorization } }).then(res => res.json())
                 }
                 this.states.storeOptions.push(newOption)
             }
