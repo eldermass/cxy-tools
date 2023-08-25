@@ -6,6 +6,7 @@
         <el-button @click="getTypeData">数据结构</el-button>
         <el-button @click="getFormData">默认数据</el-button>
         <el-button @click="getEditFormData">编辑数据</el-button>
+        <el-button @click="getValidateFormData">校验数据</el-button>
         <dialog-table ref="dialogTable" />
     </div>
 </template>
@@ -104,6 +105,17 @@ const mockFormSchema = [
                 // 第三个参数可选，默认当前 prop
                 autocomputed: "async (row, fn) => { let user = await fn.exFuncs.getUserName(); console.log(user); this.$set(row, 'e', user) }"
             },
+            {
+                "label": "valid_a",
+                "prop": "valid_a",
+                "type": "input",
+                defaultValue: `
+                    (prop, value, row) => {
+                        console.log("valid_name: ", prop, value, row)
+                        return value === "上海市普陀区金沙江路 1518 弄"
+                    }
+                `,
+            },
         ]
     }
 ]
@@ -160,6 +172,12 @@ export default {
         },
         getEditFormData() {
             console.log(this.$refs.formEditor.getEditFormData())
+        },
+        async getValidateFormData() {
+            const validData = await this.$refs.formEditor.getValidateFormData().catch(err => {
+                console.error("验证失败：", err)
+            })
+            console.log(validData)
         },
         // 弹窗收索
         async openDialog(url) {

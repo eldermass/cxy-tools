@@ -56,6 +56,9 @@ export default {
     methods: {
         getEditFormData() {
             return this.$refs.varForm.getFormData()
+        },
+        getValidateFormData() {
+            return this.$refs.varForm.getValidateFormData()
         }
     },
 }

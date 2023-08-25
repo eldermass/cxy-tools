@@ -1,7 +1,7 @@
 <template>
     <el-table :data="storeFormData[schema.prop]" style="width: 100%" :height="schema.height || 350" :border="schema.border">
         <template v-for="(item, index) in schema.tableHeaders">
-            <el-table-column v-if="!item.hide" :key="index" :align="item.align || 'center'" :label="item.label"
+            <el-table-column v-if="!item.hide || editMode" :key="index" :align="item.align || 'center'" :label="item.label"
                 :width="item.width || 'auto'" :prop="item.prop" show-overflow-tooltip header-align="center">
                 <template v-slot="scope">
                     <common-item :group="schema.prop" :row-index="scope.$index" :row="scope.row" :store="store" :schema="item" />
@@ -19,7 +19,6 @@
                 <el-button @click="deleteRow(scope.$index)" style="color: red;" type="text" size="small">删除</el-button>
             </template>
         </el-table-column>
-
     </el-table>
 </template>
 
@@ -46,7 +45,7 @@ export default {
         return {}
     },
     computed: {
-        ...mapStates({ storeFormData: 'formData' })
+        ...mapStates({ storeFormData: 'formData', editMode: 'editMode' })
     },
     methods: {
         addRow() {

@@ -172,10 +172,15 @@ export default {
         buindInMin(a, b, c = this.schema.prop) {
             this.$set(this.row, c, Number(this.row[a]) - Number(this.row[b]))
         },
+        // input 输入事件的同时验证
         handleInput(event) {
             // 分发全部自动填充
             this.store.invokeAutoComputedFuncs()
 
+            this.validProp(event.target.value)
+        },
+        // 验证字段
+        validProp(value) {
             // name 需要检验时，就会传入 valid_name 的字段，没有的话就不需要验证
             if (!Object.keys(this.row).includes("valid_" + this.schema.prop))
                 // Object.keys直接用传入数据，能优化性能
@@ -184,15 +189,18 @@ export default {
             // console.log(`需要验证${this.schema.prop}字段`)
             const valid_func = this.row["valid_" + this.schema.prop]
             if (valid_func && typeof valid_func === 'string') {
+                const key = `valid_${this.group}_${this.rowIndex}_${this.schema.prop}`
                 try {
                     const callback = eval(`(${valid_func})`)
                     // 当前属性，当前值，当前行数据
-                    const result = callback(this.schema.prop, event.target.value, this.row)
-                    console.log("valid_ 验证结果：", result)
+                    const result = callback(this.schema.prop, value, this.row)
+                    // console.log(key + " 验证结果：", result)
                     if (result) {
                         this.errorClass = ''
+                        this.store.setValidResult(key, true)
                     } else {
                         this.errorClass = 'customer-error'
+                        this.store.setValidResult(key, false)
                     }
                 } catch (error) {
                     console.error(`验证函数解析失败，请检查 ${this.schema.prop} 的验证函数！`)
@@ -225,6 +233,12 @@ export default {
                 console.error(`弹窗搜索解析失败，请检查 ${this.schema.prop} 的弹窗搜索！`)
                 console.error(error)
             }
+        },
+        // 在编辑模式下，自动填充valid_ 验证函数
+        autoFillValidField() {
+            if (this.editMode && this.schema.prop.startsWith('valid_') && !this.row[this.schema.prop]) {
+                this.$set(this.row, this.schema.prop, this.schema.defaultValue)
+            }
         }
     },
     mounted() {
@@ -233,6 +247,7 @@ export default {
         if (this.schema.autocomputed) {
             this.store.invokeAutoComputedFuncs()
         }
+        this.autoFillValidField()
     },
     watch: {
         schema: {

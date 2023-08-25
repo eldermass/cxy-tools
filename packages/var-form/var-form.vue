@@ -12,6 +12,7 @@
                 <var-form-item :schema="schemaItem" :store="store" :border="varFormProp.border" />
             </template>
         </el-row>
+        <div v-if="editMode" class="edit-mode-tag">编辑模式</div>
     </el-form>
 </template>
 
@@ -90,7 +91,7 @@ export default {
 
             return ret
         },
-        ...mapStates({ storeFormData: 'formData', storeFormSchema: 'formSchema' })
+        ...mapStates({ storeFormData: 'formData', storeFormSchema: 'formSchema', validResults: 'validResults' })
     },
     methods: {
         // 判断 schemaItem 是否数组
@@ -123,8 +124,14 @@ export default {
         // 验证表单
         getValidateFormData() {
             return new Promise((resolve, reject) => {
+                const pass = _.every(this.validResults, v => v === true)
+                if (!pass) {
+                    console.error("自定义函数验证不通过：", _.cloneDeep(this.validResults));
+                    reject('failed')
+                    return
+                }
                 this.$refs.varForm.validate((valid) => {
-                    if (valid) {
+                    if (valid && pass) {
                         resolve(this.getFormData())
                     } else {
                         reject('failed')
@@ -141,6 +148,18 @@ export default {
     padding: 10px;
     box-sizing: border-box;
     text-align: left;
+    position: relative;
+
+    .edit-mode-tag {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px 10px;
+        background-color: #409EFF;
+        color: #fff;
+        font-size: 12px;
+        border-radius: 0 0 0 5px;
+    }
 }
 
 .row-border {

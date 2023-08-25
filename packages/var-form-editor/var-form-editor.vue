@@ -88,6 +88,9 @@ export default {
         getEditFormData() {
             return this.$refs.preview.getEditFormData()
         },
+        getValidateFormData() {
+            return this.$refs.preview.getValidateFormData()
+        }
     },
 }
 </script>

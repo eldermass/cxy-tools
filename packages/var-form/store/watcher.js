@@ -11,7 +11,8 @@ export default Vue.extend({
                 externalFuncs: {},
                 storeOptions: [], // url, req
                 editMode: false,
-                autoComputedFuncs: []
+                autoComputedFuncs: [],
+                validResults: {}
             },
         }
     },
@@ -60,6 +61,9 @@ export default Vue.extend({
         invokeAutoComputedFuncs() {
             // console.log(this.states.autoComputedFuncs)
             this.states.autoComputedFuncs.forEach(func => func())
+        },
+        setValidResult(key, value) {
+            this.$set(this.states.validResults, key, value)
         }
     },
 })
