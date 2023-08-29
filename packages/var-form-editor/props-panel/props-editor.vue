@@ -252,7 +252,7 @@ export default {
 
             //  options 和 optionSource,优选 optionSource
             if (['select', 'radio', 'checkbox'].includes(construct.type)) {
-                if (construct.options) {
+                if (construct.options && construct.options.length > 0) {
                     construct.optionSource = undefined
                 }
             }
