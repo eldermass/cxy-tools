@@ -227,6 +227,7 @@ export const plugins = [
             plugin: "table",
             type: "input",
             prop: "propTable",
+            hideOperation: false, // 可选
             height: undefined, // 可选
             apiSource: "", // 可选
             refreshSource: "", // 可选

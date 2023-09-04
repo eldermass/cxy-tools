@@ -13,7 +13,7 @@
                 src="../assets/add.png" alt="">
             <span>添加数据</span>
         </template>
-        <el-table-column fixed="right" align="center" label="操作" width="100">
+        <el-table-column v-if="!schema.hideOperation" fixed="right" align="center" label="操作" width="100">
             <template v-slot="scope">
                 <el-button @click="addRow(scope.row)" type="text" size="small">增加</el-button>
                 <el-button @click="deleteRow(scope.$index)" style="color: red;" type="text" size="small">删除</el-button>

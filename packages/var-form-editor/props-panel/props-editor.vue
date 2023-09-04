@@ -49,6 +49,9 @@
                 <el-form-item v-if="couldEditProp(`hide`)" label="隐藏">
                     <el-switch v-model="construct.hide" active-color="#13ce66" inactive-color="#ff4949" />
                 </el-form-item>
+                <el-form-item v-if="couldEditProp(`hideOperation`)" label="隐藏操作栏">
+                    <el-switch v-model="construct.hideOperation" active-color="#13ce66" inactive-color="#ff4949" />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`disabled`)" label="是否禁用">
                     <el-switch v-model="construct.disabled" active-color="#13ce66" inactive-color="#ff4949" />
                 </el-form-item>
