@@ -81,6 +81,13 @@
     this.$set(row, 'a', name)
 }" />
                 </el-form-item>
+                <el-form-item v-if="couldEditProp(`onChange`)" label="change事件">
+                    <el-input v-model="construct.onChange" type="textarea" rows="6"
+                        placeholder="async (row, exFuncs) => { 
+    const name = await exFuncs.getUserName()
+    this.$set(row, 'a', name)
+}" />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`modalSearch`)" label="弹窗查询">
                     <el-input v-model="construct.modalSearch" type="textarea" rows="6"
                         placeholder="async (row, funcs) => { 

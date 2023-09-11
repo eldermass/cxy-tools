@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-    <div :class="['custom-item', errorClass]" @input="handleInput" @dblclick="handleDbClick">
+    <div :class="['custom-item', errorClass]" @input="handleInput" @dblclick="handleDbClick" @change="handleChange">
         <!-- input 框 -->
         <template v-if="schema.type === 'input'">
             <el-input v-model="row[schema.prop]" :disabled="schema.disabled" :placeholder="schema.placeholder">
@@ -75,6 +75,7 @@
 
 <script>
 import { mapStates } from './store/helper'
+import _ from 'lodash'
 
 export default {
     name: 'common-item',
@@ -99,7 +100,8 @@ export default {
     },
     data() {
         return {
-            errorClass: ''
+            errorClass: '',
+            debounceInputFunc: null
         }
     },
     computed: {
@@ -174,10 +176,54 @@ export default {
         },
         // input 输入事件的同时验证
         handleInput(event) {
+            // 原发 input 事件
+            this.debounceHandleInput(event)
             // 分发全部自动填充
             this.store.invokeAutoComputedFuncs()
 
             this.validProp(event.target.value)
+        },
+        // 防抖 input 事件
+        debounceHandleInput(event) {
+            if (!this.debounceInputFunc) {
+                this.debounceInputFunc = _.debounce(this.hanldeBindInput, this.schema.debounceTime || 200)
+            }
+            this.debounceInputFunc(event)
+        },
+        // 原发 input 事件
+        hanldeBindInput(event) {
+            if (this.schema.onBindInput) {
+                try {
+                    const func = eval(`(${this.schema.onBindInput})`)
+
+                    const buildInFunc = {
+                        exFuncs: this.store.getExternalFuncs()
+                    }
+
+                    func.call(this, this.row, event, buildInFunc)
+
+                } catch (error) {
+                    console.warn(this.schema.type, "onBindInput 函数错误", error)
+                    console.error(error)
+                }
+            }
+        },
+        // 内容change
+        handleChange() {
+            if (this.schema.onChange) {
+                try {
+                    const func = eval(`(${this.schema.onChange})`)
+
+                    const buildInFunc = {
+                        exFuncs: this.store.getExternalFuncs()
+                    }
+
+                    func.call(this, this.row, buildInFunc)
+                } catch (error) {
+                    console.warn(this.schema.type, "onchange 函数错误", error)
+                    console.error(error)
+                }
+            }
         },
         // 验证字段
         validProp(value) {

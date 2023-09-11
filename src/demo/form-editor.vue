@@ -72,6 +72,8 @@ const mockFormSchema = [
                 "width": "",
                 "align": "",
                 "type": "input",
+                onChange: "(row, fn) => { console.log('change: ', row, fn) }",
+                onBindInput: "(row, fn) => { console.log('onBindInput: ', row, fn) }"
             },
             {
                 "label": "b",

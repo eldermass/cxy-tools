@@ -69,7 +69,8 @@ export const plugins = [
             placeholder: "请输入", // 可选
             disabled: false, // 可选
             modalSearch: null,
-            onDblClick: null
+            onDblClick: null,
+            onChange: null,
         },
     },
     {

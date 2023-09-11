@@ -17,6 +17,23 @@
     this.$set(row, 'a', name)
 }" />
                 </el-form-item>
+                <el-form-item label="change事件">
+                    <el-input v-model="row.onChange" type="textarea" rows="6"
+                        placeholder="async (row, exFuncs) => { 
+    const name = await exFuncs.getUserName()
+    this.$set(row, 'a', name)
+}" />
+                </el-form-item>
+                <el-form-item v-if="couldEditProp(`debounceTime`)" label="input防抖时长">
+                    <el-input v-model="row.debounceTime" placeholder="200 ms" />
+                </el-form-item>
+                <el-form-item v-if="couldEditProp(`onBindInput`)" label="input 事件">
+                    <el-input v-model="row.onBindInput" type="textarea" rows="6"
+                        placeholder="async (row, exFuncs) => { 
+    const name = await exFuncs.getUserName()
+    this.$set(row, 'a', name)
+}" />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`modalSearch`)" label="弹窗查询">
                     <el-input v-model="row.modalSearch" type="textarea" rows="6"
                         placeholder="async (row, funcs) => { 
@@ -123,6 +140,8 @@ export default {
             if (row.type === "input") {
                 this.$set(row, "autocomputed", row.autocomputed || "")
                 this.$set(row, "modalSearch", row.modalSearch || "")
+                this.$set(row, "onBindInput", row.onBindInput || "")
+                this.$set(row, "debounceTime", row.debounceTime || "")
             } else {
                 delete row.autocomputed
             }
