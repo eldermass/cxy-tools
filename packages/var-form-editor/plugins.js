@@ -71,6 +71,7 @@ export const plugins = [
             modalSearch: null,
             onDblClick: null,
             onChange: null,
+            autocomputed: null,
         },
     },
     {

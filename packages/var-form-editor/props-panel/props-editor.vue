@@ -98,6 +98,14 @@
     this.$set(row, 'name1', res.name)
 }" />
                 </el-form-item>
+                <el-form-item v-if="couldEditProp(`autocomputed`)" label="自动计算">
+                    <el-input v-model="construct.autocomputed" type="textarea" rows="6" placeholder="挂载时执行，可参照下三个示例
+(row, fn) => { fn.add('a', 'b') } // a+b=当前格
+(row, fn) => { fn.min('a', 'b', 'e') } // a-b=e,e可不填
+async (row, fn) => { let user = await fn.exFuncs.getUserName(); console.log(user); }
+(row) => { this.$set(row, 'd', Number(row.a) * Number(row.b)) }
+                    " />
+                </el-form-item>
                 <el-form-item v-if="couldEditProp(`options`)" label="选项组">
                     <el-table border :data="construct.options" style="width: 100%">
                         <el-table-column prop="label" label="标签" width="auto">
