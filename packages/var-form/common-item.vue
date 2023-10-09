@@ -294,6 +294,10 @@ export default {
             this.store.invokeAutoComputedFuncs()
         }
         this.autoFillValidField()
+        // 挂载时验证字段
+        // setTimeout(() => {
+            this.validProp(this.row[this.schema.prop])
+        // }, 30);
     },
     watch: {
         schema: {
