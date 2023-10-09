@@ -62,6 +62,10 @@ export default Vue.extend({
             }
         },
         invokeAutoComputedFuncs() {
+            // 如果 editMode 下，不执行自动计算函数
+            if (this.states.editMode) {
+                return
+            }
             // console.log(this.states.autoComputedFuncs)
             this.states.autoComputedFuncs.forEach(func => func())
         },
