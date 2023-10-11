@@ -66,6 +66,8 @@ export default {
         // 使用处理过后的 schema
         schemas() {
             const schema = _.cloneDeep(this.schema)
+            // 使用 storeFormSchema 时，可以动态更新结构
+            // const schema = this.storeFormSchema.length ? _.cloneDeep(this.storeFormSchema) : _.cloneDeep(this.schema)
             const ruleIndex = schema.findIndex(item => item.plugin === 'validate-rules')
 
             if (ruleIndex > -1) {
