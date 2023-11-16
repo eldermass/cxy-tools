@@ -4,10 +4,12 @@
             <el-button size="mini" @click="changeDemo(1)" type="primary">gant chart</el-button>
             <el-button size="mini" @click="changeDemo(2)" type="primary">var Form</el-button>
             <el-button size="mini" @click="changeDemo(3)" type="primary">form Editor</el-button>
+            <el-button size="mini" @click="changeDemo(4)" type="primary">list page</el-button>
         </el-button-group>
         <gant-demo v-if="showName === 'gant'"></gant-demo>
         <demo-form v-if="showName === 'form'"></demo-form>
         <demo-form-editor v-if="showName === 'form-editor'"></demo-form-editor>
+        <demo-list-page v-if="showName === 'list-page'"></demo-list-page>
     </div>
 </template>
 
@@ -16,11 +18,12 @@ import './main.js'
 import GantDemo from './demo/gant.vue'
 import DemoForm from './demo/demo-form.vue'
 import DemoFormEditor from './demo/form-editor.vue'
+import DemoListPage from './demo/demo-list-page.vue'
 
 export default {
     name: "App",
     components: {
-        GantDemo, DemoForm, DemoFormEditor
+        GantDemo, DemoForm, DemoFormEditor, DemoListPage
     },
     data() {
         return {
@@ -48,6 +51,9 @@ export default {
                     break;
                 case '?id=3':
                     this.showName = 'form-editor'
+                    break;
+                case '?id=4':
+                    this.showName = 'list-page'
                     break;
                 default:
                     break;

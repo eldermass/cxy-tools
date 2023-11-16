@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="demo-gant">
         <gantt-next ref="gantt" :titles="titles" :tasks="tasks" :links="links" :rows="rows" :days="30"
             :oDayBoxWidth="60" :start_time="'2023-01-04'" :rightMenulists="rightMenulists"
             @task-dbclick="handleTaskClick" @task-change="handleTaskChange" @task-change-error="handleTaskChangeError"
