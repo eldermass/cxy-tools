@@ -1,6 +1,5 @@
 <template>
-    <el-button v-bind="$attrs" :icon="iconString" size="mini" :loading="loadingStatus"
-        @click="handleClick">
+    <el-button v-bind="$attrs" :icon="iconString" size="mini" :loading="loadingStatus" @click.stop="handleClick">
         <template v-if="title">
             {{ title }}
         </template>
@@ -47,10 +46,12 @@ export default {
         handleClick(e) {
             if (this.autoLoading) {
                 this.loadingStatus = true
+                this.$emit('click', () => {
+                    this.loadingStatus = false
+                }, e)
+            } else {
+                this.$emit('click', e)
             }
-            this.$emit('click', () => {
-                this.loadingStatus = false
-            }, e)
         }
     }
 }

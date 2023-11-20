@@ -14,11 +14,11 @@ export default {
             // 顶部 32+20+28+41＝121 底部 32 +10 = 42
             this.$nextTick(() => {
                 // 顶部要减去的高度
-                let topHeight = 173
+                let topHeight = 162
 
                 // 如果没有seqence列，减去序号列的高度
                 if (!this.seqence.length) {
-                    topHeight -= 42
+                    topHeight -= 31
                 }
 
                 const parentHeight = this.$refs.table.$el.parentNode.offsetHeight
