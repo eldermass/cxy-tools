@@ -23,6 +23,12 @@ export default {
             return find ? find.title + " " + fix : item.prop
         },
     },
+    watch: {
+        seqence(sq) {
+            this.store.updateSorts(sq)
+            this.refresh()
+        }
+    },
     methods: {
         // 排序变化
         handleSortChange(sort) {

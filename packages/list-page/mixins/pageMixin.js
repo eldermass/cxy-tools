@@ -1,21 +1,21 @@
 export default {
     data() {
         return {
-            pages: {
-                pageNum: 1,
-                pageSize: 20,
-                total: 50,
-            },
+            // pages: {
+            //     pageNum: 1,
+            //     pageSize: 20,
+            //     total: 50,
+            // },
         }
     },
     methods: {
         handleSizeChange(size) {
-            this.pages.pageSize = size
-            this.getList()
+            this.store.updatePageSize(size)
+            this.refresh()
         },
         handleCurrentChange(current) {
-            this.pages.pageNum = current
-            this.getList()
+            this.store.updatePageNum(current)
+            this.refresh()
         },
     },
 }

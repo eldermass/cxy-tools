@@ -50,24 +50,39 @@ export const pageData = {
         "delete", // 删除按钮
     ],
     table: {
-        tableData, // 表格数据
+        requestUrl: "http://10.10.2.201:8881/api/pageinfo/", // 请求地址
+        tableData, // 表格数据, 如果有该值，首次将不请求
         columns: [
             {
                 prop: "id",
                 title: "编码",
-                width: 160,
-                show_overflow_tooltip: true,
-                align: "center",
-                sortable: true,
+                width: 160, // ? 列宽
+                align: "center", // ? 对齐方式
+                sortable: true, // ? 是否可排序
+                show_overflow_tooltip: true, // ? 是否显示 tooltip
             },
             {
                 prop: "name",
                 title: "名称",
                 width: 160,
-                show_overflow_tooltip: true,
                 align: "center",
-                sortable: false,
+                sortable: true,
+                show_overflow_tooltip: true,
+            },
+            {
+                prop: "title",
+                title: "标题",
+                width: 160,
+                align: "center",
+                sortable: true,
+                show_overflow_tooltip: true,
             },
         ],
+    },
+    pages: {
+        pageNum: 1, // 当前页码 ***
+        pageSize: 20, // 每页条数 ***
+        total: 50,
+        pageSizeOpts: [10, 20, 50, 100, 200, 500], // 每页条数选项
     },
 }
