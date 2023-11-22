@@ -7,7 +7,7 @@ export default {
     computed: {
         // seqenceOptions: [], // 排序选项 [{ title: "按创建时间", prop: "create_time" }]
         seqenceOptions() {
-            return this.tableColumns.map((item) => {
+            return this.table.columns.map((item) => {
                 return {
                     title: item.title,
                     prop: item.prop,

@@ -45,9 +45,13 @@ export const pageData = {
         queryParams: {}, // 默认查询条件
     },
     buttons: [
-        "add", // 新增按钮
+        {
+            name: "add", // 新增按钮
+            component: 'c-upsert', // 组件名
+        },
         "edit", // 编辑按钮
         "delete", // 删除按钮
+        "export", // 导出按钮
     ],
     table: {
         requestUrl: "http://10.10.2.201:8881/api/pageinfo/", // 请求地址

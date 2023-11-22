@@ -23,10 +23,6 @@ export default {
             type: Boolean,
             default: false
         },
-        permissions: {
-            type: Array,
-            default: () => []
-        },
         offset: {
             type: Number,
             default: 0

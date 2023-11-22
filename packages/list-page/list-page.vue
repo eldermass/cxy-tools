@@ -4,12 +4,19 @@
         <search-panel :param-list="search.queryOptions" :default-querys="search.defaultQuerys" @query="handleQuery" />
         <!-- 按钮部分 -->
         <el-row class="buttons">
-            <col-button style="margin-left: 10px;" v-if="buttonList.includes('add')" title="新增" type="primary" icon="plus"
-                :disabled="!isSingleSelected" @click="handleAdd" />
-            <col-button v-if="buttonList.includes('edit')" title="修改" type="warning" icon="edit"
-                :disabled="!isSingleSelected" @click="handleEdit" />
-            <col-button v-if="buttonList.includes('delete')" title="删除" type="danger" :disabled="!isSelected"
-                @click="handleDelete" />
+            <template v-for="(button, index) in buttonList">
+                <col-button v-if="shouldButtonShow(button, 'add')" :key="index" title="新增" type="primary" icon="plus"
+                    :disabled="!isSingleSelected" @click="handleAdd" />
+
+                <col-button v-if="shouldButtonShow(button, 'edit')" :key="index" title="修改" type="warning" icon="edit"
+                    :disabled="!isSingleSelected" @click="handleEdit" />
+
+                <col-button v-if="shouldButtonShow(button, 'delete')" :key="index" title="删除" type="danger"
+                    :disabled="!isSelected" @click="handleDelete" />
+
+                <export-button v-if="shouldButtonShow(button, 'export')" :key="index" title="导出" type="primary"
+                    icon="el-icon-download" />
+            </template>
             <!-- 自定义按钮 -->
             <slot name="buttons" v-bind:currentRow="currentRow" v-bind:multipleSelection="multipleSelection"></slot>
 
@@ -48,18 +55,20 @@
 import colButton from '../buttons/index.vue'
 import searchPanel from '../search-panel/index.vue'
 import columnEdit from './components/columnEdit.vue'
+import exportButton from '../buttons/export-button.vue'
 
 import selectMixins from './mixins/selectRowMixin'
 import tableHeightMixin from './mixins/tableHeightMixin'
 import seqenceMixin from './mixins/seqenceMixin'
 import pageMixin from './mixins/pageMixin'
 import { createStore, mapStates } from './store/helper'
+import { request } from './helper'
 
 export default {
     name: 'list-page',
     mixins: [selectMixins, tableHeightMixin, seqenceMixin, pageMixin],
     components: {
-        searchPanel, colButton, columnEdit
+        searchPanel, colButton, columnEdit, exportButton
     },
     props: {
         pageData: {
@@ -117,18 +126,26 @@ export default {
 
             this.tableLoading = true
             // 将请求方法从外部传入更好
-            const res = await fetch(this.pageData.table.requestUrl).then(res => res.json())
+            const res = await request(this.pageData.table.requestUrl)
             this.tableLoading = false
-
+            
             this.store.updateTableData(res)
         },
         refresh() {
             console.log('refresh 刷新数据')
             this.getList()
         },
+        // 编辑列
         onColumnChange(columnList) {
-            console.log('onColumnChange', columnList)
             this.store.updateTableColumns(columnList)
+        },
+        // 是否展示该按钮
+        shouldButtonShow(name, nowComponent) {
+            if (typeof name === 'string') {
+                return name === nowComponent
+            } else {
+                return name.name === nowComponent
+            }
         },
         handleQuery(queryParams) {
             this.store.updateQueryParams(queryParams)
@@ -157,6 +174,10 @@ export default {
         margin-bottom: 10px;
         padding-right: 60px;
         line-height: 34px;
+
+        .el-button {
+            margin-left: 10px;
+        }
     }
 
     .column-edit {

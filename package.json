@@ -17,7 +17,9 @@
     "types"
   ],
   "dependencies": {
+    "axios": "^1.6.2",
     "dayjs": "^1.11.7",
+    "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "sortablejs": "^1.15.0"
   },
