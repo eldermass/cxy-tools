@@ -10,13 +10,24 @@ axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8"
 // 创建axios实例
 const request = axios.create({
     timeout: 100000,
-    // withCredentials: true,
-    hedears: {
-        Authorization: "Bearer " + getToken(),
-    },
+    // withCredentials: true
 })
 
 // request拦截器
+request.interceptors.request.use(
+    (config) => {
+        // Do something before request is sent
+        config.headers["Authorization"] = "Bearer " + getToken()
+        return config
+    },
+    (error) => {
+        // Do something with request error
+        console.log(error) // for debug
+        Promise.reject(error)
+    }
+)
+
+// response拦截器
 request.interceptors.response.use(
     (response) => {
         return response.data

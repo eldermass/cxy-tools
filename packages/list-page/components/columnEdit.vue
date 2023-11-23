@@ -62,6 +62,14 @@ export default {
 
             this.columnList = _.cloneDeep(this.columns)
             this.selectAll()
+
+            const notSelected = this.columns.filter(item => item.hide)
+
+            setTimeout(() => {
+                notSelected.forEach(item => {
+                    this.$refs.table.toggleRowSelection(item)
+                })
+            }, 10)
             this.initDrag()
         },
         selectAll() {
@@ -82,7 +90,20 @@ export default {
                 }
             })
         },
+        dealHide() {
+            // 遍历所有列，如果在选中的列中，就删除hide属性，否则添加hide属性
+            this.columnList.forEach(item => {
+                const find = this.multipleSelection.find(column => column.prop === item.prop)
+
+                if (find) {
+                    delete item.hide
+                } else {
+                    item.hide = true
+                }
+            })
+        },
         save() {
+            this.dealHide() // 处理选中显示、隐藏
             this.$emit('save', this.columnList)
             this.visible = false
         }

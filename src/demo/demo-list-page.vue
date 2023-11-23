@@ -4,6 +4,7 @@
             <template v-slot:buttons="scope">
                 <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
                 <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
+                <!-- <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
                 <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
                 <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
                 <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
@@ -13,8 +14,7 @@
                 <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
                 <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
                 <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
+                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button> -->
             </template>
         </list-page>
     </div>

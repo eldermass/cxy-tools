@@ -46,12 +46,23 @@ export const pageData = {
     },
     buttons: [
         {
-            name: "add", // 新增按钮
-            component: 'c-upsert', // 组件名
+            component: "add", // 新增按钮
         },
-        "edit", // 编辑按钮
+        {
+            component: "edit", // 修改按钮
+        },
         "delete", // 删除按钮
-        "export", // 导出按钮
+        {
+            component: "export", // 导出按钮
+        },
+        {
+            title: "测试组件", // 测试组件
+            component: "col-button", // 组件名
+        },
+        {
+            title: "不需要",
+            component: (h) => h("el-button", { props: { type: "warning", size: "mini" } }, "测试render"), // render 函数
+        },
     ],
     table: {
         requestUrl: "http://10.10.2.201:8881/api/pageinfo/", // 请求地址
@@ -80,6 +91,7 @@ export const pageData = {
                 align: "center",
                 sortable: true,
                 show_overflow_tooltip: true,
+                hide: true, // ? 是否隐藏
             },
         ],
     },

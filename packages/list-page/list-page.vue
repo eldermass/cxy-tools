@@ -5,17 +5,8 @@
         <!-- 按钮部分 -->
         <el-row class="buttons">
             <template v-for="(button, index) in buttonList">
-                <col-button v-if="shouldButtonShow(button, 'add')" :key="index" title="新增" type="primary" icon="plus"
-                    :disabled="!isSingleSelected" @click="handleAdd" />
-
-                <col-button v-if="shouldButtonShow(button, 'edit')" :key="index" title="修改" type="warning" icon="edit"
-                    :disabled="!isSingleSelected" @click="handleEdit" />
-
-                <col-button v-if="shouldButtonShow(button, 'delete')" :key="index" title="删除" type="danger"
-                    :disabled="!isSelected" @click="handleDelete" />
-
-                <export-button v-if="shouldButtonShow(button, 'export')" :key="index" title="导出" type="primary"
-                    icon="el-icon-download" />
+                <button-item :key="index" :button="button" :refresh="refresh" :current-row="currentRow"
+                    :multiple-selection="multipleSelection" />
             </template>
             <!-- 自定义按钮 -->
             <slot name="buttons" v-bind:currentRow="currentRow" v-bind:multipleSelection="multipleSelection"></slot>
@@ -38,9 +29,11 @@
             @selection-change="handleSelectionChange" @sort-change="handleSortChange">
             <el-table-column align="center" type="selection" width="50" />
             <el-table-column align="center" label="序号" type="index" width="100" />
-            <el-table-column v-for="(item, index) in table.columns" :key="index" :align="item.align" :label="item.title"
-                :min-width="item.width" :prop="item.prop" :show-overflow-tooltip="item.show_overflow_tooltip || true"
-                :sortable="item.sortable" header-align="center" />
+            <template v-for="(item, index) in table.columns">
+                <el-table-column :key="index" v-if="!item.hide" :align="item.align" :label="item.title"
+                    :min-width="item.width" :prop="item.prop" :show-overflow-tooltip="item.show_overflow_tooltip || true"
+                    :sortable="item.sortable" header-align="center" />
+            </template>
         </el-table>
         <!-- 分页部分 -->
         <div>
@@ -52,10 +45,9 @@
 </template>
 
 <script>
-import colButton from '../buttons/index.vue'
 import searchPanel from '../search-panel/index.vue'
 import columnEdit from './components/columnEdit.vue'
-import exportButton from '../buttons/export-button.vue'
+import buttonItem from './components/buttonItem.vue'
 
 import selectMixins from './mixins/selectRowMixin'
 import tableHeightMixin from './mixins/tableHeightMixin'
@@ -68,7 +60,7 @@ export default {
     name: 'list-page',
     mixins: [selectMixins, tableHeightMixin, seqenceMixin, pageMixin],
     components: {
-        searchPanel, colButton, columnEdit, exportButton
+        searchPanel, columnEdit, buttonItem
     },
     props: {
         pageData: {
@@ -128,7 +120,7 @@ export default {
             // 将请求方法从外部传入更好
             const res = await request(this.pageData.table.requestUrl)
             this.tableLoading = false
-            
+
             this.store.updateTableData(res)
         },
         refresh() {
@@ -139,27 +131,10 @@ export default {
         onColumnChange(columnList) {
             this.store.updateTableColumns(columnList)
         },
-        // 是否展示该按钮
-        shouldButtonShow(name, nowComponent) {
-            if (typeof name === 'string') {
-                return name === nowComponent
-            } else {
-                return name.name === nowComponent
-            }
-        },
         handleQuery(queryParams) {
             this.store.updateQueryParams(queryParams)
             this.refresh()
-        },
-        handleAdd() {
-            console.log('handleAdd')
-        },
-        handleEdit() {
-            console.log('handleEdit')
-        },
-        handleDelete() {
-            console.log('handleDelete')
-        },
+        }
     },
 }
 </script>
@@ -175,7 +150,7 @@ export default {
         padding-right: 60px;
         line-height: 34px;
 
-        .el-button {
+        ::v-deep(.el-button) {
             margin-left: 10px;
         }
     }
