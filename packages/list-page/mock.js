@@ -46,18 +46,23 @@ export const pageData = {
     },
     buttons: [
         {
-            component: "add", // 新增按钮
+            component: "button-add", // 新增按钮
         },
         {
-            component: "edit", // 修改按钮
+            component: "button-edit", // 修改按钮
         },
-        "delete", // 删除按钮
         {
-            component: "export", // 导出按钮
+            component: "button-delete", // 删除按钮
+        },
+        {
+            component: "button-export", // 导出按钮
         },
         {
             title: "测试组件", // 测试组件
             component: "col-button", // 组件名
+            opration: (obj) => {
+                console.log("操作", obj)
+            }, // 操作函数
         },
         {
             title: "不需要",

@@ -3,15 +3,14 @@
 </template>
 
 <script>
-
 import colButton from '../../buttons/index.vue'
-import exportButton from '../../buttons/export-button.vue'
+import plugins from '../plugins/index.js'
 
 export default {
     name: 'button-item',
     components: {
         // eslint-disable-next-line vue/no-unused-components
-        colButton, "btn-export": exportButton,
+        colButton,
         "virtual-component": {
             functional: true,
             render(h, ctx) {
@@ -41,25 +40,14 @@ export default {
         return {
         }
     },
-    computed: {
-        isSelected() {
-            return this.multipleSelection.length > 0
-        },
-        isSingleSelected() {
-            return this.multipleSelection.length === 1
-        },
-        isMultiSelected() {
-            return this.multipleSelection.length > 1
-        }
-    },
     mounted() {
     },
     methods: {
         vnodes(h) {
             // 如果button是string，直接渲染预设组件
-            if (typeof this.button === 'string') {
-                return this.renderPresetButton(h)
-            }
+            // if (typeof this.button === 'string') {
+            //     return this.renderPresetButton(h)
+            // }
 
             // 如果 component 是 string, 直接渲染内置组件
             if (typeof this.button.component === 'string') {
@@ -69,75 +57,21 @@ export default {
                 return this.button.component(h)
             }
         },
-        // 预设组件
-        renderPresetButton(h) {
-            switch (this.button) {
-                case 'delete':
-                    return h("col-button", {
-                        props: {
-                            size: 'mini',
-                            title: "删除",
-                        },
-                        attrs: {
-                            type: 'danger',
-                            icon: "delete",
-                            disabled: !this.isSelected
-                        },
-                        on: {
-                            click: this.handleDelete
-                        }
-                    })
-            }
-        },
         renderButton(h) {
-            switch (this.button.component) {
-                case 'add':
-                    return h("col-button", {
-                        props: {
-                            size: 'mini',
-                            title: "新增",
-                        },
-                        attrs: {
-                            type: 'primary',
-                            icon: "plus",
-                            disabled: !this.isSingleSelected
-                        },
-                        on: {
-                            click: this.handleAdd
-                        }
-                    })
-                case 'edit':
-                    return h("col-button", {
-                        props: {
-                            size: 'mini',
-                            title: "修改",
-                        },
-                        attrs: {
-                            type: 'warning',
-                            icon: "edit",
-                            disabled: !this.isSingleSelected
-                        },
-                        on: {
-                            click: this.handleEdit
-                        }
-                    })
-                case 'export':
-                    return h("btn-export", {
-                        props: {
-                            size: 'mini',
-                            title: "导出",
-                        },
-                        attrs: {
-                            type: 'primary',
-                            icon: "el-icon-download",
-                        }
-                    })
+            // 如果存在预设组件
+            if (Object.hasOwnProperty.call(plugins, this.button.component)) {
+                // console.log('存在预设组件: ', this.button.component)
+                return h(plugins[this.button.component], {
+                    props: {
+                        button: this.button,
+                        currentRow: this.currentRow,
+                        multipleSelection: this.multipleSelection,
+                        refresh: this.refresh
+                    }
+                })
             }
-
             // 没有匹配到预设组件时
-            const name = this.button.component
-            const title = this.button.title
-            return h(name, {
+            return h(this.button.component, {
                 props: {
                     type: 'primary',
                     size: 'mini'
@@ -145,23 +79,16 @@ export default {
                 on: {
                     click: this.handleClick
                 }
-            }, title)
+            }, this.button.title)
         },
         handleClick() {
-            console.log('handleClick', this.button.title)
-            console.log('currentRow', this.currentRow)
-            console.log('multipleSelection', this.multipleSelection)
-            this.refresh && this.refresh()
-        },
-        handleAdd() {
-            console.log('handleAdd')
-        },
-        handleEdit() {
-            console.log('handleEdit')
-        },
-        handleDelete() {
-            console.log('handleDelete')
-        },
+            this.button.opration && this.button.opration({
+                button: this.button,
+                currentRow: this.currentRow,
+                multipleSelection: this.multipleSelection,
+                refresh: this.refresh
+            })
+        }
     }
 }
 </script>

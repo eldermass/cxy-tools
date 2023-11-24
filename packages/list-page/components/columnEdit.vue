@@ -82,8 +82,7 @@ export default {
                 onEnd: evt => {
                     const oldIndex = evt.oldIndex
                     const newIndex = evt.newIndex
-                    console.log(`${oldIndex} moved to ${newIndex}`)
-                    console.log(evt)
+                    // console.log(`${oldIndex} moved to ${newIndex}`)
 
                     const item = this.columnList.splice(oldIndex, 1)[0]
                     this.columnList.splice(newIndex, 0, item)
