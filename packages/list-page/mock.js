@@ -1,52 +1,46 @@
-export const queryOptions = [
-    {
-        prop: "orderWorkNo",
-        label: "工单编号",
-        type: "input",
-        placeholder: "请输入工单编号",
-    },
-    {
-        prop: "orderWorkNo2",
-        label: "工单编号2",
-        type: "input",
-        placeholder: "请输入工单编号",
-    },
-    {
-        prop: "orderWorkNo3",
-        label: "工单编号2",
-        type: "input",
-        placeholder: "请输入工单编号",
-    },
-    {
-        prop: "orderWorkNo4",
-        label: "工单编号2",
-        type: "input",
-        placeholder: "请输入工单编号",
-    },
-    {
-        prop: "orderWorkNo5",
-        label: "工单编号2",
-        type: "input",
-        placeholder: "请输入工单编号",
-    },
-]
-
-export const defaultQuerys = ["orderWorkNo", "orderWorkNo2", "orderWorkNo3"]
-
-export const tableData = [
-    { id: 1, name: "hello" },
-    { id: 2, name: "world" },
-]
-
 export const pageData = {
     search: {
-        queryOptions, // 查询项列表
-        defaultQuerys, // 默认查询项
+        queryOptions: [
+            {
+                prop: "orderWorkNo",
+                label: "工单编号",
+                type: "input",
+                placeholder: "请输入工单编号",
+            },
+            {
+                prop: "orderWorkNo2",
+                label: "工单编号2",
+                type: "input",
+                placeholder: "请输入工单编号",
+            },
+            {
+                prop: "orderWorkNo3",
+                label: "工单编号2",
+                type: "input",
+                placeholder: "请输入工单编号",
+            },
+            {
+                prop: "orderWorkNo4",
+                label: "工单编号2",
+                type: "input",
+                placeholder: "请输入工单编号",
+            },
+        ], // 查询项列表
+        defaultQuerys: ["orderWorkNo", "orderWorkNo2", "orderWorkNo3"], // 默认查询项
         queryParams: {}, // 默认查询条件
     },
     buttons: [
         {
             component: "button-add", // 新增按钮
+            columns: [
+                {
+                    label: "名称", // 标签名
+                    prop: "name", // 字段名
+                    type: "input", // 组件类型
+                    placeholder: "请输入名称", // 占位符
+                    rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // 校验规则
+                },
+            ],
         },
         {
             component: "button-edit", // 修改按钮
@@ -71,7 +65,10 @@ export const pageData = {
     ],
     table: {
         requestUrl: "http://10.10.2.201:8881/api/pageinfo/", // 请求地址
-        tableData, // 表格数据, 如果有该值，首次将不请求
+        tableData: [
+            { id: 1, name: "hello" },
+            { id: 2, name: "world" },
+        ], // 表格数据, 如果有该值，首次将不请求
         columns: [
             {
                 prop: "id",
