@@ -1,10 +1,7 @@
 <template>
     <div class="demo-container">
         <list-page ref="page" :page-data="pageData">
-            <template #slot1>
-                slot1
-            </template>
-            <template #slot2="{ searchList, setQuerys }">
+            <template #slottest="{ searchList, setQuerys }">
                 <el-button size="mini" @click="changeSearch(searchList, setQuerys)">改变条件</el-button>
             </template>
             <template v-slot:buttons="scope">

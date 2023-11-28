@@ -4,35 +4,34 @@ export const pageData = {
             {
                 prop: "orderWorkNo",
                 label: "工单编号",
-                type: "input",
+                type: "input", // 输入框
                 placeholder: "请输入工单编号",
             },
             {
-                prop: "orderWorkNo2",
-                label: "工单编号2",
-                type: "input",
-                placeholder: "请输入工单编号",
+                prop: "sex",
+                label: "性别",
+                type: "select",
+                placeholder: "选择性别",
+                // multiple: true, // ? 是否多选
+                options: [
+                    { label: "男", value: 1 },
+                    { label: "女", value: 2 },
+                ],
             },
             {
-                prop: "orderWorkNo3",
-                label: "工单编号2",
-                type: "input",
-                placeholder: "请输入工单编号",
+                prop: "datetest",
+                label: "时间测试",
+                type: "datetime", // 时间选择器
+                placeholder: "请选择时间",
             },
-            {   // 使用 slot 拓展查询项
+            {
                 prop: "test",
-                label: "slot 测试",
-                type: "slot",
-                slotName: "slot1",
-            },
-            {
-                prop: "test2",
-                label: "slot2 测试",
-                type: "slot",
-                slotName: "slot2",
+                label: "插槽测试",
+                type: "slot", // 插槽
+                slotName: "slottest",
             },
         ], // 查询项列表
-        defaultQuerys: ["orderWorkNo", "test", "test2"], // 默认查询项
+        defaultQuerys: ["orderWorkNo", "sex", "datetest", "test"], // 默认查询项
         queryParams: {}, // 默认查询条件
     },
     buttons: [

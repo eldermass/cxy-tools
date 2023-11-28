@@ -10,14 +10,16 @@
             </el-select>
           </template>
           <!--     取值框      -->
-          <workcenter-tree v-if="layout.type === 'workCenter'" v-model="searchList[index].value" :multiple="false"
+          <!-- <workcenter-tree v-if="layout.type === 'workCenter'" v-model="searchList[index].value" :multiple="false"
             :always-open="false" :limit="1" :max-height="200"
-            style="width: 150px; height: 24px; display: inline-block;" />
+            style="width: 150px; height: 24px; display: inline-block;" /> -->
 
-          <el-date-picker v-else-if="layout.type === 'datetime'" v-model="searchList[index].value" style="width: 130px;"
+          <!-- 时间选择器 -->
+          <el-date-picker v-if="layout.type === 'datetime'" v-model="searchList[index].value" style="width: 130px;"
             size="mini" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"
             :placeholder="layout.placeholder" />
-          <el-select v-else-if="layout.type === 'select' && layout.options" v-model="searchList[index].value" size="mini"
+          <!-- 多选框 -->
+          <el-select v-else-if="layout.type === 'select' && layout.options" :multiple="layout.multiple" v-model="searchList[index].value" size="mini"
             style="width: 120px" placeholder="请选择" clearable>
             <el-option v-for="item in layout.options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -25,6 +27,7 @@
           <div v-else-if="layout.type === 'slot'">
             <slot :name="layout.slotName" :searchList="searchList" :setQuerys="setQuerys" />
           </div>
+          <!-- 输入框 -->
           <el-input v-else v-model="searchList[index].value" :placeholder="layout.placeholder" style="width: 120px"
             size="mini" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
