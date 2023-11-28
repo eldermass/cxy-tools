@@ -19,14 +19,20 @@ export const pageData = {
                 type: "input",
                 placeholder: "请输入工单编号",
             },
+            {   // 使用 slot 拓展查询项
+                prop: "test",
+                label: "slot 测试",
+                type: "slot",
+                slotName: "slot1",
+            },
             {
-                prop: "orderWorkNo4",
-                label: "工单编号2",
-                type: "input",
-                placeholder: "请输入工单编号",
+                prop: "test2",
+                label: "slot2 测试",
+                type: "slot",
+                slotName: "slot2",
             },
         ], // 查询项列表
-        defaultQuerys: ["orderWorkNo", "orderWorkNo2", "orderWorkNo3"], // 默认查询项
+        defaultQuerys: ["orderWorkNo", "test", "test2"], // 默认查询项
         queryParams: {}, // 默认查询条件
     },
     buttons: [

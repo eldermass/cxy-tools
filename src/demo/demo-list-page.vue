@@ -1,6 +1,12 @@
 <template>
     <div class="demo-container">
         <list-page ref="page" :page-data="pageData">
+            <template #slot1>
+                slot1
+            </template>
+            <template #slot2="{ searchList, setQuerys }">
+                <el-button size="mini" @click="changeSearch(searchList, setQuerys)">改变条件</el-button>
+            </template>
             <template v-slot:buttons="scope">
                 <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
                 <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
@@ -33,6 +39,10 @@ export default {
         handleBtnClick(scope) {
             console.log('自定义按钮收到数据', scope)
             this.$refs.page.refresh()
+        },
+        changeSearch(searchList, setQuerys) {
+            setQuerys('test2', '改变后的值')
+            this.$refs.page.runSearch()
         }
     }
 }

@@ -21,6 +21,10 @@
             style="width: 120px" placeholder="请选择" clearable>
             <el-option v-for="item in layout.options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
+          <!-- 插槽 -->
+          <div v-else-if="layout.type === 'slot'">
+            <slot :name="layout.slotName" :searchList="searchList" :setQuerys="setQuerys" />
+          </div>
           <el-input v-else v-model="searchList[index].value" :placeholder="layout.placeholder" style="width: 120px"
             size="mini" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
@@ -37,14 +41,6 @@
 <script>
 import colButton from '../buttons/index.vue'
 import _ from 'lodash'
-// paramList
-// {
-//   prop: 'planStartDt',
-//   label: '计划开始时间',
-//   type: 'datetime' | 'workCenter' | 'input' | 'select',
-//   options: [],  // 当type为select时，必填
-//   placeholder: '计划开始时间'
-// }
 
 export default {
   name: 'SearchPanel',
@@ -75,10 +71,11 @@ export default {
       const list = this.searchList.map(item => {
         return this.paramList.find(option => option.prop === item.prop) || {}
       }).filter(item => item)
-      return JSON.parse(JSON.stringify(list))
+      return _.cloneDeep(list)
     },
   },
   mounted() {
+    console.log('plan: 扩充该组件支持的类型');
     this.initQuery()
   },
   methods: {
@@ -104,9 +101,9 @@ export default {
     substractQuery() {
       this.searchList.pop()
     },
+    // 获取查询条件
     getQuerys() {
       const querys = {}
-
       // 过滤空值
       this.searchList.map(item => {
         if (item.prop && ![undefined, null, ''].includes(item.value)) {
@@ -114,6 +111,13 @@ export default {
         }
       })
       return querys
+    },
+    // 设置查询条件
+    setQuerys(prop, value) {
+      const find = this.searchList.find(item => item.prop === prop)
+      if (find) {
+        find.value = value
+      }
     }
   }
 }

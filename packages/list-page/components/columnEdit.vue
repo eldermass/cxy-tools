@@ -47,6 +47,7 @@ export default {
         }
     },
     mounted() {
+        console.log('plan: 这个组件做一个本地存储，存储用户的列设置')
         this.initData()
     },
 

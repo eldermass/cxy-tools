@@ -1,7 +1,12 @@
 <template>
     <div class="list-page">
         <!-- 搜索部分 -->
-        <search-panel :param-list="search.queryOptions" :default-querys="search.defaultQuerys" @query="handleQuery" />
+        <search-panel ref="searchRef" :param-list="search.queryOptions" :default-querys="search.defaultQuerys"
+            @query="handleQuery">
+            <template #[key]="{ searchList, setQuerys }" v-for="(value, key) in $scopedSlots">
+                <slot :name="key" :searchList="searchList" :setQuerys="setQuerys" />
+            </template>
+        </search-panel>
         <!-- 按钮部分 -->
         <el-row class="buttons">
             <template v-for="(button, index) in buttonList">
@@ -122,6 +127,9 @@ export default {
             this.tableLoading = false
 
             this.store.updateTableData(res)
+        },
+        runSearch() {
+            this.$refs.searchRef.handleQuery()
         },
         refresh() {
             console.log('refresh 刷新数据')
