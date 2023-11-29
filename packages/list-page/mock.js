@@ -1,4 +1,5 @@
 export const pageData = {
+    pageId: "material index page", // 页面唯一标识,不可重复
     search: {
         queryOptions: [
             {
@@ -69,11 +70,18 @@ export const pageData = {
         },
     ],
     table: {
-        requestUrl: "http://10.10.2.201:8881/api/pageinfo/", // 请求地址
-        tableData: [
-            { id: 1, name: "hello" },
-            { id: 2, name: "world" },
-        ], // 表格数据, 如果有该值，首次将不请求
+        // 三种数据方式只能选其中一个
+        requestUrl: "http://10.10.2.201:8881/api/pageinfo/", // 请求地址，不填则不请求
+        // requestFunc: (setTable, params) => {
+        //     console.log("调用请求函数： ", params)
+        //     setTimeout(() => {
+        //         setTable([{ id: 5, name: "使用外部函数控制数据" }])
+        //     }, 1000)
+        // },
+        // tableData: [
+        //     { id: 1, name: "hello" },
+        //     { id: 2, name: "world" },
+        // ], // 表格数据, 如果有该值，首次将不请求
         columns: [
             {
                 prop: "id",

@@ -37,6 +37,9 @@ export default {
         updatePageNum(num) {
             this.states.pages.pageNum = num
         },
+        updatePageTotal(total) {
+            this.states.pages.total = total
+        },
         /**
         * 更新排序
         * @param {[{ prop: "create_time", order: "descending" }]} sorts 排序列表
@@ -46,11 +49,13 @@ export default {
         },
         // 更新表格数据
         updateTableData(data) {
-            this.states.table.tableData = _.cloneDeep(data)
+            // this.states.table.tableData = _.cloneDeep(data)
+            this.states.table = { ...this.states.table, tableData: _.cloneDeep(data) }
         },
         // 更新表格列数据
         updateTableColumns(columns) {
-            this.states.table.columns = _.cloneDeep(columns)
+            // this.states.table.columns = _.cloneDeep(columns)
+            this.states.table = { ...this.states.table, columns: _.cloneDeep(columns) }
         }
     },
 }

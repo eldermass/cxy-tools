@@ -14,7 +14,8 @@
                     :multiple-selection="multipleSelection" />
             </template>
             <!-- 自定义按钮 -->
-            <slot name="buttons" v-bind:currentRow="currentRow" v-bind:multipleSelection="multipleSelection"></slot>
+            <slot name="buttons" v-bind:currentRow="currentRow" v-bind:multipleSelection="multipleSelection"
+                :isSelected="isSelected" :isSingleSelected="isSingleSelected" :isMultiSelected="isMultiSelected"></slot>
 
             <!-- 列编辑 -->
             <div class="column-edit">
@@ -115,25 +116,61 @@ export default {
             }
         },
         async getList() {
+            if (!this.pageData.table.requestUrl && !this.pageData.table.requestFunc) {
+                console.warn('请配置请求方式')
+                return
+            }
+
+            const params = {
+                search: this.search,
+                pages: this.pages,
+                sorts: this.sorts
+            }
+
+            if (this.pageData.table.requestFunc && typeof this.pageData.table.requestFunc === 'function') {
+                await this.pageData.table.requestFunc.call(this, this.updateTableData, params)
+                return
+            }
+
+            console.log("plan: 统一接口的的规则，包含增删改查和其他需要封装的功能")
             console.group('getList 参数')
             console.log('search', this.search)
             console.log('pages', this.pages)
             console.log('sorts', this.sorts)
             console.groupEnd()
 
+            const getParams = {
+                ...this.search.queryParams, ...{
+                    pageNo: this.pages.pageNum,
+                    pageSize: this.pages.pageSize
+                }, ...this.sorts
+            }
+
             this.tableLoading = true
             // 将请求方法从外部传入更好
-            const res = await request(this.pageData.table.requestUrl)
+            const res = await request(this.pageData.table.requestUrl, {
+                params: getParams
+            }).catch(err => console.error(err))
             this.tableLoading = false
 
-            this.store.updateTableData(res)
+            if (!res || res.code !== 200) {
+                const msg = res && res.message ? res.message : '请求失败'
+                this.$message.error(msg)
+                return
+            }
+
+            this.store.updatePageTotal(res.data.recordsTotal)
+            this.store.updateTableData(res.data.data)
         },
+        // 执行搜索
         runSearch() {
             this.$refs.searchRef.handleQuery()
         },
         refresh() {
-            console.log('refresh 刷新数据')
             this.getList()
+        },
+        updateTableData(data) {
+            this.store.updateTableData(data)
         },
         // 编辑列
         onColumnChange(columnList) {

@@ -4,20 +4,12 @@
             <template #slottest="{ searchList, setQuerys }">
                 <el-button size="mini" @click="changeSearch(searchList, setQuerys)">改变条件</el-button>
             </template>
-            <template v-slot:buttons="scope">
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <!-- <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button>
-                <el-button size="mini" @click="handleBtnClick(scope)">自定义按钮</el-button> -->
+            <template v-slot:buttons="{ currentRow, multipleSelection, isSelected, isSingleSelected, isMultiSelected }">
+                <el-button size="mini" @click="handleBtnClick({ currentRow, multipleSelection })">刷新表格</el-button>
+                <el-button :disabled="!currentRow" size="mini" @click="updateTableData">更新数据</el-button>
+                <el-button :disabled="!isSelected" size="mini">选中</el-button>
+                <el-button :disabled="!isSingleSelected" size="mini">单选</el-button>
+                <el-button :disabled="!isMultiSelected" size="mini">多选</el-button>
             </template>
         </list-page>
     </div>
@@ -40,6 +32,10 @@ export default {
         changeSearch(searchList, setQuerys) {
             setQuerys('test2', '改变后的值')
             this.$refs.page.runSearch()
+        },
+        // 外部更新表格数据
+        updateTableData() {
+            this.$refs.page.updateTableData([{ id: 6, name: '更新后的数据' }])
         }
     }
 }
