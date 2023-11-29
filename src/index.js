@@ -2,6 +2,7 @@ import gantNext from "../packages/gantt-next/index"
 import varForm from "../packages/var-form/index"
 import varFormEditor from "../packages/var-form-editor"
 import listPage from "../packages/list-page"
+import packageJson from "../package.json"
 
 const components = [gantNext, varForm, varFormEditor, listPage]
 
@@ -19,7 +20,7 @@ if (typeof window !== "undefined" && window.Vue) {
 }
 
 console.log(
-    `%c CXY %c V1.2.0 %c https://www.npmjs.com/package/cxy-tools`,
+    `%c CXY %c ${packageJson.version} %c https://www.npmjs.com/package/cxy-tools`,
     "padding: 2px 1px; border-radius: 3px 0 0 3px; color: #fff; background: #606060; font-weight: bold;",
     "padding: 2px 1px; border-radius: 0 3px 3px 0; color: #fff; background: #42c02e; font-weight: bold;",
     "background: #ffffff; padding: 2px 0;"
