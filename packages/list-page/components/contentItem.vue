@@ -87,6 +87,25 @@ export default {
     data() {
         return {
         }
+    },
+    created() {
+        this.init()
+    },
+    watch: {
+        row: {
+            handler() {
+                this.init()
+            },
+            deep: true
+        }
+    },
+    methods: {
+        init() {
+            if (this.schema.type === 'checkbox' && !this.row[this.schema.prop]) {
+                console.log('初始化checkbox')
+                this.$set(this.row, this.schema.prop, [])
+            }
+        }
     }
 }
 </script>

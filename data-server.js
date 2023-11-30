@@ -40,12 +40,34 @@ const server = http.createServer((req, res) => {
 
         // 返回JSON数据
         res.end(JSON.stringify(jsonData))
+    } else if (parsedUrl.pathname === "/api/add" && req.method === "POST") {
+        // 设置响应头
+        res.setHeader("Content-Type", "application/json")
+
+        // 返回JSON数据
+        res.end(
+            JSON.stringify({
+                code: 200,
+                message: "添加 xx 成功",
+            })
+        )
+    }  else if (parsedUrl.pathname === "/api/delete" && req.method === "POST") {
+        // 设置响应头
+        res.setHeader("Content-Type", "application/json")
+
+        // 返回JSON数据
+        res.end(
+            JSON.stringify({
+                code: 200,
+                message: "删除 123 成功",
+            })
+        )
     } else {
         // 处理未知路由
         res.statusCode = 404
         res.end({
             code: 404,
-            message: "Not Found"
+            message: "Not Found",
         })
     }
 })

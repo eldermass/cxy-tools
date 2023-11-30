@@ -1,8 +1,8 @@
 <template>
     <div style="display: inline-block;">
-        <col-button title="新增" type="primary" icon="plus" @click="handleAdd" />
+        <col-button title="新增" type="primary" icon="plus" @click="openAddDialog" />
 
-        <el-dialog title="新增" :visible.sync="dialogVisible" :modal="false" :close-on-click-modal="false" width="30%">
+        <el-dialog title="新增" :visible.sync="dialogVisible" :modal="false" :close-on-click-modal="false" width="50%">
             <el-form :model="formData" label-width="80px">
                 <template v-for="(column, index) in button.columns">
                     <el-form-item :label="column.label" :prop="column.prop" :rules="column.rules" :key="index">
@@ -11,8 +11,10 @@
                 </template>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="hide">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                <!-- <el-button @click="hide">取 消</el-button>
+                <el-button type="primary" @click="handleAdd">确 定</el-button> -->
+                <col-button auto-loading title="取 消" @click="hide" />
+                <col-button auto-loading title="确 定" type="primary" @click="handleAdd" />
             </span>
         </el-dialog>
     </div>
@@ -21,6 +23,7 @@
 <script>
 import colButton from '../../buttons/index.vue'
 import contentItem from '../components/contentItem.vue'
+import { request } from '../helper'
 
 export default {
     name: 'ButtonAdd',
@@ -51,9 +54,25 @@ export default {
         hide() {
             this.dialogVisible = false
         },
-        handleAdd() {
-            console.log('handleAdd', this.button)
+        openAddDialog() {
+            this.formData = {}
             this.show()
+        },
+        async handleAdd(done) {
+            const params = this.formData
+            const res = await request.post(this.button.requestUrl, params).catch(() => {
+                this.$message.error('网络异常，请稍后重试')
+                done()
+            })
+
+            if (res && res.code === 200) {
+                this.$message.success(res.message || '新增成功')
+                this.refresh()
+                this.hide()
+            } else {
+                this.$message.error(res.message || '新增失败')
+            }
+            done()
         }
     }
 }
