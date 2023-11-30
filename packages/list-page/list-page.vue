@@ -36,9 +36,20 @@
             <el-table-column align="center" type="selection" width="50" />
             <el-table-column align="center" label="序号" type="index" width="100" />
             <template v-for="(item, index) in table.columns">
-                <el-table-column :key="index" v-if="!item.hide" :align="item.align" :label="item.title"
+                <!-- 如果隐藏 -->
+                <div v-if="item.hide" :key="index"></div>
+                <!-- 字典 -->
+                <el-table-column v-else-if="item.options" :key="index" :align="item.align" :label="item.title"
                     :min-width="item.width" :prop="item.prop" :show-overflow-tooltip="item.show_overflow_tooltip || true"
-                    :sortable="item.sortable" header-align="center" />
+                    :sortable="item.sortable" header-align="center">
+                    <template slot-scope="scope">
+                        <span>{{ scope.row[item.prop] | valueToLabel(item.options) }}</span>
+                    </template>
+                </el-table-column>
+                <!-- 默认 -->
+                <el-table-column :key="index" v-else :align="item.align" :label="item.title" :min-width="item.width"
+                    :prop="item.prop" :show-overflow-tooltip="item.show_overflow_tooltip || true" :sortable="item.sortable"
+                    header-align="center" />
             </template>
         </el-table>
         <!-- 分页部分 -->
@@ -89,6 +100,13 @@ export default {
             sorts: 'sorts',
             table: 'table'
         })
+    },
+    filters: {
+        valueToLabel(value, options) {
+            if (!options) return value
+            const option = options.find(item => item.value === value)
+            return option ? option.label : value
+        },
     },
     created() {
         this.initScheme()

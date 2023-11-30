@@ -30,6 +30,11 @@
       handleSelectionChange(selections) {
         // console.log('勾选行:', selections)
         this.multipleSelection = selections
+        if (selections.length === 1) {
+          this.currentRow = selections[0]
+        } else if (selections.length === 0) {
+          this.currentRow = undefined
+        }
       },
       handleCurrentRowChange(val) {
         // console.log('选择行：', val)

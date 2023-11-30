@@ -1,8 +1,9 @@
 {
   "name": "cxy-tools",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "dist/tools.umd.js",
   "scripts": {
+    "data": "node ./data-server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build:lib": "vue-cli-service build --target lib --name tools src/index.js",

@@ -71,7 +71,8 @@ export const pageData = {
     ],
     table: {
         // 三种数据方式只能选其中一个
-        requestUrl: "http://10.10.2.201:8881/api/pageinfo/", // 请求地址，不填则不请求
+        // requestUrl: "http://10.10.2.201:8881/api/pageinfo/", // 请求地址，不填则不请求
+        requestUrl: "http://localhost:3333/api/data", // 请求地址，不填则不请求
         // requestFunc: (setTable, params) => {
         //     console.log("调用请求函数： ", params)
         //     setTimeout(() => {
@@ -90,6 +91,10 @@ export const pageData = {
                 align: "center", // ? 对齐方式
                 sortable: true, // ? 是否可排序
                 show_overflow_tooltip: true, // ? 是否显示 tooltip
+                options: [
+                    { label: "编码一", value: 1 },
+                    { label: "编码二", value: 2 },
+                ] // ? 如果有 options 则显示 options 的 label
             },
             {
                 prop: "name",
