@@ -130,6 +130,84 @@ export const pageData = {
         },
         {
             component: "button-edit", // 修改按钮
+            columns: [
+                {
+                    label: "输入框", // 标签名
+                    prop: "input", // 字段名
+                    type: "input", // 组件类型
+                    placeholder: "请输入名称", // ? 占位符
+                    rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // ? 校验规则
+                },
+                {
+                    label: "文本框", // 标签名
+                    prop: "textarea", // 字段名
+                    type: "input-textarea", // 组件类型
+                    placeholder: "请输入名称", // ? 占位符
+                    disabled: true, // ? 是否禁用
+                    rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // ? 校验规则
+                },
+                {
+                    label: "数字框", // 标签名
+                    prop: "number", // 字段名
+                    type: "input-number", // 组件类型
+                    placeholder: "请输入名称", // ? 占位符
+                    rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // ? 校验规则
+                },
+                {
+                    label: "下拉框", // 标签名
+                    prop: "select", // 字段名
+                    type: "select", // 组件类型
+                    placeholder: "请输入名称", // ? 占位符
+                    multiple: true, // ? 是否多选
+                    options: [
+                        { label: "男", value: 1 },
+                        { label: "女", value: 2 },
+                    ], // 下拉选项
+                    rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // ? 校验规则
+                },
+                {
+                    label: "日期选择", // 标签名
+                    prop: "datepicker", // 字段名
+                    type: "date-picker", // 组件类型
+                    placeholder: "请输入名称", // 占位符
+                    dateType: 'date', // ? 日期类型
+                    rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // 校验规则
+                },
+                {
+                    label: "时间选择", // 标签名
+                    prop: "timepicker", // 字段名
+                    type: "time-picker", // 组件类型
+                    placeholder: "请输入名称", // 占位符
+                    rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // 校验规则
+                },
+                {
+                    label: "开关", // 标签名
+                    prop: "switch", // 字段名
+                    type: "switch", // 组件类型
+                    rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // ？ 校验规则
+                },
+                {
+                    label: "单选", // 标签名
+                    prop: "radio", // 字段名
+                    type: "radio", // 组件类型
+                    options: [
+                        { label: "男", value: 1 },
+                        { label: "女", value: 2 },
+                    ],
+                    rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // 校验规则
+                },
+                {
+                    label: "多选", // 标签名
+                    prop: "checkbox", // 字段名
+                    type: "checkbox", // 组件类型
+                    options: [
+                        { label: "男", value: 1 },
+                        { label: "女", value: 2 },
+                    ],
+                    rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // 校验规则
+                },
+            ],
+            requestUrl: "http://localhost:3333/api/add", // 修改请求地址
         },
         {
             component: "button-delete", // 删除按钮

@@ -3,7 +3,7 @@
   "version": "1.2.3",
   "main": "dist/tools.umd.js",
   "scripts": {
-    "data": "node ./data-server.js",
+    "data": "nodemon --watch ./data-server.js ./data-server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build:lib": "vue-cli-service build --target lib --name tools src/index.js",
@@ -34,6 +34,7 @@
     "element-ui": "^2.15.9",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "nodemon": "^3.0.1",
     "sass": "^1.54.0",
     "sass-loader": "^13.0.2",
     "vue": "^2.6.14",

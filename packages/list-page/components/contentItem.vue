@@ -101,8 +101,8 @@ export default {
     },
     methods: {
         init() {
+            // 兼容 checkbox 组件没有值时候的报错
             if (this.schema.type === 'checkbox' && !this.row[this.schema.prop]) {
-                console.log('初始化checkbox')
                 this.$set(this.row, this.schema.prop, [])
             }
         }

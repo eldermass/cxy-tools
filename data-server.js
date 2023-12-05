@@ -65,10 +65,7 @@ const server = http.createServer((req, res) => {
     } else {
         // 处理未知路由
         res.statusCode = 404
-        res.end({
-            code: 404,
-            message: "Not Found",
-        })
+        res.end(JSON.stringify({ code: 404, message: "Not Found" }))
     }
 })
 

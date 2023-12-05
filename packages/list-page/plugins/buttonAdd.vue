@@ -13,7 +13,7 @@
             <span slot="footer" class="dialog-footer">
                 <!-- <el-button @click="hide">取 消</el-button>
                 <el-button type="primary" @click="handleAdd">确 定</el-button> -->
-                <col-button auto-loading title="取 消" @click="hide" />
+                <col-button title="取 消" @click="hide" />
                 <col-button auto-loading title="确 定" type="primary" @click="handleAdd" />
             </span>
         </el-dialog>
@@ -48,7 +48,6 @@ export default {
     },
     methods: {
         show() {
-            console.log('1. 调整页面样式，2. 将 common-item 封装一个新的到这里');
             this.dialogVisible = true
         },
         hide() {
@@ -59,6 +58,12 @@ export default {
             this.show()
         },
         async handleAdd(done) {
+            if (!this.button.requestUrl) {
+                this.$message.error('请配置requestUrl')
+                done()
+                return
+            }
+
             const params = this.formData
             const res = await request.post(this.button.requestUrl, params).catch(() => {
                 this.$message.error('网络异常，请稍后重试')
@@ -69,7 +74,7 @@ export default {
                 this.$message.success(res.message || '新增成功')
                 this.refresh()
                 this.hide()
-            } else {
+            } else if (res) {
                 this.$message.error(res.message || '新增失败')
             }
             done()
