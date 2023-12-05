@@ -51,7 +51,8 @@ export default {
             }),
             dayBoxWidth: 'dayBoxWidth',
             rightMenulists: 'rightMenulists',
-            rightclickInfo: 'rightclickInfo'
+            rightclickInfo: 'rightclickInfo',
+            scrollY: 'scrollY'
         })
     },
     mounted() {
@@ -94,7 +95,8 @@ export default {
                 } else {
                     left += 50
                 }
-                this.$refs.rowsContainer.scrollTo(left < 0 ? 0 : left, 0)
+
+                this.$refs.rowsContainer.scrollTo(left < 0 ? 0 : left, this.scrollY)
             }
 
             if ((e.wheelDelta && e.ctrlKey) || e.detail) {
