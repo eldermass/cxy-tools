@@ -19,8 +19,8 @@
             size="mini" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"
             :placeholder="layout.placeholder" />
           <!-- 多选框 -->
-          <el-select v-else-if="layout.type === 'select' && layout.options" :multiple="layout.multiple" v-model="searchList[index].value" size="mini"
-            style="width: 120px" placeholder="请选择" clearable>
+          <el-select v-else-if="layout.type === 'select' && layout.options" :multiple="layout.multiple"
+            v-model="searchList[index].value" size="mini" style="width: 120px" placeholder="请选择" clearable>
             <el-option v-for="item in layout.options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
           <!-- 插槽 -->

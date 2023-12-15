@@ -3,14 +3,14 @@ export const pageData = {
     search: {
         queryOptions: [
             {
-                prop: "orderWorkNo",
-                label: "工单编号",
+                prop: "input",
+                label: "输入框",
                 type: "input", // 输入框
                 placeholder: "请输入工单编号",
             },
             {
                 prop: "sex",
-                label: "性别",
+                label: "下拉选择",
                 type: "select",
                 placeholder: "选择性别",
                 // multiple: true, // ? 是否多选
@@ -26,13 +26,41 @@ export const pageData = {
                 placeholder: "请选择时间",
             },
             {
+                prop: "tree",
+                label: "树形",
+                type: "tree", // 插槽
+                placeholder: "树形",
+                options: [
+                    {
+                        id: 1,
+                        label: "一级 1",
+                        children: [
+                            {
+                                id: 4,
+                                label: "二级 1-1",
+                                children: [
+                                    {
+                                        id: 9,
+                                        label: "三级 1-1-1",
+                                    },
+                                    {
+                                        id: 10,
+                                        label: "三级 1-1-2",
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
                 prop: "test",
                 label: "插槽测试",
                 type: "slot", // 插槽
                 slotName: "slottest",
             },
         ], // 查询项列表
-        defaultQuerys: ["orderWorkNo", "sex", "datetest", "test"], // 默认查询项
+        defaultQuerys: ["input", "sex", "datetest", "test"], // 默认查询项
         queryParams: {}, // 默认查询条件
     },
     buttons: [
@@ -78,7 +106,7 @@ export const pageData = {
                     prop: "datepicker", // 字段名
                     type: "date-picker", // 组件类型
                     placeholder: "请输入名称", // 占位符
-                    dateType: 'date', // ? 日期类型
+                    dateType: "date", // ? 日期类型
                     rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // 校验规则
                 },
                 {
@@ -170,7 +198,7 @@ export const pageData = {
                     prop: "datepicker", // 字段名
                     type: "date-picker", // 组件类型
                     placeholder: "请输入名称", // 占位符
-                    dateType: 'date', // ? 日期类型
+                    dateType: "date", // ? 日期类型
                     rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // 校验规则
                 },
                 {
@@ -253,7 +281,7 @@ export const pageData = {
                 options: [
                     { label: "编码一", value: 1 },
                     { label: "编码二", value: 2 },
-                ] // ? 如果有 options 则显示 options 的 label
+                ], // ? 如果有 options 则显示 options 的 label
             },
             {
                 prop: "name",

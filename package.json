@@ -1,6 +1,6 @@
 {
   "name": "cxy-tools",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "main": "dist/tools.umd.js",
   "scripts": {
     "data": "nodemon --watch ./data-server.js ./data-server.js",
