@@ -18,7 +18,7 @@
           <!-- 树形结构 -->
           <select-tree v-else-if="layout.type === 'tree'" v-model="searchList[index].value" :props="layout.props"
             :options="layout.options" :filterable="layout.filterable" :muliple="layout.muliple"
-            :leafOnly="layout.leafonly" :placeholder="layout.placeholder" />
+            :leafOnly="layout.leafonly" :placeholder="layout.placeholder" style="width: 120px;" />
 
           <!-- 多选框 -->
           <el-select v-else-if="layout.type === 'select' && layout.options" :multiple="layout.multiple"
