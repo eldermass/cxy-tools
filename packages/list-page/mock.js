@@ -278,6 +278,31 @@ export const pageData = {
         //     { id: 1, name: "hello" },
         //     { id: 2, name: "world" },
         // ], // 表格数据, 如果有该值，首次将不请求
+        childrenTable: {
+            prop: "items", // ? 子表格字段名
+            columns: [ // 子表列配置，与主表 columns 一致
+                {
+                    prop: "id",
+                    title: "编码",
+                    width: 160, // ? 列宽
+                    align: "center", // ? 对齐方式
+                    sortable: true, // ? 是否可排序
+                    show_overflow_tooltip: true, // ? 是否显示 tooltip
+                    options: [
+                        { label: "编码一", value: 1 },
+                        { label: "编码二", value: 2 },
+                    ], // ? 如果有 options 则显示 options 的 label
+                },
+                {
+                    prop: "name",
+                    title: "名称",
+                    width: 160,
+                    align: "center",
+                    sortable: true,
+                    show_overflow_tooltip: true,
+                },
+            ],
+        },
         columns: [
             {
                 prop: "id",

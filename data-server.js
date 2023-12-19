@@ -9,8 +9,33 @@ const jsonData = {
         pageNo: 1,
         recordsTotal: 0,
         data: [
-            { id: 1, name: "hello", image: 'https://picsum.photos/200/300' },
-            { id: 2, name: "world", image: 'https://picsum.photos/200/301' },
+            { id: 1, name: "hello", image: "https://picsum.photos/200/300" },
+            {
+                id: 11,
+                name: "有子表",
+                image: "https://picsum.photos/200/300",
+                items: [
+                    { id: 1, name: "子表1", image: "https://picsum.photos/200/300" },
+                    { id: 2, name: "子表2", image: "https://picsum.photos/200/300" },
+                ],
+            },
+            {
+                id: 2,
+                name: "world",
+                image: "https://picsum.photos/200/301",
+                children: [
+                    {
+                        id: 3,
+                        name: "child 1",
+                        image: "https://picsum.photos/200/302",
+                    },
+                    {
+                        id: 4,
+                        name: "child 2",
+                        image: "https://picsum.photos/200/303",
+                    },
+                ],
+            },
         ],
         orders: null,
     },
@@ -51,7 +76,7 @@ const server = http.createServer((req, res) => {
                 message: "添加 xx 成功",
             })
         )
-    }  else if (parsedUrl.pathname === "/api/delete" && req.method === "POST") {
+    } else if (parsedUrl.pathname === "/api/delete" && req.method === "POST") {
         // 设置响应头
         res.setHeader("Content-Type", "application/json")
 

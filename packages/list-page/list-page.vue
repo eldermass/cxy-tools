@@ -31,14 +31,35 @@
         </el-row>
         <!-- 表格部分 -->
         <el-table ref="table" v-loading="tableLoading" :data="table.tableData" element-loading-text="拼命加载中"
-            element-loading-spinner="el-icon-loading" :height="tableHeight" border @current-change="handleCurrentRowChange"
-            @selection-change="handleSelectionChange" @sort-change="handleSortChange">
+            element-loading-spinner="el-icon-loading" row-key="id" :height="tableHeight" border
+            @current-change="handleCurrentRowChange" @selection-change="handleSelectionChange"
+            @sort-change="handleSortChange">
             <el-table-column align="center" type="selection" width="50" />
             <el-table-column align="center" label="序号" type="index" width="100" />
+            <!-- 子表 -->
+            <el-table-column v-if="table.childrenTable" label="展开" width="50" type="expand">
+                <template slot-scope="props">
+                    <el-table :data="props.row[table.childrenTable.prop]" border>
+                        <template v-for="(item, index) in table.childrenTable.columns">
+                            <table-columns :key="index" :item="item">
+                                <template #[key]="{ row, index }" v-for="(value, key) in $scopedSlots">
+                                    <slot :name="key" :row="row" :index="index" />
+                                </template>
+                            </table-columns>
+                        </template>
+                    </el-table>
+                </template>
+            </el-table-column>
+
             <template v-for="(item, index) in table.columns">
-                <!-- 如果隐藏 -->
+                <table-columns :key="index" :item="item">
+                    <template #[key]="{ row, index }" v-for="(value, key) in $scopedSlots">
+                        <slot :name="key" :row="row" :index="index" />
+                    </template>
+                </table-columns>
+                <!-- 如果隐藏  保留这块原始的table column 渲染逻辑
                 <div v-if="item.hide" :key="index"></div>
-                <!-- 插槽 -->
+                插槽
                 <el-table-column v-else-if="item.slotName" :key="index" :align="item.align" :label="item.title"
                     :min-width="item.width" :prop="item.prop" :show-overflow-tooltip="item.show_overflow_tooltip || true"
                     :sortable="item.sortable" header-align="center">
@@ -46,7 +67,7 @@
                         <slot :name="item.slotName" :row="scope.row" :index="scope.$index" />
                     </template>
                 </el-table-column>
-                <!-- 字典 -->
+                字典
                 <el-table-column v-else-if="item.options" :key="index" :align="item.align" :label="item.title"
                     :min-width="item.width" :prop="item.prop" :show-overflow-tooltip="item.show_overflow_tooltip || true"
                     :sortable="item.sortable" header-align="center">
@@ -54,10 +75,10 @@
                         <span>{{ scope.row[item.prop] | valueToLabel(item.options) }}</span>
                     </template>
                 </el-table-column>
-                <!-- 默认 -->
+                默认
                 <el-table-column :key="index" v-else :align="item.align" :label="item.title" :min-width="item.width"
                     :prop="item.prop" :show-overflow-tooltip="item.show_overflow_tooltip || true" :sortable="item.sortable"
-                    header-align="center" />
+                    header-align="center" /> -->
             </template>
         </el-table>
         <!-- 分页部分 -->
@@ -73,6 +94,7 @@
 import searchPanel from '../search-panel/index.vue'
 import columnEdit from './components/columnEdit.vue'
 import buttonItem from './components/buttonItem.vue'
+import tableColumns from './components/tableColumns.vue'
 
 import selectMixins from './mixins/selectRowMixin'
 import tableHeightMixin from './mixins/tableHeightMixin'
@@ -85,7 +107,7 @@ export default {
     name: 'list-page',
     mixins: [selectMixins, tableHeightMixin, seqenceMixin, pageMixin],
     components: {
-        searchPanel, columnEdit, buttonItem
+        searchPanel, columnEdit, buttonItem, tableColumns
     },
     props: {
         pageData: {
@@ -108,13 +130,6 @@ export default {
             sorts: 'sorts',
             table: 'table'
         })
-    },
-    filters: {
-        valueToLabel(value, options) {
-            if (!options) return value
-            const option = options.find(item => item.value === value)
-            return option ? option.label : value
-        },
     },
     created() {
         this.initScheme()
@@ -231,5 +246,10 @@ export default {
         top: 0;
         z-index: 100;
     }
+}
+
+::v-deep(.el-table__expanded-cell) {
+    padding: 10px;
+    background: #dfdfdf;
 }
 </style>
