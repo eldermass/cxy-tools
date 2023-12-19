@@ -9,24 +9,28 @@
               <el-option v-for="item in queryOptions" :key="item.prop" :label="item.label" :value="item.prop" />
             </el-select>
           </template>
-          <!--     取值框      -->
-          <!-- <workcenter-tree v-if="layout.type === 'workCenter'" v-model="searchList[index].value" :multiple="false"
-            :always-open="false" :limit="1" :max-height="200"
-            style="width: 150px; height: 24px; display: inline-block;" /> -->
 
           <!-- 时间选择器 -->
           <el-date-picker v-if="layout.type === 'datetime'" v-model="searchList[index].value" style="width: 130px;"
             size="mini" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"
             :placeholder="layout.placeholder" />
+
+          <!-- 树形结构 -->
+          <select-tree v-else-if="layout.type === 'tree'" v-model="searchList[index].value" :props="layout.props"
+            :options="layout.options" :filterable="layout.filterable" :muliple="layout.muliple"
+            :leafOnly="layout.leafonly" :placeholder="layout.placeholder" />
+
           <!-- 多选框 -->
           <el-select v-else-if="layout.type === 'select' && layout.options" :multiple="layout.multiple"
             v-model="searchList[index].value" size="mini" style="width: 120px" placeholder="请选择" clearable>
             <el-option v-for="item in layout.options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
+
           <!-- 插槽 -->
           <div v-else-if="layout.type === 'slot'">
             <slot :name="layout.slotName" :searchList="searchList" :setQuerys="setQuerys" />
           </div>
+
           <!-- 输入框 -->
           <el-input v-else v-model="searchList[index].value" :placeholder="layout.placeholder" style="width: 120px"
             size="mini" clearable @keyup.enter.native="handleQuery" />
@@ -43,11 +47,12 @@
 </template>
 <script>
 import colButton from '../buttons/index.vue'
+import SelectTree from '../select-tree/index.vue'
 import _ from 'lodash'
 
 export default {
-  name: 'SearchPanel',
-  components: { colButton },
+  name: 'search-panel',
+  components: { colButton, SelectTree },
   props: {
     // 最大可选数限制
     limit: {
@@ -78,7 +83,7 @@ export default {
     },
   },
   mounted() {
-    console.log('plan: 扩充该组件支持的类型');
+    // console.log('plan: 扩充该组件支持的类型');
     this.initQuery()
   },
   methods: {
@@ -87,7 +92,8 @@ export default {
 
       // 赋予查询项默认空值
       this.searchList = this.defaultQuerys.map(prop => ({
-        prop: prop
+        prop: prop,
+        value: undefined
       }))
     },
     handleQuery() {

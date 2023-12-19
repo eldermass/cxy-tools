@@ -9,7 +9,7 @@
   
 <script>
 export default {
-    name: 'ColButton',
+    name: 'cxy-button',
     props: {
         title: {
             type: String,

@@ -9,8 +9,8 @@ const jsonData = {
         pageNo: 1,
         recordsTotal: 0,
         data: [
-            { id: 1, name: "hello" },
-            { id: 2, name: "world" },
+            { id: 1, name: "hello", image: 'https://picsum.photos/200/300' },
+            { id: 2, name: "world", image: 'https://picsum.photos/200/301' },
         ],
         orders: null,
     },

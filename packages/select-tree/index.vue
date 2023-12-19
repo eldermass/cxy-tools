@@ -13,7 +13,7 @@
 
 <script>
 export default {
-    name: "select-tree",
+    name: "cxy-tree",
     props: {
         /* 配置项 */
         props: {

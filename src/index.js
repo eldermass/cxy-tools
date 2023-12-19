@@ -2,9 +2,13 @@ import gantNext from "../packages/gantt-next/index"
 import varForm from "../packages/var-form/index"
 import varFormEditor from "../packages/var-form-editor"
 import listPage from "../packages/list-page"
+import SelectTree from "../packages/select-tree"
+import ColButton from "../packages/buttons"
+import SearchPanel from "../packages/search-panel"
+
 import packageJson from "../package.json"
 
-const components = [gantNext, varForm, varFormEditor, listPage]
+const components = [gantNext, varForm, varFormEditor, listPage, SelectTree, ColButton, SearchPanel]
 
 const install = function (Vue) {
     // console.log(opts)
@@ -33,5 +37,7 @@ export default {
     varForm,
     varFormEditor,
     listPage,
+    SelectTree,
+    ColButton,
     install,
 }

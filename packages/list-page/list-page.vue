@@ -38,6 +38,14 @@
             <template v-for="(item, index) in table.columns">
                 <!-- 如果隐藏 -->
                 <div v-if="item.hide" :key="index"></div>
+                <!-- 插槽 -->
+                <el-table-column v-else-if="item.slotName" :key="index" :align="item.align" :label="item.title"
+                    :min-width="item.width" :prop="item.prop" :show-overflow-tooltip="item.show_overflow_tooltip || true"
+                    :sortable="item.sortable" header-align="center">
+                    <template slot-scope="scope">
+                        <slot :name="item.slotName" :row="scope.row" :index="scope.$index" />
+                    </template>
+                </el-table-column>
                 <!-- 字典 -->
                 <el-table-column v-else-if="item.options" :key="index" :align="item.align" :label="item.title"
                     :min-width="item.width" :prop="item.prop" :show-overflow-tooltip="item.show_overflow_tooltip || true"
@@ -150,7 +158,6 @@ export default {
                 return
             }
 
-            console.log("plan: 统一接口的的规则，包含增删改查和其他需要封装的功能")
             console.group('getList 参数')
             console.log('search', this.search)
             console.log('pages', this.pages)

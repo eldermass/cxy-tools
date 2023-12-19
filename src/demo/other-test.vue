@@ -1,15 +1,17 @@
 <template>
     <div>
-        <select-tree v-model="treeValue" :options="options" :filterable="true" :muliple="true" :leafOnly="true" @change="handleChange" />
+        <cxy-tree v-model="treeValue" :options="options" :filterable="true" :muliple="true" :leafOnly="true"
+            @change="handleChange" />
+        <br />
+        <cxy-button>hello</cxy-button>
+        <search-panel :param-list="search.queryOptions" :default-querys="search.defaultQuerys" />
     </div>
 </template>
 
 <script>
-import selectTree from '../../packages/select-tree/index.vue'
 
 export default {
     name: "other-test",
-    components: { selectTree },
     data() {
         return {
             options: [
@@ -62,7 +64,30 @@ export default {
                     ]
                 }
             ],
-            treeValue: [9, 10]
+            treeValue: undefined, // [9, 10]
+            search: {
+                queryOptions: [
+                    {
+                        prop: "input",
+                        label: "输入框",
+                        type: "input", // 输入框
+                        placeholder: "请输入工单编号",
+                    },
+                    {
+                        prop: "sex",
+                        label: "下拉选择",
+                        type: "select",
+                        placeholder: "选择性别",
+                        // multiple: true, // ? 是否多选
+                        options: [
+                            { label: "男", value: 1 },
+                            { label: "女", value: 2 },
+                        ],
+                    }
+                ], // 查询项列表
+                defaultQuerys: ["tree", "sex"], // 默认查询项
+                queryParams: {}, // 默认查询条件
+            }
         }
     },
     methods: {

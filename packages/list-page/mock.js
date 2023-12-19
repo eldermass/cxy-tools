@@ -30,22 +30,30 @@ export const pageData = {
                 label: "树形",
                 type: "tree", // 插槽
                 placeholder: "树形",
+                filterable: true,
+                muliple: true,
+                leafonly: true,
+                // props: {
+                //     value: "id", // ID字段名
+                //     label: "label", // 显示名称
+                //     children: "children", // 子级字段名
+                // },
                 options: [
                     {
                         id: 1,
-                        label: "一级 1",
+                        title: "一级 1",
                         children: [
                             {
                                 id: 4,
-                                label: "二级 1-1",
+                                title: "二级 1-1",
                                 children: [
                                     {
                                         id: 9,
-                                        label: "三级 1-1-1",
+                                        title: "三级 1-1-1",
                                     },
                                     {
                                         id: 10,
-                                        label: "三级 1-1-2",
+                                        title: "三级 1-1-2",
                                     },
                                 ],
                             },
@@ -60,7 +68,7 @@ export const pageData = {
                 slotName: "slottest",
             },
         ], // 查询项列表
-        defaultQuerys: ["input", "sex", "datetest", "test"], // 默认查询项
+        defaultQuerys: ["tree", "sex", "datetest", "test"], // 默认查询项
         queryParams: {}, // 默认查询条件
     },
     buttons: [
@@ -299,6 +307,13 @@ export const pageData = {
                 sortable: true,
                 show_overflow_tooltip: true,
                 hide: true, // ? 是否隐藏
+            },
+            {
+                prop: "image",
+                title: "插槽",
+                width: 160,
+                align: "center",
+                slotName: "imageSlot", // ? 插槽名称
             },
         ],
     },

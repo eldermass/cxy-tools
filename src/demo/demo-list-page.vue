@@ -4,6 +4,9 @@
             <template #slottest="{ searchList, setQuerys }">
                 <el-button size="mini" @click="changeSearch(searchList, setQuerys)">改变条件</el-button>
             </template>
+            <template #imageSlot="{ row, index }">
+                <img :src="row.image" height="50" width="50" :key="index" />
+            </template>
             <template #buttons="{ currentRow, multipleSelection, isSelected, isSingleSelected, isMultiSelected }">
                 <el-button size="mini" @click="handleBtnClick({ currentRow, multipleSelection })">刷新表格</el-button>
                 <el-button :disabled="!currentRow" size="mini" @click="updateTableData">更新数据</el-button>
