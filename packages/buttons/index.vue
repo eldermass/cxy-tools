@@ -22,10 +22,6 @@ export default {
         autoLoading: {
             type: Boolean,
             default: false
-        },
-        offset: {
-            type: Number,
-            default: 0
         }
     },
     data() {

@@ -1,6 +1,6 @@
 <template>
-    <el-select :value="valueTitle" :size="size" :placeholder="placeholder" :clearable="clearable" @clear="clearHandle"
-        :filterable="filterable" :filter-method="filterMethod" ref="treeSelect">
+    <el-select :value="valueTitle" :size="size" :placeholder="placeholder" :disabled="disabled" :clearable="clearable"
+        @clear="clearHandle" :filterable="filterable" :filter-method="filterMethod" ref="treeSelect">
         <el-option :value="valueTitle" :label="valueTitle" class="options">
             <el-tree id="tree-option" ref="selectTree" :accordion="accordion" :data="options" :props="props"
                 :node-key="props.value" :show-checkbox="muliple" :default-expanded-keys="defaultExpandedKey"
@@ -65,6 +65,10 @@ export default {
         },
         // 是否只包含叶子节点
         leafOnly: {
+            type: Boolean,
+            default: false
+        },
+        disabled: {
             type: Boolean,
             default: false
         }
