@@ -47,8 +47,8 @@ export default {
 
 <style scoped lang="scss">
 .demo-container {
-    height: 80%;
-    width: 80%;
+    height: 90%;
+    width: 100%;
     border: 1px solid skyblue;
 }
 </style>

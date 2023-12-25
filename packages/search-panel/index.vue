@@ -128,6 +128,11 @@ export default {
         find.value = value
       }
     }
+  },
+  watch: {
+    searchList() {
+      this.$emit('query-change', this.searchList)
+    }
   }
 }
 </script>

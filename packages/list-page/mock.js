@@ -307,7 +307,7 @@ export const pageData = {
             {
                 prop: "id",
                 title: "编码",
-                width: 160, // ? 列宽
+                width: 200, // ? 列宽
                 align: "center", // ? 对齐方式
                 sortable: true, // ? 是否可排序
                 show_overflow_tooltip: true, // ? 是否显示 tooltip
@@ -319,10 +319,10 @@ export const pageData = {
             {
                 prop: "name",
                 title: "名称",
-                width: 160,
-                align: "center",
-                sortable: true,
-                show_overflow_tooltip: true,
+                // width: 160,
+                // align: "center",
+                // sortable: true,
+                // show_overflow_tooltip: false,
             },
             {
                 prop: "title",
@@ -336,11 +336,13 @@ export const pageData = {
             {
                 prop: "image",
                 title: "插槽",
-                width: 160,
+                minWidth: 160,
                 align: "center",
                 slotName: "imageSlot", // ? 插槽名称
             },
         ],
+        // showIndex: true, // ? 是否显示序号
+        // showSelection: true, // ? 是否显示选择框
     },
     pages: {
         pageNum: 1, // 当前页码 ***

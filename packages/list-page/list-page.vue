@@ -2,7 +2,7 @@
     <div class="list-page">
         <!-- 搜索部分 -->
         <search-panel ref="searchRef" :param-list="search.queryOptions" :default-querys="search.defaultQuerys"
-            @query="handleQuery">
+            @query="handleQuery" @query-change="handleQueryChange">
             <template #[key]="{ searchList, setQuerys }" v-for="(value, key) in $scopedSlots">
                 <slot :name="key" :searchList="searchList" :setQuerys="setQuerys" />
             </template>
@@ -34,8 +34,8 @@
             element-loading-spinner="el-icon-loading" row-key="id" :height="tableHeight" border
             @current-change="handleCurrentRowChange" @selection-change="handleSelectionChange"
             @sort-change="handleSortChange">
-            <el-table-column align="center" type="selection" width="50" />
-            <el-table-column align="center" label="序号" type="index" width="100" />
+            <el-table-column v-if="withDefault(table.showSelection, true)" align="center" type="selection" width="50" />
+            <el-table-column v-if="withDefault(table.showIndex, true)" align="center" label="序号" type="index" width="100" />
             <!-- 子表 -->
             <el-table-column v-if="table.childrenTable" label="展开" width="50" type="expand">
                 <template slot-scope="props">
@@ -199,6 +199,7 @@ export default {
                 return
             }
 
+            this.$refs.table.setCurrentRow() // 清空选中项
             this.store.updatePageTotal(res.data.recordsTotal)
             this.store.updateTableData(res.data.data)
         },
@@ -219,6 +220,12 @@ export default {
         handleQuery(queryParams) {
             this.store.updateQueryParams(queryParams)
             this.refresh()
+        },
+        handleQueryChange() {
+            this.initTableHeight()
+        },
+        withDefault(val, defaultVal) {
+            return val === undefined ? defaultVal : val
         }
     },
 }
