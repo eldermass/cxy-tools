@@ -103,5 +103,8 @@ const server = http.createServer((req, res) => {
 // 启动服务器
 const PORT = process.env.PORT || 3333
 server.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost:${PORT}`)
+    console.log(`Server is running on port 
+    http://localhost:${PORT}
+    https://registry.npmmirror.com/cxy-tools
+    `)
 })
