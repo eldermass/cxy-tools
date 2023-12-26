@@ -1,5 +1,5 @@
 <template>
-    <export-button />
+    <export-button :size="size" />
 </template>
   
 <script>
@@ -11,7 +11,10 @@ export default {
         exportButton
     },
     props: {
-
+        size: {
+            type: String,
+            default: 'mini'
+        }
     },
     data() {
         return {}

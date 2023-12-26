@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <el-button-group style="margin-bottom: 5px;">
-            <el-button size="mini" @click="changeDemo(1)" type="primary">gant chart</el-button>
+            <el-button size="mini" @click="changeDemo(1)" type="primary">gantt chart</el-button>
             <el-button size="mini" @click="changeDemo(2)" type="primary">var Form</el-button>
             <el-button size="mini" @click="changeDemo(3)" type="primary">form Editor</el-button>
             <el-button size="mini" @click="changeDemo(4)" type="primary">list page</el-button>

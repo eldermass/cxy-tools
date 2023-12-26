@@ -1,17 +1,18 @@
 <template>
     <div class="list-page">
         <!-- 搜索部分 -->
-        <search-panel ref="searchRef" :param-list="search.queryOptions" :default-querys="search.defaultQuerys"
-            @query="handleQuery" @query-change="handleQueryChange">
+        <search-panel class="searchs" ref="searchRef" :param-list="search.queryOptions" :size="pageData.size"
+            :default-querys="search.defaultQuerys" @query="handleQuery" @query-change="handleQueryChange">
             <template #[key]="{ searchList, setQuerys }" v-for="(value, key) in $scopedSlots">
                 <slot :name="key" :searchList="searchList" :setQuerys="setQuerys" />
             </template>
         </search-panel>
+        <el-divider class="divider" />
         <!-- 按钮部分 -->
         <el-row class="buttons">
             <template v-for="(button, index) in buttonList">
                 <button-item :key="index" :button="button" :refresh="refresh" :current-row="currentRow"
-                    :multiple-selection="multipleSelection" />
+                    :size="pageData.size" :multiple-selection="multipleSelection" />
             </template>
             <!-- 自定义按钮 -->
             <slot name="buttons" v-bind:currentRow="currentRow" v-bind:multipleSelection="multipleSelection"
@@ -236,6 +237,17 @@ export default {
     height: 100%;
     width: 100%;
     text-align: left;
+    padding: 0 10px;
+    box-sizing: border-box;
+
+    .searchs {
+        margin-top: 10px;
+    }
+
+    .divider {
+        margin: 5px 0;
+        // width: auto;
+    }
 
     .buttons {
         margin-bottom: 10px;

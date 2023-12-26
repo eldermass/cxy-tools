@@ -3,7 +3,7 @@
         @clear="clearHandle" :filterable="filterable" :filter-method="filterMethod" ref="treeSelect">
         <el-option :value="valueTitle" :label="valueTitle" class="options">
             <el-tree id="tree-option" ref="selectTree" :accordion="accordion" :data="options" :props="props"
-                :node-key="props.value" :show-checkbox="muliple" :default-expanded-keys="defaultExpandedKey"
+                :node-key="props.value" :show-checkbox="multiple" :default-expanded-keys="defaultExpandedKey"
                 :filter-node-method="filterNode" @node-click="handleNodeClick" @check="handleCheckChange">
             </el-tree>
         </el-option>
@@ -39,7 +39,7 @@ export default {
             default: '请选择.'
         },
         // 是否多选
-        muliple: {
+        multiple: {
             type: Boolean,
             default: false
         },
@@ -89,7 +89,7 @@ export default {
         // 初始化值
         initHandle(isChange = false) {
             // 如果是单选
-            if (!this.muliple) {
+            if (!this.multiple) {
                 const node = this.$refs.selectTree.getNode(this.valueId || 0)
                 if (!node) return
 
@@ -126,7 +126,7 @@ export default {
         // 单选时候点击节点
         handleNodeClick(node) {
             // 多选时不对单选节点进行操作
-            if (this.muliple) {
+            if (this.multiple) {
                 return
             }
             this.valueTitle = node[this.props.label]
@@ -162,8 +162,9 @@ export default {
             this.defaultExpandedKey = []
             this.clearSelected()
             this.$emit('input', null)
+            this.$emit('change', [], [])
 
-            if (this.muliple) {
+            if (this.multiple) {
                 this.$refs.selectTree.setCheckedKeys([]) // 清空选中
             }
         },

@@ -1,6 +1,6 @@
 <template>
     <div style="display: inline-block;">
-        <col-button title="新增" type="primary" icon="plus" @click="openAddDialog" />
+        <col-button title="新增" type="primary" :size="size" icon="plus" @click="openAddDialog" />
 
         <el-dialog title="新增" :visible.sync="dialogVisible" :modal="false" :close-on-click-modal="false" width="50%">
             <el-form :model="formData" label-width="80px">
@@ -39,6 +39,10 @@ export default {
             type: Function,
             default: () => { }
         },
+        size: {
+            type: String,
+            default: 'mini'
+        }
     },
     data() {
         return {

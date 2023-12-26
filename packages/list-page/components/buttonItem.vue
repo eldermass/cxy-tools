@@ -35,6 +35,10 @@ export default {
             type: Array,
             default: () => []
         },
+        size: {
+            type: String,
+            default: 'mini'
+        }
     },
     data() {
         return {
@@ -66,7 +70,8 @@ export default {
                         button: this.button,
                         currentRow: this.currentRow,
                         multipleSelection: this.multipleSelection,
-                        refresh: this.refresh
+                        refresh: this.refresh,
+                        size: this.size
                     }
                 })
             }
@@ -74,7 +79,8 @@ export default {
             return h(this.button.component, {
                 props: {
                     type: 'primary',
-                    size: 'mini'
+                    size: this.size,
+                    ...this.button.props
                 },
                 on: {
                     click: this.handleClick

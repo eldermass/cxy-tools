@@ -1,5 +1,5 @@
 <template>
-    <col-button title="删除" type="danger" :disabled="!isSelected" icon="delete" @click="handleDelete" />
+    <col-button title="删除" type="danger" :size="size" :disabled="!isSelected" icon="delete" @click="handleDelete" />
 </template>
   
 <script>
@@ -24,6 +24,10 @@ export default {
             type: Array,
             default: () => []
         },
+        size: {
+            type: String,
+            default: 'mini'
+        }
     },
     data() {
         return {}

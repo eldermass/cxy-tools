@@ -1,5 +1,5 @@
 <template>
-    <el-button v-bind="$attrs" :icon="iconString" size="mini" :loading="loadingStatus" @click.stop="handleClick">
+    <el-button v-bind="$attrs" :icon="iconString" :size="size" :loading="loadingStatus" @click.stop="handleClick">
         <template v-if="title">
             {{ title }}
         </template>
@@ -22,6 +22,10 @@ export default {
         autoLoading: {
             type: Boolean,
             default: false
+        },
+        size: {
+            type: String,
+            default: 'mini'
         }
     },
     data() {

@@ -1,10 +1,13 @@
 export const pageData = {
     pageId: "material index page", // 页面唯一标识,不可重复
+    // size: 'small', // ? mini
     search: {
         queryOptions: [
             {
                 prop: "input",
                 label: "输入框",
+                labelWidth: 110, // ? label 长度
+                valueWidth: 120, // ? value 长度
                 type: "input", // 输入框
                 placeholder: "请输入工单编号",
             },
@@ -22,6 +25,7 @@ export const pageData = {
             {
                 prop: "datetest",
                 label: "时间测试",
+                valueWidth: 130, // ? value 长度
                 type: "datetime", // 时间选择器
                 placeholder: "请选择时间",
             },
@@ -31,7 +35,7 @@ export const pageData = {
                 type: "tree", // 插槽
                 placeholder: "树形",
                 filterable: true,
-                muliple: true,
+                multiple: true,
                 leafonly: true,
                 // props: {
                 //     value: "id", // ID字段名
@@ -68,7 +72,7 @@ export const pageData = {
                 slotName: "slottest",
             },
         ], // 查询项列表
-        defaultQuerys: ["tree", "sex", "datetest", "test"], // 默认查询项
+        defaultQuerys: ["input", "sex", "datetest", "test"], // 默认查询项
         queryParams: {}, // 默认查询条件
     },
     buttons: [
@@ -255,6 +259,9 @@ export const pageData = {
         {
             title: "测试组件", // 测试组件
             component: "col-button", // 组件名
+            // props: {
+            //     size: 'small',
+            // },
             opration: (obj) => {
                 console.log("操作", obj)
             }, // 操作函数
@@ -284,7 +291,7 @@ export const pageData = {
                 {
                     prop: "id",
                     title: "编码",
-                    width: 160, // ? 列宽
+                    minWidth: 160, // ? 列宽
                     align: "center", // ? 对齐方式
                     sortable: true, // ? 是否可排序
                     show_overflow_tooltip: true, // ? 是否显示 tooltip
@@ -296,7 +303,7 @@ export const pageData = {
                 {
                     prop: "name",
                     title: "名称",
-                    width: 160,
+                    minWidth: 160,
                     align: "center",
                     sortable: true,
                     show_overflow_tooltip: true,

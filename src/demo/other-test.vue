@@ -64,7 +64,7 @@ export default {
                     ]
                 }
             ],
-            treeValue: undefined, // [9, 10]
+            treeValue: 9, // [9, 10]
             search: {
                 queryOptions: [
                     {
@@ -85,7 +85,7 @@ export default {
                         ],
                     }
                 ], // 查询项列表
-                defaultQuerys: ["tree", "sex"], // 默认查询项
+                defaultQuerys: ["input", "sex"], // 默认查询项
                 queryParams: {}, // 默认查询条件
             }
         }

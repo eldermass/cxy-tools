@@ -5,24 +5,27 @@
         <el-form-item style="margin: 0;">
           <!--     标题框      -->
           <template #label>
-            <el-select v-model="searchList[index].prop" size="mini" style="width: 100px" placeholder="请选择" clearable>
+            <el-select v-model="searchList[index].prop" :size="size" :style="getLabelWidth(searchList[index].prop)"
+              placeholder="请选择" clearable>
               <el-option v-for="item in queryOptions" :key="item.prop" :label="item.label" :value="item.prop" />
             </el-select>
           </template>
 
           <!-- 时间选择器 -->
-          <el-date-picker v-if="layout.type === 'datetime'" v-model="searchList[index].value" style="width: 130px;"
-            size="mini" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss"
-            :placeholder="layout.placeholder" />
+          <el-date-picker v-if="layout.type === 'datetime'" v-model="searchList[index].value"
+            :style="getValueWidth(searchList[index].prop)" :size="size" type="datetime" value-format="yyyy-MM-dd HH:mm:ss"
+            format="yyyy-MM-dd HH:mm:ss" :placeholder="layout.placeholder" />
 
           <!-- 树形结构 -->
           <select-tree v-else-if="layout.type === 'tree'" v-model="searchList[index].value" :props="layout.props"
-            :options="layout.options" :filterable="layout.filterable" :muliple="layout.muliple"
-            :leafOnly="layout.leafonly" :placeholder="layout.placeholder" style="width: 120px;" />
+            :options="layout.options" :filterable="layout.filterable" :multiple="layout.multiple" :size="size"
+            :leafOnly="layout.leafonly" :placeholder="layout.placeholder"
+            :style="getValueWidth(searchList[index].prop)" />
 
           <!-- 多选框 -->
           <el-select v-else-if="layout.type === 'select' && layout.options" :multiple="layout.multiple"
-            v-model="searchList[index].value" size="mini" style="width: 120px" placeholder="请选择" clearable>
+            v-model="searchList[index].value" :size="size" :style="getValueWidth(searchList[index].prop)"
+            placeholder="请选择" clearable>
             <el-option v-for="item in layout.options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
 
@@ -32,15 +35,16 @@
           </div>
 
           <!-- 输入框 -->
-          <el-input v-else v-model="searchList[index].value" :placeholder="layout.placeholder" style="width: 120px"
-            size="mini" clearable @keyup.enter.native="handleQuery" />
+          <el-input v-else v-model="searchList[index].value" :placeholder="layout.placeholder"
+            :style="getValueWidth(searchList[index].prop)" :size="size" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
       </div>
       <el-form-item>
-        <col-button class="act-button" type="warning" icon="plus" @click.prevent="addQuery" />
-        <col-button class="act-button" type="danger" icon="delete" @click.prevent="substractQuery" />
-        <col-button class="act-button" title="搜索" type="primary" icon="search" @click.prevent="handleQuery" />
-        <col-button class="act-button" title="重置" icon="refresh" @click.prevent="handleReset" />
+        <col-button class="act-button" type="warning" icon="plus" :size="size" @click.prevent="addQuery" />
+        <col-button class="act-button" type="danger" icon="delete" :size="size" @click.prevent="substractQuery" />
+        <col-button class="act-button" title="搜索" type="primary" :size="size" icon="search"
+          @click.prevent="handleQuery" />
+        <col-button class="act-button" title="重置" icon="refresh" :size="size" @click.prevent="handleReset" />
       </el-form-item>
     </el-form>
   </div>
@@ -66,6 +70,10 @@ export default {
     defaultQuerys: {
       type: Array,
       default: () => []
+    },
+    size: {
+      type: String,
+      default: 'mini'
     }
   },
   data() {
@@ -127,6 +135,22 @@ export default {
       if (find) {
         find.value = value
       }
+    },
+    getLabelWidth(prop) {
+      const find = this.paramList.find(item => item.prop === prop)
+
+      if (find && find.labelWidth) {
+        return { width: find.labelWidth + 'px' }
+      }
+      return { width: '100px' }
+    },
+    getValueWidth(prop) {
+      const find = this.paramList.find(item => item.prop === prop)
+
+      if (find && find.valueWidth) {
+        return { width: find.valueWidth + 'px' }
+      }
+      return { width: '120px' }
     }
   },
   watch: {
