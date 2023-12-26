@@ -56,6 +56,9 @@ export default {
         updateTableColumns(columns) {
             // this.states.table.columns = _.cloneDeep(columns)
             this.states.table = { ...this.states.table, columns: _.cloneDeep(columns) }
+        },
+        getAllData() {
+            return _.cloneDeep(this.states)
         }
     },
 }

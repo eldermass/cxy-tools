@@ -13,6 +13,7 @@
                 <el-button :disabled="!isSelected" size="mini">选中</el-button>
                 <el-button :disabled="!isSingleSelected" size="mini">单选</el-button>
                 <el-button :disabled="!isMultiSelected" size="mini">多选</el-button>
+                <el-button @click="getListData" size="mini">获取页面数据</el-button>
             </template>
         </list-page>
     </div>
@@ -39,6 +40,10 @@ export default {
         // 外部更新表格数据
         updateTableData() {
             this.$refs.page.updateTableData([{ id: 6, name: '更新后的数据' }])
+        },
+        getListData() {
+            const data = this.$refs.page.getListData()
+            console.log('获取页面数据', data)
         }
     }
 }

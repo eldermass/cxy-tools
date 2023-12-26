@@ -227,6 +227,9 @@ export default {
         },
         withDefault(val, defaultVal) {
             return val === undefined ? defaultVal : val
+        },
+        getListData() {
+            return this.store.getAllData()
         }
     },
 }
