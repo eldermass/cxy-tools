@@ -30,7 +30,7 @@ export default {
                 const offsetParentTop = offsetTop - parentTtop
 
                 // 表格高度 = 父元素高度 - 距离父元素顶部的距离 - 底部分页高度
-                this.tableHeight = parentHeight - offsetParentTop - 56
+                this.tableHeight = parentHeight - offsetParentTop - 50
             })
         },
     },
