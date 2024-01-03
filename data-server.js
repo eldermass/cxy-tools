@@ -1,4 +1,5 @@
 const http = require("http")
+const https = require("https")
 const url = require("url")
 
 const jsonData = {
@@ -100,11 +101,33 @@ const server = http.createServer((req, res) => {
     }
 })
 
+// 获取发布版本
+const getVersion = () => {
+    return new Promise((resolve, reject) => {
+        https
+            .get("https://registry.npmmirror.com/cxy-tools", (res) => {
+                let data = ""
+                res.on("data", (chunk) => {
+                    data += chunk
+                })
+                res.on("end", () => {
+                    resolve(JSON.parse(data)['dist-tags'].latest)
+                })
+            })
+            .on("error", (err) => {
+                reject(err)
+            })
+    })
+}
+
 // 启动服务器
 const PORT = process.env.PORT || 3333
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
+    const version = await getVersion()
+    
+    // https://registry.npmmirror.com/cxy-tools
     console.log(`Server is running on port 
     http://localhost:${PORT}
-    https://registry.npmmirror.com/cxy-tools
+    当前发布版本：${version}
     `)
 })

@@ -50,7 +50,7 @@ export default {
         },
         /* 初始值 */
         value: {
-            type: [Number, Array],
+            type: [Number, String, Array],
             default: null
         },
         /* 可清空选项 */

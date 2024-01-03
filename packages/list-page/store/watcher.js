@@ -1,6 +1,6 @@
 import Vue from "vue"
 import serach from "./serach"
-// import current from './current'
+import page from './page'
 
 export default Vue.extend({
     data() {
@@ -8,6 +8,6 @@ export default Vue.extend({
             states: {},
         }
     },
-    mixins: [serach],
+    mixins: [serach, page],
     methods: {},
 })

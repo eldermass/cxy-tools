@@ -91,7 +91,7 @@ export const pageData = {
                     prop: "textarea", // 字段名
                     type: "input-textarea", // 组件类型
                     placeholder: "请输入名称", // ? 占位符
-                    disabled: true, // ? 是否禁用
+                    // disabled: true, // ? 是否禁用
                     rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // ? 校验规则
                 },
                 {
@@ -183,7 +183,7 @@ export const pageData = {
                     prop: "textarea", // 字段名
                     type: "input-textarea", // 组件类型
                     placeholder: "请输入名称", // ? 占位符
-                    disabled: true, // ? 是否禁用
+                    // disabled: true, // ? 是否禁用
                     rules: [{ required: true, message: "请输入名称", trigger: "blur" }], // ? 校验规则
                 },
                 {

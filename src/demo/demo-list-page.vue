@@ -1,6 +1,6 @@
 <template>
     <div class="demo-container">
-        <list-page ref="page" :page-data="pageData">
+        <list-page ref="page" :page-data="pageData" @query="handleQuery" :request-func="request">
             <template #slottest="{ searchList, setQuerys }">
                 <el-button size="mini" @click="changeSearch(searchList, setQuerys)">改变条件</el-button>
             </template>
@@ -20,12 +20,15 @@
 </template>
 <script>
 import { pageData } from '../../packages/list-page/mock'
+// 外部传入请求方法，非必须
+import { request } from '../../packages/list-page/helper'
 
 export default {
     name: 'demo-list-page',
     data() {
         return {
-            pageData: pageData
+            pageData: pageData,
+            request
         }
     },
     methods: {
@@ -44,6 +47,9 @@ export default {
         getListData() {
             const data = this.$refs.page.getListData()
             console.log('获取页面数据', data)
+        },
+        handleQuery(querys) {
+            console.log('查询:', querys)
         }
     }
 }

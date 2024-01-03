@@ -4,14 +4,17 @@
   
 <script>
 import colButton from '../../buttons/index.vue'
-import { request } from '../helper'
 
 export default {
-    name: 'ColButton',
+    name: 'DeleteButton',
     components: {
         colButton
     },
     props: {
+        store: {
+            type: Object,
+            required: true
+        },
         button: {
             type: Object,
             default: () => ({})
@@ -59,10 +62,9 @@ export default {
 
             if (!confirm) return
 
-            const res = await request.post(this.button.requestUrl, { ids }).catch(() => {
+            const res = await this.store.request(this.button.requestUrl, { method: 'post', data: { ids } }).catch(() => {
                 this.$message.error('网络异常，请稍后重试')
             })
-            console.log(res.message, 'sssss');
 
             if (res && res.code === 200) {
                 this.$message.success(res.message || '删除成功')

@@ -33,7 +33,7 @@ request.interceptors.response.use(
         return response.data
     },
     (error) => {
-        if (error.response.status === 401) {
+        if (error && error.response && error.response.status === 401) {
             // 401 清除token信息并跳转到登录页面
             Cookies.remove("Admin-Token")
             window.location.href = "/login"

@@ -19,6 +19,10 @@ export default {
         }
     },
     props: {
+        store: {
+            type: Object,
+            required: true
+        },
         button: {
             type: [String, Object],
             default: () => ({})
@@ -67,6 +71,7 @@ export default {
                 // console.log('存在预设组件: ', this.button.component)
                 return h(plugins[this.button.component], {
                     props: {
+                        store: this.store,
                         button: this.button,
                         currentRow: this.currentRow,
                         multipleSelection: this.multipleSelection,

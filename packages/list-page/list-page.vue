@@ -11,7 +11,7 @@
         <!-- 按钮部分 -->
         <el-row class="buttons">
             <template v-for="(button, index) in buttonList">
-                <button-item :key="index" :button="button" :refresh="refresh" :current-row="currentRow"
+                <button-item :store="store" :key="index" :button="button" :refresh="refresh" :current-row="currentRow"
                     :size="pageData.size" :multiple-selection="multipleSelection" />
             </template>
             <!-- 自定义按钮 -->
@@ -102,7 +102,6 @@ import tableHeightMixin from './mixins/tableHeightMixin'
 import seqenceMixin from './mixins/seqenceMixin'
 import pageMixin from './mixins/pageMixin'
 import { createStore, mapStates } from './store/helper'
-import { request } from './helper'
 
 export default {
     name: 'list-page',
@@ -114,10 +113,16 @@ export default {
         pageData: {
             type: Object,
             default: () => ({})
+        },
+        requestFunc: {
+            type: Function,
+            default: null
         }
     },
     data() {
-        this.store = createStore(this, {})
+        this.store = createStore(this, {
+            requestFunc: this.requestFunc
+        })
 
         return {
             tableLoading: false,
@@ -174,22 +179,23 @@ export default {
                 return
             }
 
-            console.group('getList 参数')
-            console.log('search', this.search)
-            console.log('pages', this.pages)
-            console.log('sorts', this.sorts)
-            console.groupEnd()
+            // console.group('getList 参数')
+            // console.log('search', this.search)
+            // console.log('pages', this.pages)
+            // console.log('sorts', this.sorts)
+            // console.groupEnd()
 
             const getParams = {
                 ...this.search.queryParams, ...{
                     pageNo: this.pages.pageNum,
                     pageSize: this.pages.pageSize
-                }, ...this.sorts
+                }, ...{ sorts: this.sorts }
             }
+            console.log('request params: ', getParams)
 
             this.tableLoading = true
             // 将请求方法从外部传入更好
-            const res = await request(this.pageData.table.requestUrl, {
+            const res = await this.store.request(this.pageData.table.requestUrl, {
                 params: getParams
             }).catch(err => console.error(err))
             this.tableLoading = false
@@ -202,7 +208,7 @@ export default {
 
             this.$refs.table.setCurrentRow() // 清空选中项
             this.store.updatePageTotal(res.data.recordsTotal)
-            this.store.updateTableData(res.data.data)
+            this.store.updateTableData(res.data.data || [])
         },
         // 执行搜索
         runSearch() {
@@ -219,6 +225,7 @@ export default {
             this.store.updateTableColumns(columnList)
         },
         handleQuery(queryParams) {
+            this.$emit('query', queryParams)
             this.store.updateQueryParams(queryParams)
             this.refresh()
         },

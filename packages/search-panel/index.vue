@@ -14,12 +14,12 @@
           <!-- 时间选择器 -->
           <el-date-picker v-if="layout.type === 'datetime'" v-model="searchList[index].value"
             :style="getValueWidth(searchList[index].prop)" :size="size" type="datetime" value-format="yyyy-MM-dd HH:mm:ss"
-            format="yyyy-MM-dd HH:mm:ss" :placeholder="layout.placeholder" />
+            format="yyyy-MM-dd HH:mm:ss" :placeholder="layout.placeholder || '请选择'" />
 
           <!-- 树形结构 -->
           <select-tree v-else-if="layout.type === 'tree'" v-model="searchList[index].value" :props="layout.props"
             :options="layout.options" :filterable="layout.filterable" :multiple="layout.multiple" :size="size"
-            :leafOnly="layout.leafonly" :placeholder="layout.placeholder"
+            :leafOnly="layout.leafonly" :placeholder="layout.placeholder || '请选择'"
             :style="getValueWidth(searchList[index].prop)" />
 
           <!-- 多选框 -->
@@ -35,7 +35,7 @@
           </div>
 
           <!-- 输入框 -->
-          <el-input v-else v-model="searchList[index].value" :placeholder="layout.placeholder"
+          <el-input v-else v-model="searchList[index].value" :placeholder="layout.placeholder || '请输入'"
             :style="getValueWidth(searchList[index].prop)" :size="size" clearable @keyup.enter.native="handleQuery" />
         </el-form-item>
       </div>
