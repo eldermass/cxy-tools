@@ -23,6 +23,10 @@ import { pageData } from '../../packages/list-page/mock'
 // 外部传入请求方法，非必须
 import { request } from '../../packages/list-page/helper'
 
+import { listPage } from '../index'
+import testText from './components/test-text.vue'
+console.log('regiester plugins: ', listPage.registerPlugins(testText))
+
 export default {
     name: 'demo-list-page',
     data() {

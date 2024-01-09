@@ -5,10 +5,11 @@ import listPage from "../packages/list-page"
 import SelectTree from "../packages/select-tree"
 import ColButton from "../packages/buttons"
 import SearchPanel from "../packages/search-panel"
+import OpenDir from "../packages/open-dir"
 
 import packageJson from "../package.json"
 
-const components = [gantNext, varForm, varFormEditor, listPage, SelectTree, ColButton, SearchPanel]
+const components = [gantNext, varForm, varFormEditor, listPage, SelectTree, ColButton, SearchPanel, OpenDir]
 
 const install = function (Vue) {
     // console.log(opts)
@@ -30,7 +31,7 @@ console.log(
     "background: #ffffff; padding: 2px 0;"
 )
 
-export { varForm, gantNext, varFormEditor }
+export { gantNext, varForm, varFormEditor, listPage, SelectTree, ColButton, OpenDir }
 
 export default {
     gantNext,
@@ -39,5 +40,6 @@ export default {
     listPage,
     SelectTree,
     ColButton,
+    OpenDir,
     install,
 }

@@ -270,6 +270,9 @@ export const pageData = {
             title: "不需要",
             component: (h) => h("el-button", { props: { type: "warning", size: "mini" } }, "测试render"), // render 函数
         },
+        {
+            component: "test-text", // 注册插件
+        },
     ],
     table: {
         // 三种数据方式只能选其中一个

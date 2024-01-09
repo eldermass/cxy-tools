@@ -5,6 +5,7 @@
         <br />
         <cxy-button>hello</cxy-button>
         <search-panel :param-list="search.queryOptions" :default-querys="search.defaultQuerys" />
+        <cxy-open-dir ref="opendir" :multiple="true" @change="handlePicked" />
     </div>
 </template>
 
@@ -93,6 +94,10 @@ export default {
     methods: {
         handleChange(val, node) {
             console.log("---", val, node)
+        },
+        async handlePicked(val) {
+            const text = await this.$refs.opendir.getFileFromHandle(val[0])
+            console.log(text)
         }
     }
 }

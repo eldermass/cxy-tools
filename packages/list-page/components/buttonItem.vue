@@ -46,10 +46,10 @@ export default {
     },
     data() {
         return {
+            allPlugins: { ...plugins, ...this.$listPagePlugins }
         }
     },
-    mounted() {
-    },
+    mounted() {},
     methods: {
         vnodes(h) {
             // 如果button是string，直接渲染预设组件
@@ -67,9 +67,9 @@ export default {
         },
         renderButton(h) {
             // 如果存在预设组件
-            if (Object.hasOwnProperty.call(plugins, this.button.component)) {
+            if (Object.hasOwnProperty.call(this.allPlugins, this.button.component)) {
                 // console.log('存在预设组件: ', this.button.component)
-                return h(plugins[this.button.component], {
+                return h(this.allPlugins[this.button.component], {
                     props: {
                         store: this.store,
                         button: this.button,
