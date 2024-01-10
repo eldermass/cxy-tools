@@ -7,6 +7,12 @@
 <script>
 export default {
     name: 'test-text',
+    props: {
+        fontSize: {
+            type: Number,
+            default: 12
+        }
+    },
     data() {
         return {
             red: 50,
@@ -17,7 +23,8 @@ export default {
     computed: {
         style() {
             return {
-                color: `rgb(${this.red}, ${this.green}, ${this.blue})`
+                color: `rgb(${this.red}, ${this.green}, ${this.blue})`,
+                fontSize: `${this.fontSize}px`
             }
         }
     },

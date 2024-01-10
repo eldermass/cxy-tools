@@ -272,6 +272,9 @@ export const pageData = {
         },
         {
             component: "test-text", // 注册插件
+            props: {
+                fontSize: 20
+            }
         },
     ],
     table: {

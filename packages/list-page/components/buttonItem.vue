@@ -76,7 +76,8 @@ export default {
                         currentRow: this.currentRow,
                         multipleSelection: this.multipleSelection,
                         refresh: this.refresh,
-                        size: this.size
+                        size: this.size,
+                        ...this.button.props
                     }
                 })
             }
