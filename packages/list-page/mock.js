@@ -335,7 +335,7 @@ export const pageData = {
                 title: "名称",
                 // width: 160,
                 // align: "center",
-                // sortable: true,
+                sortable: true,
                 // show_overflow_tooltip: false,
             },
             {

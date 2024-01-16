@@ -24,9 +24,12 @@ export default {
         },
     },
     watch: {
-        seqence(sq) {
-            this.store.updateSorts(sq)
-            this.refresh()
+        seqence: {
+            handler(sq) {
+                this.store.updateSorts(sq)
+                this.refresh()
+            },
+            deep: true,
         }
     },
     methods: {
@@ -34,7 +37,7 @@ export default {
         handleSortChange(sort) {
             delete sort.column
             const find = this.seqence.find((item) => item.prop === sort.prop)
-            // 如果已有
+            // 如果已有，判断是取消还是变化
             if (find) {
                 if (!sort.order) {
                     this.seqence.splice(this.seqence.indexOf(find), 1)
@@ -42,7 +45,7 @@ export default {
                     find.order = sort.order
                 }
             }
-            // 如果没有
+            // 如果没有,加入当前排序
             if (!find) {
                 this.seqence.push(sort)
             }

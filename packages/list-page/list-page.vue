@@ -188,8 +188,9 @@ export default {
             const getParams = {
                 ...this.search.queryParams, ...{
                     pageNo: this.pages.pageNum,
-                    pageSize: this.pages.pageSize
-                }, ...{ sorts: this.sorts }
+                    pageSize: this.pages.pageSize,
+                    orders: this.sorts.map(item => `${item.prop} ${item.order === 'ascending' ? 'asc' : 'desc'}`)
+                }
             }
             console.log('request params: ', getParams)
 
