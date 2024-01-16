@@ -17,10 +17,11 @@ export const pageData = {
                 type: "select",
                 placeholder: "选择性别",
                 // multiple: true, // ? 是否多选
-                options: [
-                    { label: "男", value: 1 },
-                    { label: "女", value: 2 },
-                ],
+                optionSource: "http://localhost:3333/api/options1", // ? 下拉选项请求地址
+                // options: [
+                //     { label: "男", value: 1 },
+                //     { label: "女", value: 2 },
+                // ],
             },
             {
                 prop: "datetest",

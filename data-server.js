@@ -31,7 +31,7 @@ const jsonData = {
                         image: "https://picsum.photos/200/302",
                         children: [
                             {
-                                id: 4,
+                                id: 41,
                                 name: "child 1-1",
                                 image: "https://picsum.photos/200/303",
                             },
@@ -99,6 +99,21 @@ const server = http.createServer((req, res) => {
             JSON.stringify({
                 code: 200,
                 message: "删除 123 成功",
+            })
+        )
+    } else if(parsedUrl.pathname === "/api/options1" && req.method === "GET" ) {
+        res.setHeader("Content-Type", "application/json")
+
+        const options1 = [
+            { label: '选项1', value: 1 },
+            { label: '选项2', value: 2 },
+        ]
+        // 返回JSON数据
+        res.end(
+            JSON.stringify({
+                code: 200,
+                message: "获取 options1 成功",
+                data: options1
             })
         )
     } else {

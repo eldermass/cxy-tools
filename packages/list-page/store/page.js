@@ -4,7 +4,8 @@ export default {
   data() {
     return {
       states: {
-        requestFunc: undefined
+        requestFunc: undefined,
+        optionsCache: {}
       }
     };
   },
@@ -19,6 +20,14 @@ export default {
       // 调用默认请求方法
       console.log("invoke inner request. ")
       return request.apply(this, args)
+    },
+    setOptionsCache(url) {
+      if (this.states.optionsCache[url]) {
+        return this.states.optionsCache[url]
+      }
+
+      this.states.optionsCache[url] = this.request(url)
+      return this.states.optionsCache[url]
     }
   }
 };

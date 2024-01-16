@@ -1,7 +1,7 @@
 <template>
     <div class="list-page">
         <!-- 搜索部分 -->
-        <search-panel ref="searchRef" :param-list="search.queryOptions" :size="pageData.size"
+        <search-panel ref="searchRef" :store="store" :param-list="search.queryOptions" :size="pageData.size"
             :default-querys="search.defaultQuerys" @query="handleQuery" @query-change="handleQueryChange">
             <template #[key]="{ searchList, setQuerys }" v-for="(value, key) in $scopedSlots">
                 <slot :name="key" :searchList="searchList" :setQuerys="setQuerys" />

@@ -2,7 +2,7 @@
     <div class="demo-container">
         <list-page ref="page" :page-data="pageData" @query="handleQuery" :request-func="request">
             <template #slottest="{ searchList, setQuerys }">
-                <el-button size="mini" @click="changeSearch(searchList, setQuerys)">改变条件</el-button>
+                <el-button size="mini" @click="changeSearch(searchList, setQuerys)">自定插槽</el-button>
             </template>
             <template #imageSlot="{ row, index }">
                 <img :src="row.image" height="50" width="50" :key="index" />
@@ -41,6 +41,7 @@ export default {
             this.$refs.page.refresh()
         },
         changeSearch(searchList, setQuerys) {
+            this.$message.success('改变查询条件')
             setQuerys('test2', '改变后的值')
             this.$refs.page.runSearch()
         },

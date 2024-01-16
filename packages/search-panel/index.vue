@@ -5,8 +5,8 @@
         <el-form-item style="margin: 0;">
           <!--     标题框      -->
           <template #label>
-            <el-select v-model="searchList[index].prop" :size="size" :style="getLabelWidth(searchList[index].prop)"
-              placeholder="请选择" clearable>
+            <el-select :value="searchList[index].prop" :size="size" :style="getLabelWidth(searchList[index].prop)"
+              placeholder="请选择" clearable @change="handleQueryChange(index, $event)">
               <el-option v-for="item in queryOptions" :key="item.prop" :label="item.label" :value="item.prop" />
             </el-select>
           </template>
@@ -22,10 +22,10 @@
             :leafOnly="layout.leafonly" :placeholder="layout.placeholder || '请选择'"
             :style="getValueWidth(searchList[index].prop)" />
 
-          <!-- 多选框 -->
-          <el-select v-else-if="layout.type === 'select' && layout.options" :multiple="layout.multiple"
-            v-model="searchList[index].value" :size="size" :style="getValueWidth(searchList[index].prop)"
-            placeholder="请选择" clearable>
+          <!-- 下拉选框 -->
+          <el-select v-else-if="layout.type === 'select' && checkSelectOptions(layout)" :key="getKey(layout.prop)"
+            :multiple="layout.multiple" v-model="searchList[index].value" :size="size"
+            :style="getValueWidth(searchList[index].prop)" :placeholder="layout.placeholder || '请选择'" clearable>
             <el-option v-for="item in layout.options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
 
@@ -58,6 +58,9 @@ export default {
   name: 'search-panel',
   components: { colButton, SelectTree },
   props: {
+    store: {
+      type: Object
+    },
     // 最大可选数限制
     limit: {
       type: Number,
@@ -79,7 +82,8 @@ export default {
   data() {
     return {
       queryOptions: [], // 可选的查询条件
-      searchList: [{}] // 查询条件 [{ prop: '', value: '' } ...]
+      searchList: [{}], // 查询条件 [{ prop: '', value: '' } ...]
+      freshKey: new Date().getTime()
     }
   },
   computed: {
@@ -91,7 +95,6 @@ export default {
     },
   },
   mounted() {
-    // console.log('plan: 扩充该组件支持的类型');
     this.initQuery()
   },
   methods: {
@@ -103,6 +106,9 @@ export default {
         prop: prop,
         value: undefined
       }))
+    },
+    getKey(val) {
+      return val + '_' + this.freshKey
     },
     handleQuery() {
       const querys = this.getQuerys()
@@ -151,6 +157,30 @@ export default {
         return { width: find.valueWidth + 'px' }
       }
       return { width: '120px' }
+    },
+    // 判断options是否存在，并发起请求
+    async checkSelectOptions(layout) {
+      if (!layout.options && layout.optionSource) {
+        // 将请求得到的值放到 store 中缓存
+        const res = await this.store.setOptionsCache(layout.optionSource)
+
+        if (!res) {
+          return layout.options || layout.optionSource
+        }
+        layout.options = res.data
+        this.freshKey = new Date().getTime()
+      }
+      return layout.options || layout.optionSource
+    },
+    // 查询项改变
+    handleQueryChange(index, val) {
+      const find = this.searchList.find(item => item.prop === val)
+      if (find) {
+        this.$message.warning(`该查询项已存在`)
+      } else {
+        this.searchList[index].prop = val
+        this.searchList[index].value = undefined
+      }
     }
   },
   watch: {
